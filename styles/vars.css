@@ -1,0 +1,53 @@
+:root {
+  --stdBackground: #000000;
+  --stdColour: #fff;
+  --stdMarginSmall: 0.5rem;
+  --stdMarginMedium: 1rem;
+  --stdMarginBig: 1.8rem;
+
+  --anchorColour: #111;
+  --footerAnchorColour: #cccccf;
+
+  --AHlilac: #fff;
+  --transparent: #00000000;
+
+  --headerBlockBackground: #ffffdcb3;
+  --headerBlockColour: #222;
+
+  --alertBackground: #222;
+  --alertColour: #f88;
+
+  --tabBackground: #efefef;
+  --tabColour: #282828;
+
+  --tabHiddenBackground: #2a2a35;
+  --tabHiddenColour: #9a9090;
+
+  --articleBackground: #fff9ff;
+  --articleBorder: #989;
+  --articleShadow: -3px -3px var(--stdMarginSmall) #d7dfdf;
+
+  --commentBorder: #797;
+
+  --listEven: #ddfffe;
+  --listOdd: #feeeff;
+
+  --transBlack: #00000080;
+
+  --commentBoxOutline: 1px solid #b1b1b1;
+
+  --compColBrt1: #590965;
+  --compColBrt2: #650944;
+  --compColBrt3: #652b09;
+  --compColBrt4: #446509;
+  --compColBrt5: #156509;
+
+  --alertMsgBackground: #aaaaaae5;
+  --alertMsgColour: #600;
+
+  --alertOutPos: -4rem;
+  --alertInPos: var(--stdMarginSmall);
+
+  --std-font: OpenSans, Inter, sans-serif;
+  --heading-font: OpenSansBold, Inter sans-serif;
+}

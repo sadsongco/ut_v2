@@ -1,0 +1,204 @@
+body {
+  font-family: OpenSans, Inter, sans-serif;
+  background: var(--stdBackground);
+  color: var(--stdColour);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+main {
+  width: 100%;
+  /* background: var(--stdBackground) url('../assets/images/CroppedMedium.jpg') no-repeat fixed center top; */
+  background-size: cover;
+  min-height: 100vh;
+}
+
+a,
+a:visited a:active {
+  text-decoration: underline;
+  color: var(--anchorColour);
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.topspacer {
+  height: 15vh;
+}
+
+.show,
+.callout {
+  width: 80%;
+  padding: 0.3em;
+  /* background-color: var(--AHlilac); */
+  background-image: linear-gradient(to right, var(--transparent), var(--AHlilac), var(--AHlilac), var(--AHlilac), var(--transparent));
+  color: var(--stdBackground);
+  font-family: OpenSans, Inter sans-serif;
+  text-align: center;
+  position: sticky;
+  position: -webkit-sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 6rem; */
+}
+
+.callout {
+  font-family: OpenSansBold, Inter sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 8vw, 2.5rem);
+  top: 0;
+  margin-bottom: 0.5rem;
+  /* mix-blend-mode: difference; */
+}
+
+.show {
+  font-family: OpenSans, Inter sans-serif;
+  font-size: clamp(0.7rem, 2vw, 1.1em);
+}
+
+/* .first {
+  top: 2.7em;
+  display: block;
+}
+
+.second {
+  top: 7.3em;
+  display: block;
+} */
+
+.contentwrap {
+  width: 80%;
+}
+
+.callout .contentwrap img {
+  max-width: 90%;
+  height: auto;
+}
+
+.contentwrap.heading {
+  font-family: OpenSansBold, Inter sans-serif;
+  font-weight: 700;
+}
+
+.gigwrap {
+  display: grid;
+  grid-template-columns: 0.6fr 1fr 1fr;
+  justify-items: left;
+}
+
+.alert {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8em;
+  color: #823;
+}
+
+/* .third {
+  top: 0;
+} */
+
+footer {
+  /* position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+  padding: 1em;
+  /* background-color: var(--transBlack); */
+  background-image: linear-gradient(to right, var(--transparent), var(--transBlack), var(--transBlack), var(--transBlack), var(--transparent));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: 1;
+}
+
+label {
+  font-family: OpenSansBold, Inter sans-serif;
+  font-weight: 700;
+  font-size: 1.1em;
+  margin-right: 0.5em;
+}
+form input {
+  width: 20em;
+  font-size: 1em;
+  margin: 0.1em;
+}
+
+input:disabled {
+  background-color: var(--alertBackground);
+  color: var(--alertColour);
+}
+
+section.resetPW {
+  background-color: var(--transBlack);
+}
+
+.resetPW input {
+  display: block;
+}
+
+section.socials {
+  margin: 0.5em;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#date,
+#show,
+#venue,
+#announce,
+#onsale {
+  display: none;
+}
+
+.booking {
+  flex-basis: 100%;
+}
+
+.booking a {
+  color: var(--footerAnchorColour);
+}
+
+video {
+  object-fit: fill;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.3;
+}
+.video-wrapper {
+  border: 2px solid #000;
+  width: 100%;
+  height: 100vh;
+  /* aspect-ratio: 16/9; */
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.emailForm {
+  z-index: 1;
+}
+
+.emailForm h2 {
+  font-size: 1em;
+}
+
+@media screen and (max-width: 480px) {
+  .show,
+  .callout {
+    width: 94%;
+  }
+}
