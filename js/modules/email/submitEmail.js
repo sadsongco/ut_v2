@@ -1,5 +1,5 @@
 const submitEmail = async (form) => {
-  const apiURL = './API/email_subscribe.php';
+  const apiURL = './functions/interface/email_subscribe.php';
   const email = document.getElementById('email').value;
   const name = document.getElementById('name').value;
   const postObj = { email: email, name: name };

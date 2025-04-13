@@ -10,7 +10,6 @@ window.onload = () => {
     submit.disabled = true;
     submit.value = '... processing';
     const res = await submitEmail(e.target);
-    console.log(res);
     if (res.status == 'db_error') {
       submit.value = 'there was an error, please try again';
       submit.disabled = false;
