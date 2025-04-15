@@ -1,0 +1,58 @@
+/**
+ * Tabs
+ */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tabs label {
+  order: 1;
+  display: block;
+  padding: 1rem 2rem;
+  margin-right: 0.2rem;
+  cursor: pointer;
+  background-color: var(--tabHiddenBackground);
+  color: var(--tabHiddenColour);
+  font-weight: bold;
+  transition: background-color color ease 0.2s;
+}
+.tabs .tab {
+  order: 99;
+  flex-grow: 1;
+  width: 100%;
+  display: none;
+  padding: 0 var(--stdMarginSmall);
+  color: var(--tabColour);
+  background: var(--tabBackground);
+}
+.tabs input[type='radio'] {
+  display: none;
+}
+.tabs input[type='radio']:checked + label {
+  color: var(--tabColour);
+  background-color: var(--tabBackground);
+}
+.tabs input[type='radio']:checked + label + .tab {
+  display: block;
+}
+
+@media (max-width: 45em) {
+  .tabs .tab,
+  .tabs label {
+    order: initial;
+  }
+  .tabs .tab {
+    padding: 0;
+  }
+  .tabs label {
+    width: 100%;
+    margin-right: 0;
+    margin-top: 0.2rem;
+  }
+  .articleHead {
+    flex-direction: column;
+  }
+  .articleDate {
+    align-self: flex-end;
+  }
+}

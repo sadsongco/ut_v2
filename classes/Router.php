@@ -6,6 +6,7 @@ class Router
 {
     private $routes = [
         '/' => 'index.php',
+        '/blog' => 'blog.php',
     ];
     private $renderer;
 

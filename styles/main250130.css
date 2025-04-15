@@ -12,7 +12,34 @@ main {
   width: 100%;
   /* background: var(--stdBackground) url('../assets/images/CroppedMedium.jpg') no-repeat fixed center top; */
   background-size: cover;
-  min-height: 100vh;
+  min-height: 80vh;
+}
+
+nav {
+  display: block;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+nav ul li {
+  display: block;
+  background-color: navajowhite;
+  color: black;
+  padding: 0.5em;
+}
+
+nav ul li:hover {
+  background-color: var(--AHlilac);
+  cursor: pointer;
+}
+
+nav ul li a {
+  text-decoration: none;
 }
 
 a,
@@ -102,6 +129,7 @@ button:hover {
 } */
 
 footer {
+  height: 10vh;
   /* position: sticky;
   bottom: 0;
   left: 0;

@@ -7,3 +7,10 @@ function dd($var)
     echo '</pre>';
     die();
 }
+
+function p_2($var)
+{
+    echo '<pre>';
+    print_r($var);
+    echo '</pre>';
+}

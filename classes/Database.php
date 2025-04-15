@@ -5,17 +5,24 @@ namespace Database;
 class Database
 {
     private $conn;
-    function __construct($admin=false)
+    const TABLE = [
+        'orders' => 'ut_o_connect.php',
+        'admin' => 'ut_a_connect.php',
+        'mailing_list' => 'ut_m_connect.php',
+        'content' => 'ut_c_connect.php'
+    ];
+
+    function __construct($table='content')
     {
-        $path = $admin ? 'ut_a_connect.php' : 'ut_o_connect.php';
-        include_once(base_path("../secure/scripts/$path"));
+        if (!$table || !in_array($table, array_keys(self::TABLE))) die("No Database table specified");
+        include_once(base_path("../secure/scripts/" . self::TABLE[$table]));
         $this->conn = $db;
     }
 
-    public function query($query)
+    public function query($query, $params=null)
     {
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        $stmt->execute($params);
         return $stmt;
     }
 
