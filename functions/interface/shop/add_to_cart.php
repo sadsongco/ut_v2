@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+
 include_once(__DIR__ . "/../../functions.php");
 
-p_2($_POST);
+$option = isset($_POST['option']) ?? false;
+
+$_SESSION['items'][] = ['item_id'=>$_POST['item_id'], 'option_id'=>$option];
+
+echo "Item added to cart";

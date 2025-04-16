@@ -18,6 +18,7 @@
         </form>
     </section>
     {{/item}}
+    <button hx-post='/functions/interface/shop/empty_cart.php' hx-confirm="Delete all items from your cart?">Empty Cart</button>
     <section id="cartResult"></section>
     <script src='/js/shop/updateItemPrice.js'></script>
 {{>html_footer}}

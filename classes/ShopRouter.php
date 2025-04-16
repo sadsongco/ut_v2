@@ -12,6 +12,10 @@ class ShopRouter extends Router
             'name' => 'Shop',
             'controller' => 'shop/index'
         ],
+        '/cart' => [
+            'name' => 'Cart',
+            'controller' => 'shop/cart'
+        ],
         'item' => [
             'name' => 'Item',
             'controller' => 'shop/item'

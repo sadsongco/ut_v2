@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 use Database\Database;
 $db = new Database('orders');
 
