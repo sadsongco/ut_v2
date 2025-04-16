@@ -4,6 +4,13 @@ body {
   color: var(--stdColour);
 }
 
+main {
+  padding-bottom: 15vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 nav {
   display: block;
   padding-left: 0.5em;
@@ -17,16 +24,18 @@ nav ul {
 }
 
 nav ul li {
-  display: block;
+  display: flex;
+  justify-content: center;
   background-color: #999;
   color: black;
   border-right: 1px solid #aaa;
   padding: 0.5em;
   transition: background-color 0.5s ease;
+  width: 5em;
 }
 
-nav ul li:last-child {
-  border-right: none;
+nav ul li:first-child {
+  border-left: 1px solid #aaa;
 }
 
 nav ul li:hover {
@@ -34,9 +43,18 @@ nav ul li:hover {
   cursor: pointer;
 }
 
-nav ul li a {
+nav ul a {
   color: black;
   text-decoration: none;
+}
+
+nav ul li.active-link {
+  background-color: #333;
+  color: #999;
+}
+
+nav ul li.active-link:hover {
+  cursor: default;
 }
 
 header {
@@ -61,6 +79,21 @@ footer section.socials {
   /* width: 90%; */
   display: flex;
   justify-content: space-between;
+}
+
+h1 {
+  font-family: var(--headingFont);
+  font-size: 2em;
+}
+
+div.callout {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--transBlack);
+  padding: 1em;
 }
 
 .logo {

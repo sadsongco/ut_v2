@@ -62,5 +62,6 @@ catch (Exception $e) {
 
 if (!$show_tab) $tabs[0]['show_tab'] = true;
 
+$blog_stylesheets = ['articles'];
 
-echo $this->renderer->render('blog', ['tabs' => $tabs]);
+echo $this->renderer->render('blog', ['tabs' => $tabs, 'nav' => $this->nav, 'stylesheets' => $blog_stylesheets]);

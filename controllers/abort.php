@@ -1,3 +1,3 @@
 <?php
 
-echo $this->renderer->render($code);
+echo $this->renderer->render($code, ['nav'=>$this->nav]);

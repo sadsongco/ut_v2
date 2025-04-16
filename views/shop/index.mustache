@@ -1,0 +1,17 @@
+{{>html_header}}
+    <div class='callout'><h1>SHOP</h1></div>
+    <section class='items'>
+    {{#items}}
+        <a href="/shop/item/{{item_id}}">
+        <section class='item'>
+            <p>{{name}}</p>
+            <p>&pound;{{price}}</p>
+            {{#image}}
+            <img src="/assets/images/shop/item_images/{{image}}" alt="image" width="100">
+            {{/image}}
+        </section>
+        </a>
+    {{/items}}
+    </section>
+
+{{>html_footer}}

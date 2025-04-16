@@ -4,28 +4,25 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles/reset.css" />
-    <link rel="stylesheet" href="./styles/imports.css" />
-    <link rel="stylesheet" href="./styles/vars.css" />
-    <link rel="stylesheet" href="./styles/main250415.css" />
-    <link rel="stylesheet" href="./styles/articles.css" />
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/imports.css" />
+    <link rel="stylesheet" href="/styles/vars.css" />
+    <link rel="stylesheet" href="/styles/main250415.css" />
+    {{#stylesheets}}
+    <link rel="stylesheet" href="/styles/{{.}}.css" />
+    {{/stylesheets}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <script src="js/lib/htmx.min.js"></script>
-    <script defer type="module" src="./js/emailList.js"></script>
-    <script defer src="./js/showAllArticles.js"></script>
+    <script src="/js/lib/htmx.min.js"></script>
+    <script defer type="module" src="/js/emailList.js"></script>
+    <script defer src="/js/showAllArticles.js"></script>
     <title>Unbelievable Truth</title>
   </head>
   <body>
     <header>
       <div class="logo"><img src="/assets/images/logo/UnbelievableTruth-logo-black-web.png" width="500"/></div>
-      <nav>
-        <ul>
-          <li><a href='/'>Home</a></li>
-          <li><a href='live'>Live</a></li>
-          <li><a href='blog'>Blog</a></li>
-          <li><a href='shop'>Shop</a></li>
-        </ul>
-      </nav>
+      {{#nav}}
+        {{>nav}}
+      {{/nav}}
     </header>
     
     <main>

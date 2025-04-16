@@ -1,0 +1,17 @@
+<nav>
+    <ul>
+    {{#endpoints}}
+        {{#active}}
+            <li class='active-link'>{{name}}</li>
+        {{/active}}
+        {{^active}}
+            <a href='{{path}}'>
+                <li>{{name}}</li>
+            </a>
+        {{/active}}
+    {{/endpoints}}
+        <a href='/shop/' target="_blank">
+            <li>Shop</li>
+        </a>
+    </ul>
+</nav>

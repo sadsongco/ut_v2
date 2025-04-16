@@ -1,0 +1,24 @@
+section.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: 1fr;
+}
+
+section.item {
+  height: 80%;
+  /* width: 80%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  margin: 0.2em;
+  border-radius: 5px;
+  border: 1px solid white;
+  box-shadow: inset;
+}
+
+.items a {
+  text-decoration: none;
+  color: var(--stdColour);
+}
