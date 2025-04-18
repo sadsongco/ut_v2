@@ -1,7 +1,6 @@
 <?php
 
 function insertOrderIntoDB($order_details, $db) {
-    $missing_info = false;
     $order_details['postage_method'] = "POSTAGE METHOD";
     $order_details['totals']['shipping'] = 0;
     $order_details['totals']['vat'] = $order_details['totals']['subtotal'] * 0.2;
@@ -30,7 +29,8 @@ function insertOrderIntoDB($order_details, $db) {
     }
     // $db->rollback();
     $db->commit();
-    return $missing_info;
+    $order_details['order_id'] = createOrderID($order_details['order_id'], $db);
+    return $order_details;
 }
 
 function checkIfCustomerExists($email, $db) : int {
@@ -117,4 +117,10 @@ function insertItemIntoOrderTable($order_details, $item, $db) {
     } catch (Exception $e) {
             throw new Exception($e);
     }
+}
+
+function createOrderID($order_id, $db)
+{
+    $date_str = $db->query("SELECT DATE_FORMAT(`order_date`, '%Y%m%d') FROM `Orders` WHERE `order_id` = ?", [$order_id])->fetch()['DATE_FORMAT(`order_date`, \'%Y%m%d\')'];
+    return "$date_str-$order_id";
 }
