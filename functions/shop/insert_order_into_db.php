@@ -1,0 +1,120 @@
+<?php
+
+function insertOrderIntoDB($order_details, $db) {
+    $missing_info = false;
+    $order_details['postage_method'] = "POSTAGE METHOD";
+    $order_details['totals']['shipping'] = 0;
+    $order_details['totals']['vat'] = $order_details['totals']['subtotal'] * 0.2;
+    $order_details['totals']['total'] = $order_details['totals']['subtotal'] + $order_details['totals']['shipping'] + $order_details['totals']['vat'];
+    try {
+            $customer_id = checkIfCustomerExists($order_details['email'], $db); 
+            if (!$customer_id) $customer_id = insertNewCustomer($order_details, $db);
+            else updateCustomer($order_details, $customer_id, $db);
+            $order_details['customer_id'] = $customer_id;
+    }
+    catch (Exception $e) {
+            throw new Exception($e);
+    }
+    $db->beginTransaction();
+    try {
+            $order_details['order_id'] = insertOrderIntoOrderTable($order_details, $db);
+            foreach ($order_details['items'] as $order_item) {
+                $order_item['amount'] = 1;
+                    insertItemIntoOrderTable($order_details, $order_item, $db);
+            }
+
+    } catch (Exception $e) {
+            $db->rollback();
+            error_log($e);
+            exit("Database update failed: " . $e->getMessage());
+    }
+    // $db->rollback();
+    $db->commit();
+    return $missing_info;
+}
+
+function checkIfCustomerExists($email, $db) : int {
+    try {
+            $query = "SELECT customer_id FROM Customers WHERE email = ?";
+            $result = $db->query($query, [$email])->fetch();
+            if ($result) return $result['customer_id'];
+            return false;
+    } catch (Exception $e) {
+            throw new Exception($e);
+    }
+}
+
+function insertNewCustomer($order_details, $db) {
+    try {
+            $query = "INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);";
+            $params = [
+                ucwords($order_details['name']),
+                ucwords($order_details['address1']),
+                ucwords($order_details['address2']),
+                ucwords($order_details['town']),
+                $order_details['postcode'],
+                ucwords($order_details['country']),
+                $order_details['email']
+            ];
+            $stmt = $db->query($query, $params);
+            return $db->lastInsertId();
+    } catch (Exception $e) {
+            throw new Exception($e);
+    }
+}
+
+function updateCustomer($order_details, $customer_id, $db) {
+    try {
+            $query = "UPDATE Customers SET address_1 = ?, address_2 = ?, city = ?, postcode = ?, country = ? WHERE customer_id = ?";
+            $params = [
+                ucwords($order_details['address1']),
+                ucwords($order_details['address2']),
+                ucwords($order_details['town']),
+                $order_details['postcode'],
+                ucwords($order_details['country']),
+                $customer_id
+            ];
+            $stmt = $db->query($query, $params);
+    }
+    catch (Exception $e) {
+            throw new Exception($e);
+    }
+}
+function insertOrderIntoOrderTable($order_details, $db) {
+    try {
+    $query = "INSERT INTO Orders VALUES (NULL, NULL, ?, ?, ?, ?, ?, ?, 0, NULL, NOW(), 0, NULL, NULL, NULL, NULL, NULL)";
+    $params = [
+            $order_details['customer_id'],
+            $order_details['postage_method'],
+            $order_details['totals']['subtotal'],
+            $order_details['totals']['shipping'],
+            $order_details['totals']['vat'],
+            $order_details['totals']['total'],
+    ];
+    $result = $db->query($query, $params);
+    return $db->lastInsertId();
+    } catch (Exception $e) {
+            error_log($e);
+            throw new Exception($e);
+    }
+}
+
+function insertItemIntoOrderTable($order_details, $item, $db) {
+    try {
+            $query = "INSERT INTO Order_items VALUES (
+            NULL,
+            ?,
+            ?,
+            ?,
+            ?);";
+            $params = [
+                    $order_details['order_id'],
+                    $item['item_id'],
+                    $item['amount'],
+                    $item['price']
+            ];
+            $db->query($query, $params);
+    } catch (Exception $e) {
+            throw new Exception($e);
+    }
+}

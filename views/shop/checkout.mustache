@@ -1,0 +1,50 @@
+{{>html_header}}
+        {{#cart_items}}
+        <form hx-post='/functions/interface/shop/update_cart.php'>
+            <div class='cartItem'>{{name}} - &pound;{{price}}</div>
+        </form>
+    {{/cart_items}}
+        <div class='subtotal'>Total: &pound;{{subtotal}}</div>
+    <div class="main checkoutForm">
+        <section>
+            <form hx-post="/functions/interface/shop/do_checkout.php">
+                <label for="customerName">Name*</label>
+                <input type="text" name="name" id="customerName" required>
+                <label for="customerEmail">Contact Email*</label>
+                <input type="text" name="email" id="customerEmail" required>
+                <label for="address1">Address Line 1*</label>
+                <input type="text" name="address1" id="address1" required>
+                <label for="address2">Address Line 2</label>
+                <input type="text" name="address2" id="address2">
+                <label for="city">Town / City*</label>
+                <input type="text" name="town" id="city" required>
+                <label for="postcode">Postcode / ZIP*</label>
+                <input type="text" name="postcode" id="postcode" required>
+                <label for="country">Country*</label>
+                <select name="country" id="country" required>
+                        <option value="31" selected>United Kingdom</option>
+                    {{#countries}}
+                        <option value="{{country_id}}">{{name}}</option>
+                    {{/countries}}
+                </select>
+                <br><br>
+                <label for="cc-name">Name On Card</label>
+                <input type='text' name="cc-name" id="cc-name" placeholder="Name On Card" size="23" autocomplete="cc-name" />
+                <label for="cc-in">Card Number</label>
+                <input class="creditcard-input invalid" name="cc-in" id="cc-in" placeholder="XXXX XXXX XXXX XXXX" size="23" autocomplete="cc-number" />
+                <label for="expiry">Expiry Date</label>
+                <input class="date-input invalid" name="exp-m" id="exp-m" maxlength="2" id="expiry" placeholder="MM">
+                <input class="date-input invalid" name="exp-y" id="exp-y" maxlength="2" placeholder="YY">
+                <label for="cvv">CVV Code</label>
+                <input class="numeral-input invalid" id="cvv" name="cvv" maxlength="3" placeholder="cvv">
+                <div class="creditcard-type"></div>
+                <input id="confirmSubmit" type="submit" value="Confirm and Pay" class="disabled" disabled>
+                <input type='hidden' name='ccType' id='ccType' value='unknown'>
+            </form>
+        </section>
+    </div>
+    <script src="/js/lib/cleave-zen.umd.js"></script>
+    <script src="/js/lib/cleave-zen.index.js"></script>
+    <script src="/js/lib/cleave-zen.common.js"></script>
+    <script src="/js/shop/validCard.js" type="module"></script>
+{{>html_footer}}

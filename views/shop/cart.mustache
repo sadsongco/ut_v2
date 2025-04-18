@@ -1,0 +1,11 @@
+{{>html_header}}
+    {{#cart_items}}
+        <form hx-post='/functions/interface/shop/update_cart.php'>
+            <div class='cartItem'>{{name}} - &pound;{{price}}</div>
+            <input type="hidden" name="item_id" value="{{item_id}}">
+            <input type="submit" value="Remove From Cart">
+        </form>
+    {{/cart_items}}
+        <div class='subtotal'>Total: &pound;{{subtotal}}</div>
+        <a class='button' href='/shop/checkout'>Checkout</a>
+{{>html_footer}}
