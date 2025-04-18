@@ -23,6 +23,9 @@
   --tabHiddenBackground: #2a2a35;
   --tabHiddenColour: #9a9090;
 
+  --tabHoverBackground: #050505;
+  --tabHoverColour: #ccc;
+
   --articleBackground: #fff9ff;
   --articleBorder: #989;
   --articleShadow: -3px -3px var(--stdMarginSmall) #d7dfdf;

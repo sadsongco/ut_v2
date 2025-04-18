@@ -81,6 +81,10 @@ footer section.socials {
   justify-content: space-between;
 }
 
+p {
+  margin-bottom: 1em;
+}
+
 h1 {
   font-family: var(--headingFont);
   font-size: 2em;

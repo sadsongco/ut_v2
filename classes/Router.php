@@ -5,15 +5,15 @@ namespace Router;
 class Router
 {
     private $routes = [
-        '/' => [
+        '' => [
             'path' => '/',
             'controller' => 'index',
             'name' => 'Home',
         ],
-        '/blog' => [
-            'path' => '/blog',
-            'controller' => 'blog',
-            'name' => 'Blog',
+        'content' => [
+            'path' => '/content',
+            'controller' => 'content',
+            'name' => 'Content',
         ],
     ];
     private $renderer;
@@ -23,13 +23,16 @@ class Router
     {
         $this->renderer = $renderer;
         $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-        if (array_key_exists($uri, $this->routes)) {
-            $this->routes[$uri]['active'] = true;
+        $paths = explode('/', $uri);
+        array_shift($paths);
+        $path = array_shift($paths);
+        if (array_key_exists($path, $this->routes)) {
+            $this->routes[$path]['active'] = true;
             $this->nav = ['endpoints'=>[]];
             foreach ($this->routes AS $route) {
                 $this->nav['endpoints'][] = $route;
             }
-            require base_path('controllers/' . $this->routes[$uri]['controller'] . '.php');
+            require base_path('controllers/' . $this->routes[$path]['controller'] . '.php');
         } else {
             $this->nav = [];
             foreach ($this->routes AS $route) {

@@ -1,19 +1,16 @@
 {{>html_header}}
     <div class="tabs">
+        <ul>
         {{#tabs}}
-            <input type="radio" name="tabs" id="tab_{{tab_id}}" hx-on:click="showAllArticles(document.getElementById('showAllArticlesButton'))" {{#show_tab}}checked="checked"{{/show_tab}} hx-get="" hx-swap="none" hx-trigger="click" hx-push-url="{{host}}/blog?show_tab={{tab_id}}">
-            <label for="tab_{{tab_id}}">{{tab_name}}</label>
-            <div class="tab">
-                {{#linked_article}}
-                    <button id="showAllArticlesButton" class="showAllArticles" onclick="showAllArticles(event.target)" data-visible-article="{{linked_article}}">Show All Articles</button>
-                {{/linked_article}}
-                {{#articles}}
-                    {{>articleLazy}}
-                {{/articles}}
-                {{^articles}}
-                    <p>No articles for {{tab_name}} yet. Check back soon, we're probably updating right now!</p>
-                {{/articles}}
-            </div>
+            <a href="/{{path}}/{{tab_id}}" {{#active}}class="active"{{/active}}><li>{{tab_name}}</li></a>
         {{/tabs}}
+        </ul>
+    </div>
+    <div class="tab">
+        <section class="articleContainer">
+            {{#article}}
+                {{>article}}
+            {{/article}}
+        </section>
     </div>
 {{>html_footer}}
