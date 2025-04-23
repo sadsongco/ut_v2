@@ -10,7 +10,7 @@ use Database\Database;
 $db = new Database('orders');
 
 if (!isset($_SESSION['items']) || sizeof($_SESSION['items']) == 0) {
-    echo "no items in cart";
+    echo $this->renderer->render('shop/cart', ["empty"=>true, "stylesheets"=>["shop"]]);
     exit();
 }
 

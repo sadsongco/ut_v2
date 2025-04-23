@@ -1,4 +1,5 @@
 {{>html_header}}
+{{^empty}}
     {{#cart_items}}
         <form hx-post='/functions/interface/shop/update_cart.php'>
             <div class='cartItem'>{{name}} - &pound;{{price}}</div>
@@ -8,4 +9,8 @@
     {{/cart_items}}
         <div class='subtotal'>Total: &pound;{{subtotal}}</div>
         <a class='button' href='/shop/checkout'>Checkout</a>
+{{/empty}}
+{{#empty}}
+    <p>Your cart is currently empty</p>
+{{/empty}}
 {{>html_footer}}

@@ -2,24 +2,26 @@
 {{>cart_preview}}
     {{#item}}
     <section class='shop-item'>
-        <h2>{{name}}</h2>
-        <p>{{{description}}}</p>
-        <img src='/assets/images/shop/item_images/{{image}}' width='200'>
-        <form hx-post='/functions/interface/shop/add_to_cart.php' hx-target='#cartResult' hx-swap='innerHTML'>
-            <input type="hidden" name="item_id" value='{{item_id}}'>
-            {{#option}}
-                <select name='option' onchange='updateItemPrice(event)'>
-                    {{#options}}
-                        <option value='{{item_option_id}}' data-price='{{option_price}}'>{{option_name}}</option>
-                    {{/options}}
-                </select>
-            {{/option}}
-            <p>&pound;<span id='itemPrice'>{{price}}</span></p>
-            <input type="submit" value="Add To Cart">
-        </form>
+        <div class="item-name"><h2>{{name}}</h2></div>
+        <div class="item-img"><img src='/assets/images/shop/item_images/{{image}}' width='200'></div>
+        <div class="item-description"><p>{{{description}}}</p></div>
+        <div class="item-interact">
+            <form hx-post='/functions/interface/shop/add_to_cart.php' hx-target='#cartResult' hx-swap='innerHTML'>
+                <input type="hidden" name="item_id" value='{{item_id}}'>
+                {{#option}}
+                    <select name='option' onchange='updateItemPrice(event)'>
+                        {{#options}}
+                            <option value='{{item_option_id}}' data-price='{{option_price}}'>{{option_name}}</option>
+                        {{/options}}
+                    </select>
+                {{/option}}
+                <p>&pound;<span id='itemPrice'>{{price}}</span></p>
+                <input type="submit" value="Add To Cart">
+            </form>
+        </div>
+        <section id="cartResult"></section>
     </section>
     {{/item}}
-    <button hx-post='/functions/interface/shop/empty_cart.php' hx-confirm="Delete all items from your cart?">Empty Cart</button>
-    <section id="cartResult"></section>
+    <button class="emptyCart" hx-post='/functions/interface/shop/empty_cart.php' hx-confirm="Delete all items from your cart?">Empty Cart</button>
     <script src='/js/shop/updateItemPrice.js'></script>
 {{>html_footer}}

@@ -1,9 +1,17 @@
 :root {
-  --stdBackground: #000000;
-  --stdColour: #fff;
+  /* margins */
   --stdMarginSmall: 0.5rem;
   --stdMarginMedium: 1rem;
   --stdMarginBig: 1.8rem;
+
+  /* padding */
+  --stdPaddingSmall: 0.5rem;
+  --stdPaddingMedium: 1rem;
+  --stdPaddingBig: 1.8rem;
+
+  /* colours */
+  --stdBackground: #000000;
+  --stdColour: #fff;
 
   --anchorColour: #111;
   --footerAnchorColour: #cccccf;
@@ -26,6 +34,7 @@
   --tabHoverBackground: #050505;
   --tabHoverColour: #ccc;
 
+  --articleText: #222;
   --articleBackground: #fff9ff;
   --articleBorder: #989;
   --articleShadow: -3px -3px var(--stdMarginSmall) #d7dfdf;
@@ -48,9 +57,12 @@
   --alertMsgBackground: #aaaaaae5;
   --alertMsgColour: #600;
 
+  /* layout */
   --alertOutPos: -4rem;
   --alertInPos: var(--stdMarginSmall);
 
-  --std-font: OpenSans, Inter, sans-serif;
-  --heading-font: OpenSansBold, Inter sans-serif;
+  /* typography */
+  --stdFont: OpenSans, Inter, sans-serif;
+  --headingFont: OpenSansBold, Inter sans-serif;
+  --fontSmall: 0.8em;
 }
