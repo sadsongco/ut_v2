@@ -1,13 +1,18 @@
 {{>html_header}}
-        {{#cart_items}}
-        <form hx-post='/functions/interface/shop/update_cart.php'>
-            <div class='cartItem'>{{name}} - &pound;{{price}}</div>
-        </form>
-    {{/cart_items}}
-        <div class='subtotal'>Total: &pound;{{subtotal}}</div>
-    <div class="main checkoutForm">
-        <section>
-            <form hx-post="/functions/interface/shop/do_checkout.php">
+        <section class="cart-items">
+        {{>cart_items}}
+        </section>
+        <section class="cart-item">
+            <div class="totals-legend">Subtotal</div>
+            <div class='subtotal'>&pound;<span class="price">{{subtotal}}</span></div>
+            <div class="totals-legend">Shipping</div>
+            <div class='subtotal'>&pound;<span class="price">0.00</span></div>
+            <div class="totals-legend">Total</div>
+            <div class='subtotal'>&pound;<span class="price">{{subtotal}}</span></div>
+        </section>
+    <div class="main">
+        <section class="checkout-container">
+            <form class="checkout-form" hx-post="/functions/interface/shop/do_checkout.php">
                 <label for="customerName">Name*</label>
                 <input type="text" name="name" id="customerName" required>
                 <label for="customerEmail">Contact Email*</label>
@@ -27,14 +32,15 @@
                         <option value="{{country_id}}">{{name}}</option>
                     {{/countries}}
                 </select>
-                <br><br>
                 <label for="cc-name">Name On Card</label>
                 <input type='text' name="cc_name" id="cc-name" placeholder="Name On Card" size="23" autocomplete="cc-name" />
                 <label for="cc-number">Card Number</label>
                 <input class="creditcard-input invalid" name="cc_number" id="cc-in" placeholder="XXXX XXXX XXXX XXXX" size="23" autocomplete="cc-number" />
                 <label for="expiry">Expiry Date</label>
-                <input class="date-input invalid" name="cc_exp_month" id="exp-m" maxlength="2" id="expiry" placeholder="MM">
-                <input class="date-input invalid" name="cc_exp_year" id="exp-y" maxlength="2" placeholder="YY">
+                <div class="date-input-container">
+                    <input class="date-input invalid" name="cc_exp_month" id="exp-m" maxlength="2" id="expiry" placeholder="MM">
+                    <input class="date-input invalid" name="cc_exp_year" id="exp-y" maxlength="2" placeholder="YY">
+                </div>
                 <label for="cvv">CVV Code</label>
                 <input class="numeral-input invalid" id="cvv" name="cc_cvv" maxlength="3" placeholder="cvv">
                 <div class="creditcard-type"></div>

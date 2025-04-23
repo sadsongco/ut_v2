@@ -24,8 +24,9 @@ function getCartItems($items, $db)
             $query = "SELECT * FROM Items WHERE item_id = ?";
             $params = [$item['item_id']];
         }
-
-        $cart_items[] = $db->query($query, $params)->fetch();
+        $item = $db->query($query, $params)->fetch();
+        if ($item['image'] == "") unset($item['image']);
+        $cart_items[] = $item;
     }
     return $cart_items;
 }

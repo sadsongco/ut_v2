@@ -6,5 +6,5 @@ function calculateCartSubtotal($cart_items)
     foreach ($cart_items as $item) {
         $subtotal += $item['price'];
     }
-    return $subtotal;
+    return number_format($subtotal, 2);
 }

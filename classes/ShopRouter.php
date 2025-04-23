@@ -23,6 +23,10 @@ class ShopRouter extends Router
         'item' => [
             'name' => 'Item',
             'controller' => 'shop/item'
+        ],
+        'category' => [
+            'name' => 'Category',
+            'controller' => 'shop/category'
         ]
     ];
     function __construct($renderer)
@@ -44,5 +48,13 @@ class ShopRouter extends Router
             require base_path('controllers/' . $this->routes[$paths[1]]['controller'] . '.php');
             exit();
         }
+        $this->abort();
+    }
+
+    function abort($code = 404) 
+    {
+        http_response_code($code);
+        require base_path('controllers/abort.php');
+        die();
     }
 }

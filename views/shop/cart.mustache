@@ -1,16 +1,20 @@
 {{>html_header}}
+{{>categories}}
 {{^empty}}
-    {{#cart_items}}
-        <form hx-post='/functions/interface/shop/update_cart.php'>
-            <div class='cartItem'>{{name}} - &pound;{{price}}</div>
-            <input type="hidden" name="item_id" value="{{item_id}}">
-            <input type="submit" value="Remove From Cart">
-        </form>
-    {{/cart_items}}
-        <div class='subtotal'>Total: &pound;{{subtotal}}</div>
-        <a class='button' href='/shop/checkout'>Checkout</a>
+    <section class="cartContainer">
+    {{>cart_items}}
+        <div class="cart-item">
+            <div class="totals-legend">Total</div>
+            <div class='subtotal'>&pound;<span class="price">{{subtotal}}</span></div>
+        </div>
+        <div class="cart-item">
+            <a class='button' href='/shop/checkout'>Checkout</a>
+        </div>
+    </section>
 {{/empty}}
 {{#empty}}
-    <p>Your cart is currently empty</p>
+    <div class="shop-item">
+        <p>Your cart is currently empty</p>
+    </div>
 {{/empty}}
 {{>html_footer}}

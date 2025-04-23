@@ -2,6 +2,9 @@
 
 session_start();
 
+include_once(__DIR__ . "/../../functions/functions.php");
+include_once(base_path("functions/interface/shop/get_categories.php"));
+
 use Database\Database;
 $db = new Database('orders');
 
@@ -11,8 +14,12 @@ $query = "SELECT *
 
 $item = $db->query($query, [$paths[2]])->fetch();
 
+if ($item['image'] == "") unset($item['image']);
+
 $item_options = $db->query("SELECT * FROM Item_options WHERE item_id = ?", [$paths[2]])->fetchAll();
 
 $item['option'] = sizeof($item_options) > 0 ? ['options'=>$item_options] : false;
 
-echo $this->renderer->render('shop/item', ["item"=>$item, "stylesheets"=>["shop"]]);
+$categories = getCategories($db);
+
+echo $this->renderer->render('shop/item', ["item"=>$item, "categories"=>$categories, "stylesheets"=>["shop"]]);

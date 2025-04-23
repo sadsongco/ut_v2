@@ -6,4 +6,4 @@ $_SESSION['items'] = [];
 
 session_destroy();
 
-echo "Your cart is empty";
+header("HX-Trigger: cartUpdated");
