@@ -18,7 +18,6 @@ if (!isset($_SESSION['items']) || sizeof($_SESSION['items']) == 0) {
 }
 
 $cart_items = getCartItems($_SESSION['items'], $db);
-
 $subtotal = calculateCartSubtotal($cart_items);
 
 echo $this->renderer->render('shop/cart', ["cart_items"=>$cart_items, "categories"=>$categories, "subtotal"=>$subtotal,"stylesheets"=>["shop"]]);

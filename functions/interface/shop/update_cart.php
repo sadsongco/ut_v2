@@ -12,4 +12,5 @@ foreach($_SESSION['items'] AS $key=>$cart_item) {
     }
 }
 
+header("HX-Trigger: cartUpdated");
 echo "Item removed from cart";

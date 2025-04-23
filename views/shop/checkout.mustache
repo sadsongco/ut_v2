@@ -1,6 +1,5 @@
 {{>html_header}}
-        <section class="cart-items">
-        {{>cart_items}}
+        <section class="cartContainer" hx-get="/functions/shop/cart_items.php?checkout=true" hx-trigger="load, cartUpdated from:body">
         </section>
         <section class="cart-item">
             <div class="totals-legend">Subtotal</div>

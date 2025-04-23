@@ -1,15 +1,7 @@
 {{>html_header}}
 {{>categories}}
 {{^empty}}
-    <section class="cartContainer">
-    {{>cart_items}}
-        <div class="cart-item">
-            <div class="totals-legend">Total</div>
-            <div class='subtotal'>&pound;<span class="price">{{subtotal}}</span></div>
-        </div>
-        <div class="cart-item">
-            <a class='button' href='/shop/checkout'>Checkout</a>
-        </div>
+    <section class="cartContainer" hx-get="/functions/shop/cart_items.php" hx-trigger="load, cartUpdated from:body">
     </section>
 {{/empty}}
 {{#empty}}

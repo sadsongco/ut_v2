@@ -3,10 +3,21 @@
 session_start();
 
 include_once(__DIR__ . "/../../functions.php");
-
 $option = isset($_POST['option']) ?? false;
 
-$_SESSION['items'][] = ['item_id'=>$_POST['item_id'], 'option_id'=>$option];
+if (!isset($_SESSION['items']) || sizeof($_SESSION['items']) == 0) {
+    $_SESSION['items'][] = ['item_id'=>$_POST['item_id'], 'option_id'=>$option, 'quantity'=>1];
+} else {
+    $item_updated = false;
+    foreach ($_SESSION['items'] AS &$item) {
+        if ($item['item_id'] == $_POST['item_id'] && $item['option_id'] == $option) {
+            $item['quantity']++;
+            $item_updated = true;
+            break;
+        }
+    }
+    if (!$item_updated) $_SESSION['items'][] = ['item_id'=>$_POST['item_id'], 'option_id'=>$option, 'quantity'=>1];
+}
 
 header("HX-Trigger: cartUpdated");
 

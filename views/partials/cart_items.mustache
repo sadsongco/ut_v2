@@ -1,7 +1,8 @@
     {{#cart_items}}
         <div class="cart-item">
             <div class='item-img'>{{#image}}<img src="/assets/images/shop/item_images/{{image}}" width="100px" />{{/image}}</div>
-            <div class='item-name'>{{name}}</div>
+            <div class='item-name'>{{name}}{{#option}} {{option}}{{/option}}</div>
+            <div class='item-quantity'>{{quantity}} @</div>
             <div class='item-price'>&pound;<span class="price">{{price}}</span></div>
             <div class='item-interact'>
                 <form hx-post='/functions/interface/shop/update_cart.php'>
