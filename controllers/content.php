@@ -19,7 +19,8 @@ function getTabs($db) {
 
 function getArticles($db, $tab_id) {
     try {
-        $query = "SELECT article_id
+        $query = "SELECT article_id,
+                        title
                     FROM articles
                     WHERE tab = ?
                     AND draft = 0
@@ -64,6 +65,12 @@ try {
     } else {
         $show_article = $paths[1];
     }
+    $linked_articles = [];
+    foreach ($articles as $article) {
+        if ($article['article_id'] != $show_article) {
+            $linked_articles[] = $article;
+        }
+    }
     $article = getArticle($db, $show_article);
     $auth = [];
     $article['body'] = parseBody($article['body'], $db, $auth, $this->renderer, $host);
@@ -74,4 +81,4 @@ catch (Exception $e) {
 
 $blog_stylesheets = ['articles'];
 
-echo $this->renderer->render('blog', ['tabs' => $tabs, 'path'=>$path, 'article'=>$article, 'nav' => $this->nav, 'stylesheets' => $blog_stylesheets]);
+echo $this->renderer->render('blog', ['tabs' => $tabs, 'tab_id'=>$show_tab, 'path'=>$path, 'article'=>$article, 'linked_articles'=>$linked_articles, 'nav' => $this->nav, 'stylesheets' => $blog_stylesheets]);

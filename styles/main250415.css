@@ -74,11 +74,20 @@ footer {
   grid-template-columns: 15em 1fr;
 }
 
+@media screen and (max-width: 900px) {
+  footer section.socials img {
+    width: 1.2em;
+    height: auto;
+    justify-content: flex-start;
+  }
+}
+
 footer section.socials {
   margin: 0.5em;
   /* width: 90%; */
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 p {

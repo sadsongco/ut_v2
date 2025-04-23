@@ -12,5 +12,10 @@
                 {{>article}}
             {{/article}}
         </section>
+        <section class="articleLinks">
+        {{#linked_articles}}
+            <a class="articleLink" href="/{{path}}/{{tab_id}}/{{article_id}}">&gt;&gt; {{title}}</a>
+        {{/linked_articles}}
+        </section>
     </div>
 {{>html_footer}}

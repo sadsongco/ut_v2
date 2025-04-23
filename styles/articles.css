@@ -185,3 +185,26 @@ figure.floatRight {
 .imgNotes {
   font-size: 0.7em;
 }
+
+section.articleLinks {
+  padding: 0.5em;
+  margin-top: 0.5em;
+  background-color: var(--articleBackground);
+}
+
+.articleLinks a.articleLink {
+  display: block;
+  color: #aaa;
+  text-decoration: none;
+  padding: 0.3em;
+  margin: 0.3em;
+  background-color: var(--tabColour);
+  transition: background-color ease 0.5s, scale ease 0.5s;
+}
+
+.articleLinks a.articleLink:hover {
+  color: #000;
+  cursor: pointer;
+  background-color: var(--tabHoverColour);
+  scale: 1.01;
+}
