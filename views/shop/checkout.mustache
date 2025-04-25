@@ -2,12 +2,18 @@
         <section class="cartContainer" hx-get="/functions/shop/cart_items.php?checkout=true" hx-trigger="load, cartUpdated from:body">
         </section>
         <section class="cart-item">
+            <div class="span2"></div>
+            <label class="span2" for="shippingMethod">Shipping Method</label> 
+            <select name="shippingMethod" id="shippingMethod" hx-post="/functions/interface/shop/get_shipping_methods.php" hx-trigger="load, change from:#country" hx-swap="innerHTML" hx-include="#country">
+            </select>
+        </section>
+        <section class="cart-item">
             <div class="totals-legend">Subtotal</div>
-            <div class='subtotal'>&pound;<span class="price">{{subtotal}}</span></div>
+            <div class='subtotal'>&pound;<span id="subtotal" class="price">{{subtotal}}</span></div>
             <div class="totals-legend">Shipping</div>
-            <div class='subtotal'>&pound;<span class="price">0.00</span></div>
+            <div class='subtotal'>&pound;<span id="shipping" class="price" hx-post="/functions/interface/shop/calculate_shipping.php" hx-trigger="change from:#country, change from:#shippingMethod" hx-vars="{'update': 'true'}" hx-include="#country">{{shipping}}</span></div>
             <div class="totals-legend">Total</div>
-            <div class='subtotal'>&pound;<span class="price">{{subtotal}}</span></div>
+            <div class='subtotal'>&pound;<span class="price" hx-post="/functions/interface/shop/calculate_total.php" hx-trigger="shippingUpdated from:body" hx-include="#shipping, #subtotal">{{total}}</span></div>
         </section>
     <div class="main">
         <section class="checkout-container">

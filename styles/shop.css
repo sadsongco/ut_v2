@@ -200,3 +200,7 @@ a.viewCartItems {
   cursor: pointer;
   background-color: #ddd;
 }
+
+.cart-item select {
+  width: fit-content;
+}
