@@ -149,6 +149,12 @@ a.viewCartItems {
   text-align: right;
 }
 
+.checkout-form {
+  border: 1px solid black;
+  margin-bottom: var(--stdMarginSmall);
+  padding: var(--stdPaddingSmall);
+}
+
 .checkout-form input,
 .checkout-form label {
   width: fit-content;
@@ -171,6 +177,8 @@ a.viewCartItems {
 .checkout-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  row-gap: var(--stdMarginSmall);
+  column-gap: var(--stdMarginSmall);
 }
 
 @media screen and (max-width: 900px) {
@@ -203,4 +211,33 @@ a.viewCartItems {
 
 .cart-item select {
   width: fit-content;
+}
+
+.address {
+  max-height: 20em;
+  transition: max-height 1s linear, padding 1s ease-in-out, border-color 1s linear;
+}
+
+.address.hidden {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  border-color: transparent;
+}
+
+.billing-address {
+}
+
+.billing-address > * {
+  /* overflow: hidden; */
+}
+
+.address {
+}
+
+.address h2 {
+  font-family: var(--headingFont);
+  font-weight: bold;
+  height: 2em;
+  overflow: hidden;
 }
