@@ -38,8 +38,8 @@ class SUCheckout
             'checkout_reference' => $this->order_details['order_id'],
             'merchant_code' => 'MDKGXUMF',
             'currency' => 'GBP',
-            'amount' => $this->order_details['totals']['total']        ]);
-
+            'amount' => $this->order_details['totals']['total']
+        ]);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -64,9 +64,20 @@ class SUCheckout
                 'cvv' => $this->order_details['cc_cvv'],
                 'type' => $this->order_details['cc_type'],
                 'last_4_digits' => substr($this->order_details['cc_number'], -4)
+            ],
+            'personal_details' => [
+                'first_name'=>$this->order_details['name'], 
+                'last_name'=>$this->order_details['name'],
+                'email'=>$this->order_details['email'],
+                'address'=>[
+                    'city'=>$this->order_details['billing-town'],
+                    'country'=>$this->order_details['billing-country-code'],
+                    'line1'=>$this->order_details['billing-address1'],
+                    'line2'=>$this->order_details['billing-address2'],
+                    'postal_code'=>$this->order_details['billing-postcode']
+                ]
             ]
         ]);
-        $this->response = $post_body;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

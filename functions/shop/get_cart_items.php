@@ -7,13 +7,14 @@
  * @param Class $db
  * @return array       associative array of cart items
  */
-function getCartItems($items, $db)
+function getCartItems($items, $db, $details=true)
 {
+    $item_details = $details ? "Items.*" : "Items.item_id, Items.image, Items.price";
     $cart_items = [];
     foreach ($items AS $item) {
         if ($item['option_id']) {
             $query = "SELECT
-                Items.*,
+                $item_details,
                 Item_options.option_name,
                 Item_options.option_price
             FROM Items
@@ -21,7 +22,7 @@ function getCartItems($items, $db)
             WHERE Items.item_id = ?";
             $params = [$item['option_id'], $item['item_id']];
         } else {
-            $query = "SELECT * FROM Items WHERE item_id = ?";
+            $query = "SELECT $item_details FROM Items WHERE item_id = ?";
             $params = [$item['item_id']];
         }
         $cart_item = $db->query($query, $params)->fetch();

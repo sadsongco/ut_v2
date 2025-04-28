@@ -45,11 +45,11 @@ function insertNewCustomer($order_details, $db) {
             $query = "INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);";
             $params = [
                 ucwords($order_details['name']),
-                ucwords($order_details['address1']),
-                ucwords($order_details['address2']),
-                ucwords($order_details['town']),
-                $order_details['postcode'],
-                ucwords($order_details['country']),
+                ucwords($order_details['delivery-address1']),
+                ucwords($order_details['delivery-address2']),
+                ucwords($order_details['delivery-town']),
+                $order_details['delivery-postcode'],
+                ucwords($order_details['delivery-country']),
                 $order_details['email']
             ];
             $stmt = $db->query($query, $params);
@@ -63,11 +63,11 @@ function updateCustomer($order_details, $customer_id, $db) {
     try {
             $query = "UPDATE Customers SET address_1 = ?, address_2 = ?, city = ?, postcode = ?, country = ? WHERE customer_id = ?";
             $params = [
-                ucwords($order_details['address1']),
-                ucwords($order_details['address2']),
-                ucwords($order_details['town']),
-                $order_details['postcode'],
-                ucwords($order_details['country']),
+                ucwords($order_details['delivery-address1']),
+                ucwords($order_details['delivery-address2']),
+                ucwords($order_details['delivery-town']),
+                $order_details['delivery-postcode'],
+                ucwords($order_details['delivery-country']),
                 $customer_id
             ];
             $stmt = $db->query($query, $params);
@@ -81,7 +81,7 @@ function insertOrderIntoOrderTable($order_details, $db) {
     $query = "INSERT INTO Orders VALUES (NULL, NULL, ?, ?, ?, ?, ?, ?, 0, NULL, NOW(), 0, NULL, NULL, NULL, NULL, NULL)";
     $params = [
             $order_details['customer_id'],
-            $order_details['postage_method'],
+            $order_details['shipping_method'],
             $order_details['totals']['subtotal'],
             $order_details['totals']['shipping'],
             $order_details['totals']['vat'],

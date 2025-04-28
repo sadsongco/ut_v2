@@ -2,7 +2,6 @@
 
 session_start();
 
-p_2($_SESSION);
 
 include("../../functions.php");
 require(base_path("classes/Database.php"));
@@ -18,19 +17,22 @@ $db = new Database('orders');
 $cc_no = str_replace(" ", "", $_POST['cc_number']);
 
 $order_details = $_POST;
+$country_code = $db->query("SELECT country_code FROM countries WHERE country_id = ?", [$_POST['billing-country']])->fetch();
+$order_details['billing-country-code'] = $country_code['country_code'];
 
-$order_details['items'] = getCartItems($_SESSION['items'], $db);
+$order_details['items'] = getCartItems($_SESSION['items'], $db, false);
 $order_details['totals']['subtotal'] = calculateCartSubtotal($order_details['items']);
-$order_details['totals']['shipping'] = calculateShipping($order_details['items'], $db, $_SESSION['rm_zone'], $_SESSION['postage_method']);
+$order_details['totals']['shipping'] = calculateShipping($order_details['items'], $db, $_SESSION['rm_zone'], $_SESSION['shipping_method']);
 $order_details['totals']['total'] = $order_details['totals']['subtotal'] + $order_details['totals']['shipping'];
 $order_details['totals']['vat'] = $order_details['totals']['total'] - ($order_details['totals']['total'] / 1.2);
-
-dd($order_details);
+$order_details['shipping_method'] = $_SESSION['shipping_method']['shipping_method_id'];
 
 $saved_order = insertOrderIntoDB($order_details, $db);
 
 use SUCheckout\SUCheckout;
 $checkout = new SUCheckout($saved_order);
 
-p_2($checkout->createCheckout()->getResponse());
+$checkout->createCheckout();
+echo "Processed checkout:<br>";
+// p_2($checkout->retrieveCheckout()->getResponse());
 p_2($checkout->processCheckout()->retrieveCheckout()->getResponse());
