@@ -1,5 +1,9 @@
 <?php
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 function getShippingMethods($zone, $db)
 {
     try {
@@ -10,8 +14,15 @@ function getShippingMethods($zone, $db)
         FROM Shipping_prices
         INNER JOIN Shipping_methods ON Shipping_methods.shipping_method_id = Shipping_prices.shipping_method_id
         WHERE Shipping_prices.rm_zone = ?
+        AND Shipping_prices.min_weight_g <= ?
+        AND Shipping_prices.max_weight_g >= ?
         GROUP BY Shipping_methods.shipping_method_id";
-        return $db->query($query, [$zone])->fetchAll();
+        $params = [
+            $zone,
+            $_SESSION['package_specs']['weight'],
+            $_SESSION['package_specs']['weight']
+        ];
+        return $db->query($query, $params)->fetchAll();
     
     } catch (PDOException $e) {
         throw new Exception($e);
