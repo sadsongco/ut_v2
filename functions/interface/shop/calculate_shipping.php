@@ -45,17 +45,15 @@ function calculateShipping($cart_items, $db, $zone, $method) {
 }
 
 if (isset($_POST['update'])) {
+
     $db = new Database('orders');
-    $query = "SELECT rm_zone FROM Countries WHERE country_id = ?";
-    $result = $db->query($query, [$_POST['country']])->fetch();
-    $zone = $result['rm_zone'];
-    $_SESSION['rm_zone'] = $zone;
-    $_SESSION['zone'] = $zone == "UK" ? "UK" : "ROW";
-    $shipping_methods = getShippingMethods($result['rm_zone'], $db);
-    $method = $shipping_methods[0];
+
+    $shipping_method = $db->query("SELECT * FROM Shipping_methods WHERE shipping_method_id = ?", [$_SESSION['shipping_method']])->fetch();
+    
     $cart_items = getCartItems($_SESSION['items'], $db);
-    $shipping = calculateShipping($cart_items, $db, $_SESSION['zone'], $method);
+    $shipping = calculateShipping($cart_items, $db, $_SESSION['zone'], $shipping_method);
     $_SESSION['shipping'] = round($shipping, 2);
+
     header("HX-Trigger: shippingUpdated");
     echo number_format($shipping, 2);
 }

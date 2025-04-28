@@ -1,10 +1,6 @@
 <?php
 
 function insertOrderIntoDB($order_details, $db) {
-    $order_details['postage_method'] = "POSTAGE METHOD";
-    $order_details['totals']['shipping'] = 0;
-    $order_details['totals']['vat'] = $order_details['totals']['subtotal'] * 0.2;
-    $order_details['totals']['total'] = $order_details['totals']['subtotal'] + $order_details['totals']['shipping'] + $order_details['totals']['vat'];
     try {
             $customer_id = checkIfCustomerExists($order_details['email'], $db); 
             if (!$customer_id) $customer_id = insertNewCustomer($order_details, $db);

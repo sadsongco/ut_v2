@@ -4,14 +4,13 @@
         <section class="cart-item">
             <div class="span2"></div>
             <label class="span2" for="shippingMethod">Shipping Method</label> 
-            <select name="shippingMethod" id="shippingMethod" hx-post="/functions/interface/shop/get_shipping_methods.php" hx-trigger="load, change from:#country" hx-swap="innerHTML" hx-include="#country">
-            </select>
+            {{>shipping_method_select}}
         </section>
         <section class="cart-item">
             <div class="totals-legend">Subtotal</div>
             <div class='subtotal'>&pound;<span id="subtotal" class="price">{{subtotal}}</span></div>
             <div class="totals-legend">Shipping</div>
-            <div class='subtotal'>&pound;<span id="shipping" class="price" hx-post="/functions/interface/shop/calculate_shipping.php" hx-trigger="change from:#country, change from:#shippingMethod" hx-vars="{'update': 'true'}" hx-include="#country">{{shipping}}</span></div>
+            <div class='subtotal'>&pound;<span id="shipping" class="price" hx-post="/functions/interface/shop/calculate_shipping.php" hx-trigger="change from:#shippingMethod, shippingMethodUpdated from:body" hx-vars="{'update': 'true'}" hx-include="#delivery-country, #shipping-method">{{shipping}}</span></div>
             <div class="totals-legend">Total</div>
             <div class='subtotal'>&pound;<span class="price" hx-post="/functions/interface/shop/calculate_total.php" hx-trigger="shippingUpdated from:body" hx-include="#shipping, #subtotal">{{total}}</span></div>
         </section>
@@ -27,21 +26,22 @@
                 <section class="checkout-form address delivery-address">
                     <h2 class="span2">Delivery Address</h2>
                     <label for="delivery-address1">Address Line 1*</label>
-                    <input type="text" name="delivery-address1" id="delivery-address1" required>
+                    <input type="text" name="delivery-address1" id="delivery-address1" onchange="mirrorDeliveryAddress(event)" required>
                     <label for="delivery-address2">Address Line 2</label>
-                    <input type="text" name="delivery-address2" id="delivery-address2">
+                    <input type="text" name="delivery-address2" id="delivery-address2" onchange="mirrorDeliveryAddress(event)">
                     <label for="delivery-city">Town / City*</label>
-                    <input type="text" name="delivery-town" id="delivery-city" required>
+                    <input type="text" name="delivery-town" id="delivery-city" onchange="mirrorDeliveryAddress(event)" required>
                     <label for="delivery-postcode">Postcode / ZIP*</label>
-                    <input type="text" name="delivery-postcode" id="delivery-postcode" required>
+                    <input type="text" name="delivery-postcode" id="delivery-postcode" onchange="mirrorDeliveryAddress(event)" required>
                     <label for="delivery-country">Country*</label>
-                    <select name="delivery-country" id="delivery-country" required>
+                    <select name="delivery-country" id="delivery-country" hx-post="/functions/interface/shop/update_country.php" hx-swap="innerHTML" hx-target="#errorTarget" hx-on:change="mirrorDeliveryAddress(event)" required>
                             <option value="31" selected>United Kingdom</option>
                         {{#countries}}
                             <option value="{{country_id}}">{{name}}</option>
                         {{/countries}}
                     </select>
                 </section>
+                <div id="errorTarget"></div>
                 <section class="checkout-form">
                     <label for="sameAddress">Billing address same as delivery address</label>
                     <input type="checkbox" id="sameAddress" class="same-address" onclick="showHideBillingAddress(event)" checked />
