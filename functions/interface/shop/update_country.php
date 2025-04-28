@@ -4,9 +4,6 @@ session_start();
 
 include_once(__DIR__ . "/../../functions.php");
 include_once(base_path("functions/shop/get_shipping_methods.php"));
-include_once(base_path("functions/interface/shop/get_cart_items.php"));
-include_once(base_path("functions/interface/shop/calculate_cart_subtotal.php"));
-include_once(base_path("functions/interface/shop/calculate_shipping.php"));
 include_once(base_path("classes/Database.php"));
 
 use Database\Database;
