@@ -44,7 +44,6 @@ class ShopRouter extends Router
             exit();
         }
         $paths = explode('/', $uri);
-        p_2($paths);
         if (isset($paths[1]) && array_key_exists($paths[1], $this->routes)) {
             require base_path('controllers/' . $this->routes[$paths[1]]['controller'] . '.php');
             exit();
