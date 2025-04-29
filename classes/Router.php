@@ -15,12 +15,19 @@ class Router
             'controller' => 'content',
             'name' => 'Content',
         ],
+        'shows' => [
+            'path' => '/shows',
+            'controller' => 'shows',
+            'name' => 'Shows',
+        ],
     ];
     private $renderer;
     public $nav = [];
 
     function __construct($renderer)
     {
+        p_2("ROUTING CLASS");
+        p_2($this->routes);
         $this->renderer = $renderer;
         $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
         $paths = explode('/', $uri);
