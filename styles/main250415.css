@@ -1,7 +1,17 @@
 body {
   font-family: OpenSans, Inter, sans-serif;
+  font-size: var(--fontBaseSize);
+  line-height: var(--stdLineHeight);
   background: var(--stdBackground);
   color: var(--stdColour);
+}
+
+p.small {
+  font-size: var(--fontSmall);
+}
+
+.strikethrough {
+  text-decoration: line-through;
 }
 
 main {

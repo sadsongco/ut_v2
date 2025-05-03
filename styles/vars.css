@@ -19,7 +19,7 @@
   --AHlilac: #fff;
   --transparent: #00000000;
 
-  --headerBlockBackground: #ffffdcb3;
+  --headerBlockBackground: #b4b4b4b3;
   --headerBlockColour: #222;
 
   --alertBackground: #222;
@@ -64,5 +64,8 @@
   /* typography */
   --stdFont: OpenSans, Inter, sans-serif;
   --headingFont: OpenSansBold, Inter sans-serif;
+  --fontBaseSize: 1em;
+  --stdLineHeight: 1.27em;
   --fontSmall: 0.8em;
+  --fontHeading: 1.2em;
 }

@@ -8,8 +8,10 @@
                         {{/options}}
                     </select>
                 {{/option}}
-                <p>&pound;<span id='itemPrice'>{{price}}</span></p>
-                <input type="submit" value="Add To Cart">
+                {{^is_bundle}}
+                    <p>&pound;<span id='itemPrice'>{{price}}</span></p>
+                    <input type="submit" value="Add Item To Cart">
+                {{/is_bundle}}
             </form>
         </div>
         <section id="cartResult{{item_id}}"></section>

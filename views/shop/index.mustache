@@ -4,7 +4,7 @@
     <div class='callout'><h1>SHOP</h1></div>
     <section class='items'>
     {{#items}}
-        <a {{#featured}}class="featured" {{/featured}}href="/shop/item/{{item_id}}">
+        <a {{#featured}}class="featured" {{/featured}} href="/shop/item/{{item_id}}">
         <section class='item'>
             <p>{{name}}</p>
             <p>&pound;{{price}}</p>
@@ -16,4 +16,22 @@
         </a>
     {{/items}}
     </section>
+    {{#bundles}}
+        <section class="bundles">
+            <h2>Bundles</h2>
+            <section class="bundle">
+            {{#items}}
+                <div class="bundle-item">
+                    <p>{{name}}</p>
+                    {{#image}}
+                        <img src="/assets/images/shop/item_images/{{image}}" alt="image" height="50px">
+                    {{/image}}
+                    {{>item_interact}}
+                </div>
+            {{/items}}
+            {{>bundle_interact}}
+            </section>
+        </section>
+    {{/bundles}}
+    <div id="cartMessage"></div>
 {{>html_footer}}

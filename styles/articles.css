@@ -73,6 +73,7 @@
 
 /* articles */
 .articleContainer {
+  padding: var(--stdPaddingMedium);
   background-color: var(--articleBackground);
   /* margin: var(--stdMarginSmall) 0; */
   padding-bottom: var(--stdMarginSmall);
@@ -95,9 +96,18 @@
 .articleBody {
   color: var(--tabColour);
   font-size: 0.9em;
-  padding: 0 var(--stdMarginSmall);
+  padding: 0 var(--stdPaddingSmall);
 }
 
+.articleContent {
+  padding: var(--stdPaddingMedium);
+}
+
+.articleContent br {
+  content: 'A' !important;
+  display: block !important;
+  margin-bottom: 1.5em !important;
+}
 .audioPlayer h2 {
   font: OpenSans;
   font-style: normal;
