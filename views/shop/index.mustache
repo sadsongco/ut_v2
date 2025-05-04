@@ -16,22 +16,24 @@
         </a>
     {{/items}}
     </section>
-    {{#bundles}}
-        <section class="bundles">
-            <h2>Bundles</h2>
+    <section class="bundles">
+        <h2>Bundles</h2>
+        {{#bundles}}
             <section class="bundle">
-            {{#items}}
-                <div class="bundle-item">
-                    <p>{{name}}</p>
-                    {{#image}}
-                        <img src="/assets/images/shop/item_images/{{image}}" alt="image" height="50px">
-                    {{/image}}
-                    {{>item_interact}}
-                </div>
-            {{/items}}
-            {{>bundle_interact}}
+                <form hx-post='/functions/interface/shop/add_to_cart.php' hx-target='#bundleResult{{bundle_id}}' hx-swap='innerHTML'>
+                {{#items}}
+                    <div class="bundle-item">
+                        <p>{{name}}</p>
+                        {{#image}}
+                            <img src="/assets/images/shop/item_images/{{image}}" alt="image" height="50px">
+                        {{/image}}
+                        {{>item_interact}}
+                    </div>
+                {{/items}}
+                {{>bundle_interact}}
+                </form>
             </section>
-        </section>
     {{/bundles}}
+    </section>
     <div id="cartMessage"></div>
 {{>html_footer}}
