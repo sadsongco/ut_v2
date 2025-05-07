@@ -1,4 +1,4 @@
-const accordionContent = document.querySelectorAll('.accordion-content');
+const accordionContent = document.querySelectorAll('.accordion');
 
 accordionContent.forEach((item, index) => {
   let header = item.querySelector('header');

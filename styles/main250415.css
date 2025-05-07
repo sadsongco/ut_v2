@@ -17,10 +17,7 @@ p.small {
 main {
   padding: var(--stdPaddingMedium);
   max-width: 100%;
-  /* padding-bottom: 15vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; */
+  padding-bottom: 15vh;
 }
 
 nav {
@@ -84,6 +81,7 @@ footer {
   background-image: linear-gradient(to right, var(--transparent), var(--transBlack), var(--transBlack), var(--transBlack), var(--transparent));
   display: grid;
   grid-template-columns: 15em 1fr;
+  z-index: 10;
 }
 
 @media screen and (max-width: 900px) {
@@ -169,13 +167,14 @@ video {
 }
 
 .accordion {
-}
-.accordion .accordion-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.accordion-content.is-open {
-}
-.accordion-content header {
+.accordion header {
+  width: 100%;
   display: flex;
   padding: var(--stdPaddingSmall);
   margin: var(--stdMarginSmall) 0;
@@ -183,11 +182,10 @@ video {
   align-items: center;
   justify-content: space-between;
 }
-.accordion-content.is-open header {
-}
-.accordion-content-title {
-}
-.accordion-content-description {
+
+.accordion-content {
+  width: 80%;
+  background-color: var(--tabBackground);
   max-height: 0;
   overflow: hidden;
   height: fit-content;
