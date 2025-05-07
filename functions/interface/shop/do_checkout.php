@@ -17,7 +17,7 @@ $db = new Database('orders');
 $cc_no = str_replace(" ", "", $_POST['cc_number']);
 
 $order_details = $_POST;
-$country_code = $db->query("SELECT country_code FROM countries WHERE country_id = ?", [$_POST['billing-country']])->fetch();
+$country_code = $db->query("SELECT country_code FROM Countries WHERE country_id = ?", [$_POST['billing-country']])->fetch();
 $order_details['billing-country-code'] = $country_code['country_code'];
 
 $order_details['items'] = getCartItems($_SESSION['items'], $db, false);
