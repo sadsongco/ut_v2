@@ -7,7 +7,7 @@ function getCartBundles($bundles, $db) {
         $bundle = $db->query($query, [$cart_bundle['bundle_id']])->fetch();
         foreach($cart_bundle['items'] as &$item) {
             $query = "SELECT
-            Items.item_id, Items.name, Items.image
+            *
             FROM Items
             WHERE Items.item_id = ?";
             $item_details = $db->query($query, [$item['item_id']])->fetch();

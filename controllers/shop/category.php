@@ -3,17 +3,20 @@
 session_start();
 
 include_once(__DIR__ . "/../../functions/functions.php");
+include_once(base_path("functions/shop/get_items.php"));
+include_once(base_path("functions/shop/get_bundles.php"));
 include_once(base_path("functions/shop/get_categories.php"));
 
 use Database\Database;
 $db = new Database('orders');
 
-$query = "SELECT item_id, name, price, image
-    FROM Items
-    WHERE category = ?";
+if ($paths[2] == "All") {
+    $paths[2] = null;
+}
 
-$res = $db->query($query, [$paths[2]])->fetchAll();
+$items = getItems($db, $paths[2]);
+$bundles = getBundles($db, $paths[2]);
 
 $categories = getCategories($db);
 
-echo $this->renderer->render('shop/index', ["items"=>$res, "categories"=>$categories, "stylesheets"=>["shop"]]);
+echo $this->renderer->render('shop/index', ["items"=>$items, "bundles"=>$bundles, "categories"=>$categories, "stylesheets"=>["shop"]]);

@@ -14,7 +14,7 @@ class PackagingCosts {
     public const PACKAGING = 1;
 }
 
-function calculateShipping($cart_items, $db, $zone, $method) {
+function calculateShipping($db, $zone, $method) {
     try {
         $query = "SELECT package_id, name
         FROM Packages
@@ -47,8 +47,7 @@ if (isset($_POST['update'])) {
 
     $shipping_method = $db->query("SELECT * FROM Shipping_methods WHERE shipping_method_id = ?", [$_SESSION['shipping_method']])->fetch();
     
-    $cart_items = getCartItems($_SESSION['items'], $db);
-    $shipping = calculateShipping($cart_items, $db, $_SESSION['zone'], $shipping_method);
+    $shipping = calculateShipping($db, $_SESSION['zone'], $shipping_method);
     $_SESSION['shipping'] = round($shipping, 2);
 
     header("HX-Trigger: shippingUpdated");

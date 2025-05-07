@@ -3,7 +3,7 @@
 session_start();
 
 include_once(__DIR__ . "/../../functions/functions.php");
-include_once(base_path("functions/shop/get_cart_items.php"));
+include_once(base_path("functions/shop/get_cart_contents.php"));
 include_once(base_path("functions/shop/calculate_cart_subtotal.php"));
 
 require base_path('classes/Database.php');
@@ -24,7 +24,7 @@ if (!isset($m)) {
 $checkout = false;
 if (isset($_GET['checkout'])) $checkout = true;
 
-$cart_items = getCartItems($_SESSION['items'], $db);
-$subtotal = calculateCartSubtotal($cart_items);
+$cart_contents = getCartContents($db);
+$subtotal = calculateCartSubtotal($cart_contents);
 
-echo $m->render('shop/cart_items', ["cart_items"=>$cart_items, "checkout"=>$checkout, "subtotal"=>$subtotal]);
+echo $m->render('shop/cart_items', ["cart_items"=>$cart_contents, "checkout"=>$checkout, "subtotal"=>$subtotal]);
