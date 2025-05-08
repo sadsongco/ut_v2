@@ -20,4 +20,4 @@ if (!isset($_SESSION['bundles']) && (!isset($_SESSION['items']) || sizeof($_SESS
 $cart_contents = getCartContents($db);
 $subtotal = calculateCartSubtotal($cart_contents);
 
-echo $this->renderer->render('shop/cart', ["cart_items"=>$cart_contents, "categories"=>$categories, "subtotal"=>$subtotal,"stylesheets"=>["shop"]]);
+echo $this->renderer->render('shop/cart', ["cart_contents"=>$cart_contents, "categories"=>$categories, "subtotal"=>$subtotal,"stylesheets"=>["shop"]]);

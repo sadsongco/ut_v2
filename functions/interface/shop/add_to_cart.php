@@ -2,26 +2,12 @@
 
 session_start();
 
-
 include_once(__DIR__ . "/../../functions.php");
-
 if (isset($_POST['is_bundle'])) {
     $items = rearrayBundleItems($_POST);
     unset($_POST['item_id']);
     unset($_POST['option']);
-    if (!isset($_SESSION['bundles']) || sizeof($_SESSION['bundles']) == 0) {
-        $_SESSION['bundles'][] = ['bundle_id'=>$_POST['bundle_id'], 'items'=>$items, 'quantity'=>1];
-    } else {
-        $bundle_updated = false;
-        foreach ($_SESSION['bundles'] AS &$bundle) {
-            if ($bundle['bundle_id'] == $_POST['bundle_id'] && $bundle['option_id'] == $option) {
-                $bundle['quantity']++;
-                $bundle_updated = true;
-                break;
-            }
-        }
-        if (!$bundle_updated) $_SESSION['bundles'][] = ['bundle_id'=>$_POST['bundle_id'], 'option_id'=>$option, 'quantity'=>1];
-    }
+    $_SESSION['bundles'][] = ['bundle_id'=>$_POST['bundle_id'], 'items'=>$items, 'quantity'=>1];
 }
 
 if (isset($_POST['item_id'])) {

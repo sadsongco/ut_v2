@@ -68,4 +68,7 @@
   --stdLineHeight: 1.27em;
   --fontSmall: 0.8em;
   --fontHeading: 1.2em;
+
+  /* other */
+  --darkShadow: 0.5em 0.5em 0.45em #ccc;
 }

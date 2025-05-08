@@ -17,7 +17,7 @@
         <div class="cart-item">
             {{#items}}
                 <div class='item-img'>{{#image}}<img src="/assets/images/shop/item_images/{{image}}" width="100px" />{{/image}}</div>
-                <div class='item-name span4'>{{name}}{{#option}} {{option}}{{/option}}</div>
+                <div class='item-name span4'>{{name}}{{#option_name}} ({{option_name}}){{/option_name}}</div>
             {{/items}}
             <div class="span2"><h3>Bundle price</h3></div>
             <div class='item-quantity'>{{quantity}} @</div>

@@ -2,7 +2,7 @@
 {{>categories}}
 {{>cart_preview}}
     <div class='callout'><h1>SHOP</h1></div>
-    <section class="bundles">
+    <section class="show bundles">
         <h2>Bundles</h2>
         {{#bundles}}
             <section class="bundle">
@@ -21,7 +21,7 @@
             </section>
         {{/bundles}}
     </section>
-    <section class='items'>
+    <section class='show items'>
     <h2>Items</h2>
     {{#items}}
         <a {{#featured}}class="featured" {{/featured}} href="/shop/item/{{item_id}}">
