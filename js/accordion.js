@@ -16,7 +16,7 @@ const resizeAccordion = async (item) => {
     item.querySelector('i').classList.replace('fa-plus', 'fa-minus');
   } else {
     target.style.transition = 'max-height 0.5s ease-in-out, padding 0.5s ease-in-out';
-    target.style.padding = '0';
+    target.style.padding = '0px';
     target.style.maxHeight = '0px';
     item.querySelector('i').classList.replace('fa-minus', 'fa-plus');
   }
@@ -28,7 +28,9 @@ const closeOpenAccordion = (id) => {
     const target = document.getElementById(`${item.id}-content`);
     item.classList.remove('is-open');
     item.querySelector('i').classList.replace('fa-minus', 'fa-plus');
+    target.style.transition = 'max-height 0.5s ease-in-out, padding 0.5s ease-in-out';
     target.style.maxHeight = '0px';
+    target.style.padding = '0px';
   });
 };
 

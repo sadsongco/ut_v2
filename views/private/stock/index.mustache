@@ -1,8 +1,10 @@
 {{>html_header}}
-
+<section class="callout">
+    <h1>Edit Item Details</h1>
+</section>
 {{#items}}
     <section class="show accordion" id="item{{item_id}}">
-        <header>
+        <header data-targetid="item{{item_id}}">
             <h2>{{name}}</h2>
             <i class="fa-solid fa-plus"></i>
         </header>
@@ -47,8 +49,11 @@
     </section>
 
 {{/items}}
+<section class="callout">
+    <h1>Add Bundle</h1>
+</section>
 <section class="show accordion" id="createBundle">
-    <header>
+    <header data-targetid="createBundle">
         <h2>Create Bundle</h2>
         <i class="fa-solid fa-plus"></i>
     </header>
