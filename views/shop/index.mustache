@@ -2,20 +2,6 @@
 {{>categories}}
 {{>cart_preview}}
     <div class='callout'><h1>SHOP</h1></div>
-    <section class='items'>
-    {{#items}}
-        <a {{#featured}}class="featured" {{/featured}} href="/shop/item/{{item_id}}">
-        <section class='item'>
-            <p>{{name}}</p>
-            <p>&pound;{{price}}</p>
-            {{#image}}
-            <img src="/assets/images/shop/item_images/{{image}}" alt="image" width="100">
-            {{/image}}
-            {{>item_interact}}
-        </section>
-        </a>
-    {{/items}}
-    </section>
     <section class="bundles">
         <h2>Bundles</h2>
         {{#bundles}}
@@ -33,7 +19,22 @@
                 {{>bundle_interact}}
                 </form>
             </section>
-    {{/bundles}}
+        {{/bundles}}
+    </section>
+    <section class='items'>
+    <h2>Items</h2>
+    {{#items}}
+        <a {{#featured}}class="featured" {{/featured}} href="/shop/item/{{item_id}}">
+        <section class='item'>
+            <p>{{name}}</p>
+            <p>&pound;{{price}}</p>
+            {{#image}}
+            <img src="/assets/images/shop/item_images/{{image}}" alt="image" width="100">
+            {{/image}}
+            {{>item_interact}}
+        </section>
+        </a>
+    {{/items}}
     </section>
     <div id="cartMessage"></div>
 {{>html_footer}}
