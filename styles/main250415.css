@@ -15,11 +15,8 @@ p.small {
 }
 
 main {
-  height: fit-content;
-  max-height: 80vh;
   padding: var(--stdPaddingMedium);
   max-width: 100%;
-  /* padding-bottom: 15vh; */
 }
 
 nav {
@@ -73,17 +70,22 @@ header {
 }
 
 footer {
-  height: 10vh;
-  /* position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0; */
+  height: 15vh;
   padding: 1em;
   background-color: var(--transBlack);
   background-image: linear-gradient(to right, var(--transparent), var(--transBlack), var(--transBlack), var(--transBlack), var(--transparent));
   display: grid;
   grid-template-columns: 15em 1fr;
   z-index: 10;
+}
+
+@media screen and (min-width: 900px) {
+  footer {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -191,7 +193,7 @@ video {
   max-height: 0;
   overflow: hidden;
   height: fit-content;
-  transition: max-height 0.5s ease-in-out;
+  transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
 }
 
 .show,

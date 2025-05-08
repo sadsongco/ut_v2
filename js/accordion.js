@@ -1,8 +1,6 @@
 const resize = async (e) => {
-  console.log('RESIZE');
-  console.log(e.target.dataset.targetId);
+  const item = document.getElementById(e.target.dataset.targetid);
   await resizeAccordion(item);
-  resizeMain();
 };
 
 const resizeAccordion = async (item) => {
@@ -12,17 +10,16 @@ const resizeAccordion = async (item) => {
   if (item.classList.contains('is-open')) {
     // Scrollheight property return the height of
     // an element including padding
+    target.style.transition = 'max-height 0.5s ease-in-out, padding 0s linear';
+    target.style.padding = 'var(--stdPaddingSmall)';
     target.style.maxHeight = `${target.scrollHeight}px`;
     item.querySelector('i').classList.replace('fa-plus', 'fa-minus');
   } else {
+    target.style.transition = 'max-height 0.5s ease-in-out, padding 0.5s ease-in-out';
+    target.style.padding = '0';
     target.style.maxHeight = '0px';
     item.querySelector('i').classList.replace('fa-minus', 'fa-plus');
   }
-};
-
-const resizeMain = async () => {
-  const main = document.getElementsByTagName('main')[0];
-  main.style.maxHeight = main.scrollHeight;
 };
 
 const closeOpenAccordion = (id) => {
@@ -37,7 +34,7 @@ const closeOpenAccordion = (id) => {
 
 const accordionContent = document.querySelectorAll('.accordion');
 
-accordionContent.forEach((item, index) => {
+accordionContent.forEach((item) => {
   let header = item.querySelector('header');
   header.addEventListener('click', resize);
 });
