@@ -18,4 +18,3 @@ if (!isset($m)) {
 
 use Router\ShopRouter;
 $router = new ShopRouter($m, true);
-

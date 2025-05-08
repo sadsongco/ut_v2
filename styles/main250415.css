@@ -15,9 +15,11 @@ p.small {
 }
 
 main {
+  height: fit-content;
+  max-height: 80vh;
   padding: var(--stdPaddingMedium);
   max-width: 100%;
-  padding-bottom: 15vh;
+  /* padding-bottom: 15vh; */
 }
 
 nav {
@@ -72,10 +74,10 @@ header {
 
 footer {
   height: 10vh;
-  position: fixed;
+  /* position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
+  right: 0; */
   padding: 1em;
   background-color: var(--transBlack);
   background-image: linear-gradient(to right, var(--transparent), var(--transBlack), var(--transBlack), var(--transBlack), var(--transparent));

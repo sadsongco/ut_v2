@@ -1,0 +1,93 @@
+{{>html_header}}
+
+{{#items}}
+    <section class="show accordion" id="item{{item_id}}">
+        <header>
+            <h2>{{name}}</h2>
+            <i class="fa-solid fa-plus"></i>
+        </header>
+        <div class="accordion-content" id="item{{item_id}}-content">
+            <form hx-post="/private/functions/interface/stock/update_item.php">
+                <div class="update-stock-item">
+                    <input type="hidden" name="item_id" value="{{item_id}}">
+                    <label for="item{{item_id}}_name" >Name</label>
+                    <input type="text" name="name" id="item{{item_id}}_name" value="{{name}}">
+                    <label for="item{{item_id}}_price">Price</label>
+                    <input type="number" name="price" id="item{{item_id}}_price" step="0.50" value="{{price}}">
+                    <label for="item{{item_id}}_description">Description</label>
+                    <textarea name="description" id="item{{item_id}}_description" cols="10" rows="10">{{description}}</textarea>
+                    <label for="item{{item_id}}_category">Category</label>
+                    <select name="category" id="item{{item_id}}_category">
+                        {{#categories}}
+                            <option value="{{category}}" {{selected}}>{{category}}</option>
+                        {{/categories}}
+                    </select>
+                    <label for="item{{item_id}}_image" >Name</label>
+                    <input type="text" name="image" id="item{{item_id}}_image" value="{{image}}"">
+                    <label for="item{{item_id}}_weight">Weight</label>
+                    <input type="number" name="weight" id="item{{item_id}}_weight" step="0.001" value="{{weight}}">
+                    <label for="item{{item_id}}_customs_description" >customs description</label>
+                    <input type="text" name="customs_description" id="item{{item_id}}_customs_description" value="{{customs_description}}">
+                    <label for="item{{item_id}}_customs_code">customs code</label>
+                    <input type="number" name="customs_code" id="item{{item_id}}_customs_code" step="1" value="{{customs_code}}">
+                    <label for="item{{item_id}}_stock">stock</label>
+                    <input type="number" name="stock" id="item{{item_id}}_stock" step="1" value="{{stock}}">
+                    <label for="item{{item_id}}_featured">featured</label>
+                    <input type="checkbox" name="featured" id="item{{item_id}}_featured" {{featured}}>
+                    <label for="item{{item_id}}_length_mm">length_mm</label>
+                    <input type="number" name="length_mm" id="item{{item_id}}_length_mm" step="1" value="{{length_mm}}">
+                    <label for="item{{item_id}}_width_mm">width_mm</label>
+                    <input type="number" name="width_mm" id="item{{item_id}}_width_mm" step="1" value="{{width_mm}}">
+                    <label for="item{{item_id}}_depth_mm">depth_mm</label>
+                    <input type="number" name="depth_mm" id="item{{item_id}}_depth_mm" step="1" value="{{depth_mm}}">
+                    <input type="submit" value="Update Item">
+                </div>
+            </form>
+        </div>
+    </section>
+
+{{/items}}
+<section class="show accordion" id="createBundle">
+    <header>
+        <h2>Create Bundle</h2>
+        <i class="fa-solid fa-plus"></i>
+    </header>
+    <div class="accordion-content" id="createBundle-content">
+        <form hx-post="/private/functions/interface/stock/create_bundle.php">
+            <div class="update-stock-item">
+                <label for="bundle-item-1">bundle item 1</label>
+                <select name="bundle-item[]" id="bundle-item-1">
+                    {{#items}}
+                        <option value="{{item_id}}">{{name}}</option>
+                    {{/items}}
+                </select>
+                <button onclick="addBundleItem(event)">Add Bundle Item</button><div></div>
+                <label for="bundle_price">Price</label>
+                <input type="number" name="price" id="bundle_price" step="0.50" required>
+                <input type="submit" value="add Bundle">
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    const addBundleItem = (e) => {
+        e.preventDefault();
+        const container = document.getElementById('createBundle-content');
+        const els = document.querySelectorAll('[id^=bundle-item]');
+        const lastSelect = els[els.length - 1];
+        const lastLabel = document.querySelector(`[for=${lastSelect.id}]`)
+        const newSelect = lastSelect.cloneNode(true);
+        const newLabel = lastLabel.cloneNode(true);
+        const splitName = lastSelect.id.split("-");
+        splitName[splitName.length - 1] ++;
+        const newId = splitName.join("-");
+        newSelect.id = newId;
+        newLabel.setAttribute('for', newId);
+        newLabel.innerText = newId.replaceAll("-", " ");
+        lastSelect.insertAdjacentElement("afterend", newLabel);
+        newLabel.insertAdjacentElement("afterend", newSelect);
+        container.style.maxHeight = `${container.scrollHeight}px`;
+    }
+</script>
+{{>html_footer}}
