@@ -19,6 +19,8 @@ section.items h2 {
 
 section.bundle,
 section.item {
+  min-width: 25em;
+  min-height: 18em;
   color: var(--articleText);
   border-radius: 5px;
   border: var(--commentBoxOutline);

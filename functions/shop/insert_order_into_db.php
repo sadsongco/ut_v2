@@ -13,9 +13,13 @@ function insertOrderIntoDB($order_details, $db) {
     $db->beginTransaction();
     try {
             $order_details['order_id'] = insertOrderIntoOrderTable($order_details, $db);
-            foreach ($order_details['items'] as $order_item) {
+            foreach ($order_details['items']['items'] as $order_item) {
                 $order_item['amount'] = 1;
                     insertItemIntoOrderTable($order_details, $order_item, $db);
+            }
+            foreach ($order_details['items']['bundles'] as $bundle) {
+                $bundle['amount'] = 1;
+                    insertBundleIntoOrderTable($order_details, $bundle, $db);
             }
 
     } catch (Exception $e) {
@@ -113,6 +117,20 @@ function insertItemIntoOrderTable($order_details, $item, $db) {
     } catch (Exception $e) {
             throw new Exception($e);
     }
+}
+
+function insertBundleIntoOrderTable($order_details, $bundle, $db) {
+        try {
+                $query = "INSERT INTO Order_bundles VALUES (
+                        NULL, ?, ?)";
+                $params = [
+                        $order_details['order_id'],
+                        $bundle['bundle_id']
+                ];
+                $db->query($query, $params);
+        } catch (Exception $e) {
+                throw new Exception($e);
+        }
 }
 
 function createOrderID($order_id, $db)

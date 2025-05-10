@@ -2,39 +2,41 @@
 {{>categories}}
 {{>cart_preview}}
     <div class='callout'><h1>SHOP</h1></div>
-    <section class="show bundles">
-        <h2>Bundles</h2>
-        {{#bundles}}
-            <section class="bundle">
-                <form hx-post='/functions/interface/shop/add_to_cart.php' hx-target='#bundleResult{{bundle_id}}' hx-swap='innerHTML'>
-                {{#items}}
-                    <div class="bundle-item">
-                        <p>{{name}}</p>
-                        {{#image}}
-                            <img src="/assets/images/shop/item_images/{{image}}" alt="image" height="50px">
-                        {{/image}}
-                        {{>item_interact}}
-                    </div>
-                {{/items}}
-                {{>bundle_interact}}
-                </form>
-            </section>
-        {{/bundles}}
-    </section>
-    <section class='show items'>
-    <h2>Items</h2>
-    {{#items}}
-        <a {{#featured}}class="featured" {{/featured}} href="/shop/item/{{item_id}}">
-        <section class='item'>
-            <p>{{name}}</p>
-            <p>&pound;{{price}}</p>
-            {{#image}}
-            <img src="/assets/images/shop/item_images/{{image}}" alt="image" width="100">
-            {{/image}}
-            {{>item_interact}}
+    <section class="cartContainer">
+        <section class="show bundles">
+            <h2>Bundles</h2>
+            {{#bundles}}
+                <section class="bundle">
+                    <form hx-post='/functions/interface/shop/add_to_cart.php' hx-target='#bundleResult{{bundle_id}}' hx-swap='innerHTML'>
+                    {{#items}}
+                        <div class="bundle-item">
+                            <p>{{name}}</p>
+                            {{#image}}
+                                <img src="/assets/images/shop/item_images/{{image}}" alt="image" height="50px">
+                            {{/image}}
+                            {{>item_interact}}
+                        </div>
+                    {{/items}}
+                    {{>bundle_interact}}
+                    </form>
+                </section>
+            {{/bundles}}
         </section>
-        </a>
-    {{/items}}
+        <section class='show items'>
+        <h2>Items</h2>
+        {{#items}}
+            <a {{#featured}}class="featured" {{/featured}} href="/shop/item/{{item_id}}">
+            <section class='item'>
+                <p>{{name}}</p>
+                <p>&pound;{{price}}</p>
+                {{#image}}
+                <img src="/assets/images/shop/item_images/{{image}}" alt="image" width="100">
+                {{/image}}
+                {{>item_interact}}
+            </section>
+            </a>
+        {{/items}}
+        </section>
+        <div id="cartMessage"></div>
     </section>
-    <div id="cartMessage"></div>
 {{>html_footer}}
