@@ -16,71 +16,7 @@
         </section>
     <div class="main">
         <section class="checkout-container">
-            <form hx-post="/functions/interface/shop/do_checkout.php">
-                <section class="checkout-form">
-                    <label for="customerName">Name*</label>
-                    <input type="text" name="name" id="customerName" required>
-                    <label for="customerEmail">Contact Email*</label>
-                    <input type="text" name="email" id="customerEmail" required>
-                </section>
-                <section class="checkout-form address delivery-address">
-                    <h2 class="span2">Delivery Address</h2>
-                    <label for="delivery-address1">Address Line 1*</label>
-                    <input type="text" name="delivery-address1" id="delivery-address1" onchange="mirrorDeliveryAddress(event)" required>
-                    <label for="delivery-address2">Address Line 2</label>
-                    <input type="text" name="delivery-address2" id="delivery-address2" onchange="mirrorDeliveryAddress(event)">
-                    <label for="delivery-city">Town / City*</label>
-                    <input type="text" name="delivery-town" id="delivery-city" onchange="mirrorDeliveryAddress(event)" required>
-                    <label for="delivery-postcode">Postcode / ZIP*</label>
-                    <input type="text" name="delivery-postcode" id="delivery-postcode" onchange="mirrorDeliveryAddress(event)" required>
-                    <label for="delivery-country">Country*</label>
-                    <select name="delivery-country" id="delivery-country" hx-post="/functions/interface/shop/update_country.php" hx-swap="innerHTML" hx-target="#errorTarget" hx-on:change="mirrorDeliveryAddress(event)" required>
-                            <option value="31" selected>United Kingdom</option>
-                        {{#countries}}
-                            <option value="{{country_id}}">{{name}}</option>
-                        {{/countries}}
-                    </select>
-                </section>
-                <div id="errorTarget"></div>
-                <section class="checkout-form">
-                    <label for="sameAddress">Billing address same as delivery address</label>
-                    <input type="checkbox" id="sameAddress" class="same-address" onclick="showHideBillingAddress(event)" checked />
-                </section>
-                <section class="checkout-form address hidden billing-address" id="billingAddress">
-                    <h2 class="span2">Billing Address</h2>
-                    <label for="address1">Address Line 1*</label>
-                    <input type="text" name="billing-address1" id="billing-address1" required>
-                    <label for="address2">Address Line 2</label>
-                    <input type="text" name="billing-address2" id="billing-address2">
-                    <label for="city">Town / City*</label>
-                    <input type="text" name="billing-town" id="billing-city" required>
-                    <label for="postcode">Postcode / ZIP*</label>
-                    <input type="text" name="billing-postcode" id="billing-postcode" required>
-                    <label for="country">Country*</label>
-                    <select name="billing-country" id="billing-country" required>
-                            <option value="31" selected>United Kingdom</option>
-                        {{#countries}}
-                            <option value="{{country_id}}">{{name}}</option>
-                        {{/countries}}
-                    </select>
-                </section>
-                <section class="checkout-form">
-                    <label for="cc-name">Name On Card</label>
-                    <input type='text' name="cc_name" id="cc-name" placeholder="Name On Card" size="23" autocomplete="cc-name" />
-                    <label for="cc-number">Card Number</label>
-                    <input class="creditcard-input invalid" name="cc_number" id="cc-in" placeholder="XXXX XXXX XXXX XXXX" size="23" autocomplete="cc-number" />
-                    <label for="expiry">Expiry Date</label>
-                    <div class="date-input-container">
-                        <input class="date-input invalid" name="cc_exp_month" id="exp-m" maxlength="2" id="expiry" placeholder="MM">
-                        <input class="date-input invalid" name="cc_exp_year" id="exp-y" maxlength="2" placeholder="YY">
-                    </div>
-                    <label for="cvv">CVV Code</label>
-                    <input class="numeral-input invalid" id="cvv" name="cc_cvv" maxlength="3" placeholder="cvv">
-                    <div class="creditcard-type"></div>
-                    <input id="confirmSubmit" type="submit" value="Confirm and Pay" class="disabled" disabled>
-                    <input type='hidden' name='cc_type' id='ccType' value='unknown'>
-                </section>
-            </form>
+        {{>checkout_form}}
         </section>
     </div>
     <script src="/js/lib/cleave-zen.umd.js"></script>

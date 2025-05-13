@@ -23,17 +23,19 @@ function calculateShipping($db, $zone, $method) {
         AND max_depth_mm >= ?
         AND max_weight_g >= ?
         AND zone = ?";
+        $package_zone = $zone == "UK" ? "UK" : "ROW";
         $params = [
             $_SESSION['package_specs']['length'],
             $_SESSION['package_specs']['width'],
             $_SESSION['package_specs']['depth'],
             $_SESSION['package_specs']['weight'],
-            $zone
+            $package_zone
         ];
         $package_specs = $db->query($query, $params)->fetch();
-        $query = "SELECT shipping_price FROM Shipping_prices WHERE package_id = ? AND shipping_method_id = ?";
-        $params = [$package_specs['package_id'], $method['shipping_method_id']];
+        $query = "SELECT shipping_price FROM Shipping_prices WHERE package_id = ? AND shipping_method_id = ? AND rm_zone = ?";
+        $params = [$package_specs['package_id'], $method['shipping_method_id'], $zone];
         $shipping_price = $db->query($query, $params)->fetch();
+        if (!$shipping_price) throw new Exception("No applicable shipping price found");
         return $shipping_price['shipping_price'] + PackagingCosts::LABOUR + PackagingCosts::PACKAGING;
     } catch (Exception $e) {
         throw new Exception($e);
@@ -45,9 +47,9 @@ if (isset($_POST['update'])) {
 
     $db = new Database('orders');
 
-    $shipping_method = $db->query("SELECT * FROM Shipping_methods WHERE shipping_method_id = ?", [$_SESSION['shipping_method']])->fetch();
+    $shipping_method = $db->query("SELECT * FROM Shipping_methods WHERE shipping_method_id = ?", [$_SESSION['shipping_method']['shipping_method_id']])->fetch();
     
-    $shipping = calculateShipping($db, $_SESSION['zone'], $shipping_method);
+    $shipping = calculateShipping($db, $_SESSION['rm_zone'], $shipping_method);
     $_SESSION['shipping'] = round($shipping, 2);
 
     header("HX-Trigger: shippingUpdated");

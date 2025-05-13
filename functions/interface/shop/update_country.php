@@ -16,13 +16,12 @@ $m = new Mustache_Engine(array(
     'loader' => new Mustache_Loader_FilesystemLoader(base_path('views')),
     'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('views/partials'))
 ));
-
 $country = $db->query("SELECT rm_zone FROM Countries WHERE country_id = ?", [$_POST['delivery-country']])->fetch();
 $_SESSION['rm_zone'] = $country['rm_zone'];
 $_SESSION['zone'] = $country['rm_zone'] == "UK" ? "UK" : "ROW";
 
 $shipping_options = getShippingMethods($country['rm_zone'], $db);
-$default_shipping_method = $shipping_options[0]['shipping_method_id'];
+$default_shipping_method = $shipping_options[0];
 $_SESSION['shipping_method'] = $default_shipping_method;
 
 header("HX-Trigger: shippingMethodUpdated");
