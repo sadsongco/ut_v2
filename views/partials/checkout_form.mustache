@@ -1,4 +1,4 @@
-            <form hx-post="/functions/interface/shop/do_checkout.php" hx-disabled-elt="#confirmSubmit" hx-swap="outerHTML">
+            <form hx-post="/functions/interface/shop/do_checkout.php" hx-disabled-elt="#confirmSubmit" hx-target="#paymentTarget" hx-swap="innerHTML">
                 {{#failed}}
                     <h1 class="error">CREDIT CARD PAYMENT FAILED</h1>
                     <p>Please check your details and try again</p>
@@ -50,20 +50,7 @@
                         {{/countries}}
                     </select>
                 </section>
-                <section class="checkout-form">
-                    <label for="cc-name">Name On Card</label>
-                    <input type='text' name="cc_name" id="cc-name" placeholder="Name On Card" size="23" autocomplete="cc-name" {{#cc_name}}value="{{cc_name}}"{{/cc_name}} />
-                    <label for="cc-number">Card Number</label>
-                    <input class="creditcard-input invalid" name="cc_number" id="cc-in" placeholder="XXXX XXXX XXXX XXXX" size="23" autocomplete="cc-number" {{#cc_number}}value="{{cc_number}}"{{/cc_number}} />
-                    <label for="expiry">Expiry Date</label>
-                    <div class="date-input-container">
-                        <input class="date-input invalid" name="cc_exp_month" id="exp-m" maxlength="2" id="expiry" placeholder="MM" {{#cc_exp_month}}value="{{cc_exp_month}}"{{/cc_exp_month}}>
-                        <input class="date-input invalid" name="cc_exp_year" id="exp-y" maxlength="2" placeholder="YY" {{#cc_exp_year}}value="{{cc_exp_year}}"{{/cc_exp_year}}>
-                    </div>
-                    <label for="cvv">CVV Code</label>
-                    <input class="numeral-input invalid" id="cvv" name="cc_cvv" maxlength="3" placeholder="cvv">
-                    <div class="creditcard-type"></div>
-                    <input id="confirmSubmit" type="submit" value="Confirm and Pay" class="disabled" disabled>
-                    <input type='hidden' name='cc_type' id='ccType' value='unknown'>
+                <section class="checkout-form" id="paymentResponse">
+                    {{>pay}}
                 </section>
             </form>

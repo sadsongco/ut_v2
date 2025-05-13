@@ -1,0 +1,15 @@
+<div id="sumup-card" class="paymentPopover">
+</div>
+
+<script type="text/javascript">
+    SumUpCard.mount({
+    id: 'sumup-card',
+    checkoutId: '{{checkout_id}}',
+    currency: 'GBP',
+    locale: 'en-GB',
+    country: 'GB',
+    amount: {{amount}},
+    onResponse: (type, body) => {processPayment(type, body)},
+  });
+
+</script>

@@ -278,3 +278,13 @@ a.viewCartItems .viewCartBadge {
   height: 2em;
   overflow: hidden;
 }
+
+.paymentPopover {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+}

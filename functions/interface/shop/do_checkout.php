@@ -21,14 +21,9 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('views/partials'))
 ));
 
-$cc_no = str_replace(" ", "", $_POST['cc_number']);
-
-
 $order_details = $_POST;
 $country_code = $db->query("SELECT country_code FROM Countries WHERE country_id = ?", [$_POST['billing-country']])->fetch();
 $order_details['billing-country-code'] = $country_code['country_code'];
-
-p_2($_SESSION['shipping_method']);
 
 $order_details['items'] = getCartContents($db);
 $order_details['totals']['subtotal'] = calculateCartSubtotal($order_details['items']);
@@ -42,39 +37,6 @@ $saved_order = insertOrderIntoDB($order_details, $db);
 use SUCheckout\SUCheckout;
 $checkout = new SUCheckout($saved_order);
 
-$checkout->createCheckout($order_details);
+$response = $checkout->createCheckout()->getResponse();
 
-$response = $checkout->processCheckout()->retrieveCheckout()->getResponse();
-
-$countries = $db->query('SELECT * FROM `Countries` ORDER BY `name` ASC')->fetchAll();
-
-foreach($countries as &$country) {
-    if ($country['country_id'] == $order_details['billing-country']) {
-        $country['selected'] = ' selected';
-    }
-}
-
-$transaction_response = $response->transactions[0];
-if ($transaction_response->status == 'FAILED') {
-    echo $m->render("partials/checkout_form", [
-        "failed"=> true,
-        "name"=>$order_details['name'],
-        "email"=>$order_details['email'],
-        "address1"=>$order_details['delivery-address1'],
-        "address2"=>$order_details['delivery-address2'],
-        "town"=>$order_details['delivery-town'],
-        "postcode"=>$order_details['delivery-postcode'],
-        "country"=>$order_details['delivery-country'],
-        "billing-address1"=>$order_details['billing-address1'],
-        "billing-address2"=>$order_details['billing-address2'],
-        "billing-town"=>$order_details['billing-town'],
-        "billing-postcode"=>$order_details['billing-postcode'],
-        "billing-country"=>$order_details['billing-country'],
-        "cc_name"=>$order_details['cc_name'],
-        "cc_number"=>$order_details['cc_number'],
-        "cc_exp_month"=>$order_details['cc_exp_month'],
-        "cc_exp_year"=>$order_details['cc_exp_year'],
-        "countries"=>$countries
-    ]);
-}
-
+echo $m->render('shop/payment', ["checkout_id"=>$response->id, "amount"=>$order_details['totals']['total']]);

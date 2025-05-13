@@ -1,4 +1,5 @@
 {{>html_header}}
+        <div id="paymentTarget"></div>
         <section class="cartContainer" hx-get="/functions/shop/cart_items.php?checkout=true" hx-trigger="load, cartUpdated from:body">
         </section>
         <section class="cart-item">
@@ -16,12 +17,12 @@
         </section>
     <div class="main">
         <section class="checkout-container">
-        {{>checkout_form}}
+            {{>checkout_form}}
         </section>
     </div>
-    <script src="/js/lib/cleave-zen.umd.js"></script>
-    <script src="/js/lib/cleave-zen.index.js"></script>
-    <script src="/js/lib/cleave-zen.common.js"></script>
-    <script src="/js/shop/validCard.js" type="module"></script>
     <script src="/js/shop/shopUI.js"></script>
+    <script src="https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js"></script>
+    <script src="/js/shop/processPayment.js"></script>
+    <script src="/js/shop/getResponseScreen.js"></script>
+    <script src="/js/shop/updateOrder.js"></script>
 {{>html_footer}}

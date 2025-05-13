@@ -6,6 +6,11 @@ body {
   color: var(--stdColour);
 }
 
+h2 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 p.small {
   font-size: var(--fontSmall);
 }
@@ -111,6 +116,10 @@ p {
 h1 {
   font-family: var(--headingFont);
   font-size: 2em;
+}
+
+.error {
+  color: var(--errorColour);
 }
 
 .callout {
