@@ -4,8 +4,6 @@ namespace SUCheckout;
 
 require(base_path("../secure/env/config.php"));
 
-p_2(SU_API_KEY);
-
 class SUCheckout
 {
     private $headers;
