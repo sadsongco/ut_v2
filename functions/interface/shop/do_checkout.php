@@ -37,6 +37,8 @@ $saved_order = insertOrderIntoDB($order_details, $db);
 use SUCheckout\SUCheckout;
 $checkout = new SUCheckout($saved_order);
 
+exit();
+
 $response = $checkout->createCheckout()->getResponse();
 
 echo $m->render('shop/payment', ["checkout_id"=>$response->id, "amount"=>$order_details['totals']['total']]);

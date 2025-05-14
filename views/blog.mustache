@@ -1,21 +1,14 @@
-{{>html_header}}
-    <div class="tabs">
-        <ul>
-        {{#tabs}}
-            <a href="/{{path}}/{{tab_id}}" {{#active}}class="active"{{/active}}><li>{{tab_name}}</li></a>
-        {{/tabs}}
-        </ul>
-    </div>
-    <div class="tab">
-        <section class="articleContainer">
-            {{#article}}
-                {{>article}}
-            {{/article}}
-        </section>
-        <section class="articleLinks">
-        {{#linked_articles}}
-            <a class="articleLink" href="/{{path}}/{{tab_id}}/{{article_id}}">&gt;&gt; {{title}}</a>
-        {{/linked_articles}}
-        </section>
-    </div>
-{{>html_footer}}
+
+<section class="articleContainer">
+    {{#article}}
+        {{>article}}
+    {{/article}}
+</section>
+<section class="articleLinks">
+    {{#next_article}}
+        <button hx-get="/content?article_id={{next_article}}" hx-target="#blog-content" hx-replace="innerHTML">Next Blog</button>
+    {{/next_article}}
+    {{#prev_article}}
+        <button hx-get="/content?article_id={{prev_article}}" hx-target="#blog-content" hx-replace="innerHTML">Previous Blog</button>
+    {{/prev_article}}
+</section>

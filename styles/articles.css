@@ -101,6 +101,7 @@
 
 .articleContent {
   padding: var(--stdPaddingMedium);
+  text-align: left;
 }
 
 .articleContent br {

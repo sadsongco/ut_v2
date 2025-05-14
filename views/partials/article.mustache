@@ -15,45 +15,4 @@
         </div>
         <div class="clearBoth"></div>
     </article>
-    {{^preview}}
-    <div class="commentAcc" id="commentAcc_{{article_id}}">
-        {{#show_comments}}
-            <section class="commentAccExpand hide">
-        {{/show_comments}}
-        {{^show_comments}}
-            <section class="commentAccExpand">
-        {{/show_comments}}
-            <div class="commentHeadMsg">
-                Show comments
-            </div>
-            <div class="commentHeadShow" onclick="openAcc()">
-                +
-            </div>
-        </section>
-        {{#show_comments}}
-            <section class="commentAccCollapse">
-        {{/show_comments}}
-        {{^show_comments}}
-            <section class="commentAccCollapse hide">
-        {{/show_comments}}
-            <div class="commentHeadMsg">
-                Hide comments
-            </div>
-            <div class="commentHeadShow" onclick="closeAcc()">
-                -
-            </div>
-        </section>
-        {{#show_comments}}
-            <section class="commentsContainer">
-        {{/show_comments}}
-        {{^show_comments}}
-            <section class="commentsContainer collapsed">
-        {{/show_comments}}
-            {{>comments}}
-        </section>
-        <section class="commentForm collapsed" id="commentForm_{{article_id}}">
-            {{>commentForm}}
-        </section>
-    </div>
-    {{/preview}}
 </section>

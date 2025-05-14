@@ -7,36 +7,43 @@ define("IMAGE_UPLOAD_PATH", "/assets/images/article_images/");
 use Database\Database;
 $db = new Database('content');
 
-function getTabs($db) {
+function getLatestArticleId ($db) {
     try {
-        $query = "SELECT * FROM tabs ORDER BY tab_id ASC;";
-        return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        $query = "SELECT MAX(article_id) as latest_article_id FROM articles;";
+        $result =  $db->query($query)->fetch();
+        return $result['latest_article_id'];
     }
     catch (PDOException $e) {
-        throw new Exception ($e->getMessage());
+        throw new Exception($e);
     }
 }
 
-function getArticles($db, $tab_id) {
+function getArticle($db, $article_id) {
     try {
-        $query = "SELECT article_id,
-                        title
-                    FROM articles
-                    WHERE tab = ?
-                    AND draft = 0
-                    AND added <= NOW()
-                    ORDER BY added DESC;";
-        return $db->query($query, [$tab_id])->fetchAll();
+        $query = "SELECT title, body, DATE_FORMAT(added, '%d %M %Y') as added FROM articles WHERE article_id = ?;";
+        return $db->query($query, [$article_id])->fetch();
     }
     catch (PDOException $e) {
         throw new Exception($e->getMessage());
     }
 }
 
-function getArticle($db, $article_id) {
+function getPrevArticle($db, $article_id) {
     try {
-        $query = "SELECT * FROM articles WHERE article_id = ?;";
-        return $db->query($query, [$article_id])->fetch();
+        $query = "SELECT article_id FROM articles WHERE article_id < ? ORDER BY added DESC LIMIT 1;";
+        $result = $db->query($query, [$article_id])->fetch();
+        return $result['article_id'] ?? false;
+    }
+    catch (PDOException $e) {
+        throw new Exception($e->getMessage());
+    }
+}
+
+function getNextArticle($db, $article_id) {
+    try {
+        $query = "SELECT article_id FROM articles WHERE article_id > ? ORDER BY added ASC LIMIT 1;";
+        $result = $db->query($query, [$article_id])->fetch();
+        return $result['article_id'] ?? false;
     }
     catch (PDOException $e) {
         throw new Exception($e->getMessage());
@@ -51,27 +58,15 @@ if (!$paths) {
     $show_tab = $paths[0];
 }
 
+$show_article = getLatestArticleId($db);
+if (isset($_GET['article_id']) && is_numeric($_GET['article_id'])) {
+    $show_article = $_GET['article_id'];
+}
 
 try {
-    $tabs = getTabs($db);
-    foreach ($tabs as &$tab) {
-        if ($tab['tab_id'] == $show_tab) {
-            $tab['active'] = 'active';
-        }
-    }
-    $articles = getArticles($db, $show_tab);
-    if (!$paths || !isset($paths[1])) {
-        $show_article = $articles[0]['article_id'];
-    } else {
-        $show_article = $paths[1];
-    }
-    $linked_articles = [];
-    foreach ($articles as $article) {
-        if ($article['article_id'] != $show_article) {
-            $linked_articles[] = $article;
-        }
-    }
     $article = getArticle($db, $show_article);
+    $prev_article = getPrevArticle($db, $show_article);
+    $next_article = getNextArticle($db, $show_article);
     $auth = [];
     $article['body'] = parseBody($article['body'], $db, $auth, $this->renderer, $host);
 }
@@ -81,4 +76,4 @@ catch (Exception $e) {
 
 $blog_stylesheets = ['articles'];
 
-echo $this->renderer->render('blog', ['tabs' => $tabs, 'tab_id'=>$show_tab, 'path'=>$path, 'article'=>$article, 'linked_articles'=>$linked_articles, 'nav' => $this->nav, 'stylesheets' => $blog_stylesheets]);
+echo $this->renderer->render('blog', ['article'=>$article, 'next_article'=>$next_article, 'prev_article'=>$prev_article]);

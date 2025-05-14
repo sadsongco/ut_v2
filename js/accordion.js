@@ -3,6 +3,12 @@ const resize = async (e) => {
   await resizeAccordion(item);
 };
 
+const resizeHTMX = async (e) => {
+  const item = e.detail.target;
+  if (item.id !== 'blog-content') return;
+  item.style.maxHeight = `${item.scrollHeight}px`;
+};
+
 const resizeAccordion = async (item) => {
   closeOpenAccordion(item.id);
   const target = document.getElementById(`${item.id}-content`);
@@ -40,3 +46,5 @@ accordionContent.forEach((item) => {
   let header = item.querySelector('header');
   header.addEventListener('click', resize);
 });
+
+document.body.addEventListener('htmx:afterSettle', resizeHTMX);
