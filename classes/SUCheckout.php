@@ -36,7 +36,7 @@ class SUCheckout
     {
         $post_body = json_encode([
             'checkout_reference' => $this->order_details['order_id'],
-            'merchant_code' => 'MDKGXUMF',
+            'merchant_code' => SU_MERCHANT_CODE,
             'currency' => 'GBP',
             'amount' => $this->order_details['totals']['total']
         ]);
@@ -52,7 +52,7 @@ class SUCheckout
         return $this;
     }
 
-    function processCheckout()
+    public function processCheckout()
     {
         $post_body = json_encode([
             'payment_type'=>'card',
@@ -90,7 +90,7 @@ class SUCheckout
         return $this;
     }
 
-    function retrieveCheckout()
+    public function retrieveCheckout()
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -99,6 +99,20 @@ class SUCheckout
         $this->response = json_decode(curl_exec($ch));
         curl_close($ch);
         return $this;
+    }
+
+    public function listTransactions()
+    {
+        echo "LIST TRANSACTIONS";
+        $url =  "https://api.sumup.com/v2.1/merchants/".SU_MERCHANT_CODE."/transactions/history";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
+        $this->response = json_decode(curl_exec($ch));
+        curl_close($ch);
+        return $this;
+
     }
 
     public function getResponse()
