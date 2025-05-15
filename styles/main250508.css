@@ -212,3 +212,13 @@ video {
   color: var(--stdBackground);
   font-family: var(--stdFont);
 }
+
+@media screen and (max-width: 900px) {
+  main,
+  .show,
+  .accordion,
+  .accordion-content {
+    padding: 0;
+    width: 100%;
+  }
+}
