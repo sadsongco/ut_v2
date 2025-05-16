@@ -24,6 +24,10 @@ class ShopRouter extends Router
             'name' => 'Success',
             'controller' => 'shop/success'
         ],
+        'download' => [
+            'name' => 'Download',
+            'controller' => 'shop/download'
+        ],
         'item' => [
             'name' => 'Item',
             'controller' => 'shop/item'
