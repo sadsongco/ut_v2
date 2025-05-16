@@ -2,7 +2,9 @@
 </div>
 
 <script type="text/javascript">
-    SumUpCard.mount({
+
+  document.getElementById('sumup-card').style.display = "block";
+  SumUpCard.mount({
     id: 'sumup-card',
     checkoutId: '{{checkout_id}}',
     currency: 'GBP',

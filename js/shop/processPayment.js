@@ -8,4 +8,5 @@ const processPayment = async (type, body) => {
     target.innerHTML = output;
     popOver.style.display = 'none';
   }
+  window.location.href = '/shop/success';
 };

@@ -15,3 +15,19 @@ const mirrorDeliveryAddress = (e) => {
 const updateShippingMethods = (e) => {
   console.log(e.target.value);
 };
+
+window.addEventListener('keydown', async (e) => {
+  if (e.key !== 'Escape') return;
+  document.getElementById('sumup-card').style.display = 'none';
+  const postBody = new FormData();
+  postBody.append('status', 'FAILED');
+  const apiURL = '/functions/interface/shop/update_order.php';
+  try {
+    const res = await fetch(apiURL, {
+      method: 'POST',
+      body: postBody,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+});

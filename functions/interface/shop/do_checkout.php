@@ -34,9 +34,11 @@ $order_details['shipping_method'] = $_SESSION['shipping_method']['shipping_metho
 
 $saved_order = insertOrderIntoDB($order_details, $db);
 
+$_SESSION['order_id'] = $saved_order['order_id'];
+
 use SUCheckout\SUCheckout;
 $checkout = new SUCheckout($saved_order);
 
 $response = $checkout->createCheckout()->getResponse();
 
-echo $m->render('shop/payment', ["checkout_id"=>$response->id, "amount"=>$order_details['totals']['total']]);
+echo $m->render('shop/payment', ["checkout_id"=>$response->id, "name"=>$order_details['name'], "amount"=>$order_details['totals']['total']]);
