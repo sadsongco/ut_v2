@@ -25,6 +25,14 @@ if (isset($_POST['status']) && $_POST['status'] == 'FAILED') {
     exit();
 }
 
+$query = "UPDATE New_Orders SET transaction_id = ?";
+try {
+    $db->query($query, [$_POST['transaction_id']]);
+}
+catch (Exception $e) {
+    error_log($e);
+}
+
 $response = [
     'status' => 'success',
     'response'=> $_POST
