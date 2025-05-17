@@ -82,7 +82,7 @@ function updateCustomer($order_details, $customer_id, $db) {
 }
 function insertOrderIntoOrderTable($order_details, $db) {
     try {
-    $query = "INSERT INTO Orders VALUES (NULL, NULL, ?, ?, ?, ?, ?, ?, 0, NULL, NOW(), 0, NULL, NULL, NULL, NULL, NULL)";
+    $query = "INSERT INTO Orders (customer_id, shipping_method, subtotal, shipping, vat, total, printed, order_date, label_printed) VALUES (?, ?, ?, ?, ?, ?, 0, NOW(), 0)";
     $params = [
             $order_details['customer_id'],
             $order_details['shipping_method'],

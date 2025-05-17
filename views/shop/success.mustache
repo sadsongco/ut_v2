@@ -4,9 +4,9 @@
     <div class="checkout-container">
         <h2>Thank you for your order</h2>
         <p>Your order {{order_id}} has been received. It will be sent out to you within 2 working days. When it is sent you will receive an email where you can track your parcel</p>
-        <p>If you would like to download a pdf of your receipt you can do so here: <a href="/functions/interface/shop/download_invoice.php">Download invoice</a></p>
+        <p>If you would like to download a pdf of your receipt you can do so here: <a href="/functions/interface/shop/download_invoice.php?id={{order_id}}&token={{customer_token}}" download>Download invoice</a></p>
         {{#download_tokens}}
-            <div>You can download your digital copy of {{name}} <a href="/shop/download/{{download_token}}" target="_blank">here</a></div>
+            <div>You can download your digital copy of {{name}} <a href="/shop/download/{{download_token}}" download>here</a></div>
         {{/download_tokens}}
     </div>
 </section>

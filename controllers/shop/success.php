@@ -4,8 +4,9 @@ session_start();
 
 include(__DIR__ . "/../../functions/functions.php");
 require (base_path("../secure/env/config.php"));
-require(base_path("/functions/utility/create_unique_token.php"));
-require(base_path("/functions/utility/decrypt_token.php"));
+require (base_path("/functions/utility/create_unique_token.php"));
+//Load Composer's autoloader
+require (base_path('../lib/vendor/autoload.php'));
 
 use Database\Database;
 $db = new Database('orders');
@@ -31,6 +32,10 @@ foreach ($_SESSION['items'] AS $item) {
     $download_tokens[] = ["name"=>$item_name, "download_token"=>$download_token];
 }
 
-echo $this->renderer->render('shop/success', ["order_id"=>$_SESSION['order_id'], "download_tokens"=>$download_tokens, "stylesheets"=>["shop"]]);
+$query = "SELECT customer_id FROM Orders WHERE order_id = ?";
+$customer_id = $db->query($query, [$order_db_id])->fetch()['customer_id'];
+$customer_token = createUniqueToken($customer_id);
+
+echo $this->renderer->render('shop/success', ["order_id"=>$_SESSION['order_id'], "download_tokens"=>$download_tokens, "order_id"=>$order_db_id, "customer_token"=>$customer_token, "stylesheets"=>["shop"]]);
 
 // session_destroy();

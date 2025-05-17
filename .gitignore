@@ -3,3 +3,4 @@
 *.htaccess
 
 assets/images/article_images/
+tmp/
