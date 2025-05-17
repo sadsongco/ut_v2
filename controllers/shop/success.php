@@ -18,22 +18,16 @@ $db = new Database('orders');
 $order_db_id = explode("-", $_SESSION['order_id'])[1];
 
 $download_tokens = [];
+$preorder_items = [];
+
 foreach ($_SESSION['items'] AS $item) {
-    $query = "SELECT name, download FROM Items WHERE item_id = ?";
-    $res = $db->query($query, [$item['item_id']])->fetch();
-    if (!isset($res['download']) || $res['download'] == "") continue;
-    $item_name = $res['name'];
-    $query = "SELECT download_token_id FROM download_tokens WHERE order_id = ? AND item_id = ?";
-    $res = $db->query($query, [$order_db_id, $item['item_id']])->fetch();
-    if (isset($res['download_token_id'])) {
-        $download_token = createUniqueToken($res['download_token_id']);
+    checkItemForDownloadRelease($item, $order_db_id, $db, $download_tokens, $preorder_items);
+}
+
+foreach($_SESSION['bundles'] AS $bundle) {
+    foreach ($bundle['items'] AS $item) {
+        checkItemForDownloadRelease($item, $order_db_id, $db, $download_tokens, $preorder_items);
     }
-    else {
-        $query = "INSERT INTO Download_tokens (order_id, item_id) VALUES (?, ?)";
-        $db->query($query, [$order_db_id, $item['item_id']]);
-        $download_token = createUniqueToken($db->lastInsertId());
-    }
-    $download_tokens[] = ["name"=>$item_name, "download_token"=>$download_token];
 }
 
 $query = "SELECT customer_id FROM New_Orders WHERE order_id = ?";
@@ -73,6 +67,36 @@ catch (Exception $e) {
     echo $e->getMessage();
 }
 
-echo $this->renderer->render('shop/success', ["order_id"=>$_SESSION['order_id'], "download_tokens"=>$download_tokens, "order_db_id"=>$order_db_id, "customer_token"=>$customer_token, "stylesheets"=>["shop"]]);
+echo $this->renderer->render('shop/success', [
+    "order_id"=>$_SESSION['order_id'],
+    "download_tokens"=>$download_tokens,
+    "preorder_items"=>$preorder_items,
+    "order_db_id"=>$order_db_id,
+    "customer_token"=>$customer_token,
+    "stylesheets"=>["shop"]]);
 
 // session_destroy();
+
+function checkItemForDownloadRelease($item, $order_db_id, $db, &$download_tokens, &$preorder_items)
+{
+    $query = "SELECT name, download, release_date, DATE_FORMAT(release_date, '%D %b %Y') as disp_release_date FROM Items WHERE item_id = ?";
+    $res = $db->query($query, [$item['item_id']])->fetch();
+    if (!isset($res['download']) || $res['download'] == "") return false;
+    if (isset($res['release_date']) && $res['release_date'] > date("Y-m-d")) {
+        $preorder_items[] = ["preorder"=>true, "release_date"=>$res['disp_release_date'], "name"=>$res['name']];
+        return false;
+    }
+    $item_name = $res['name'];
+    $query = "SELECT download_token_id FROM download_tokens WHERE order_id = ? AND item_id = ?";
+    $res = $db->query($query, [$order_db_id, $item['item_id']])->fetch();
+    if (isset($res['download_token_id'])) {
+        $download_token = createUniqueToken($res['download_token_id']);
+    }
+    else {
+        $query = "INSERT INTO Download_tokens (order_id, item_id) VALUES (?, ?)";
+        $db->query($query, [$order_db_id, $item['item_id']]);
+        $download_token = createUniqueToken($db->lastInsertId());
+    }
+    $download_tokens[] = ["name"=>$item_name, "download_token"=>$download_token];
+    return true;
+}
