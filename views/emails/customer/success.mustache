@@ -1,0 +1,10 @@
+{{>email/emailHTMLHeader}}
+{{#order}}
+    <p>Dear {{name}},</p>
+    <p>Thank you for your order {{order_id}}. It will be shipped within 2 working days by {{service_name}}.<br>
+    A pdf of your order is attached.<p>
+    <p>We really appreciate you ordering direct from us, it helps us to keep making more music!</p>
+    <p>Sincerely,<br>
+    Nigel Powell, Unbelievable Truth</p>
+{{/order}}
+{{>email/emailHTMLFooter}}

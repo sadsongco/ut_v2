@@ -4,6 +4,7 @@ include_once(__DIR__ . "/../../functions/functions.php");
 include_once(base_path("functions/shop/get_categories.php"));
 require(base_path("../secure/env/config.php"));
 require(base_path("functions/utility/decrypt_token.php"));
+require(base_path("functions/utility/trigger_download.php"));
 
 use Database\Database;
 $db = new Database('orders');
@@ -25,21 +26,7 @@ if (!$filename) exit("Invalid Token");
 
 $file_path = base_path(DOWNLOAD_PATH . $filename);
 
-try {
-    header("Pragma: public");
-    header("Expires: 0");
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("Cache-Control: private",false);
-    header("Content-Type: " . mime_content_type($file_path));
-    header("Content-Disposition: attachment; filename=".$filename);
-    header("Content-Transfer-Encoding: binary");
-    header("Content-Length: ".filesize($file_path));
-    readfile($file_path);
-}
-catch (Exception $e) {
-    error_log($e);
-    exit("There was an error. Please try again or contact info@unbelievabletruth.co.uk");
-}
+triggerDownload($filename, $file_path);
 
-$query = "DELETE FROM download_tokens WHERE download_token_id = ?";
-$db->query($query, [$id]);
+// $query = "DELETE FROM download_tokens WHERE download_token_id = ?";
+// $db->query($query, [$id]);
