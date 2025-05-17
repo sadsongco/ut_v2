@@ -2,23 +2,23 @@
 
 function createOrderPDF($order_id, $db) {
     try {
-        $query = "SELECT CONCAT(DATE_FORMAT(Orders.order_date, '%y%m%d'), '-', Orders.order_id) AS order_id, Orders.subtotal, Orders.vat, Orders.total,
+        $query = "SELECT CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_id, New_Orders.subtotal, New_Orders.vat, New_Orders.total,
                         Customers.name, Customers.address_1, Customers.address_2, Customers.city, Customers.postcode, Countries.name as country,
-                        DATE_FORMAT(Orders.order_date, '%D %M %Y') AS order_date,
-                        Orders.shipping, Orders.shipping_method
-                    FROM Orders
-                    LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
+                        DATE_FORMAT(New_Orders.order_date, '%D %M %Y') AS order_date,
+                        New_Orders.shipping, New_Orders.shipping_method
+                    FROM New_Orders
+                    LEFT JOIN Customers ON New_Orders.customer_id = Customers.customer_id
                     LEFT JOIN Countries ON Customers.country = Countries.country_id
-                    WHERE Orders.order_id = ?
+                    WHERE New_Orders.order_id = ?
                 ;";
             $result = $db->query($query, [$order_id])->fetch();
             $sub_query = "SELECT Items.name, 
-                            Order_items.amount,
-                            FORMAT(Order_items.order_price * Order_items.amount, 2) AS item_total,
-                            FORMAT(Order_items.order_price, 2) AS price
-                            FROM Order_items
-                            LEFT JOIN Items ON Order_items.item_id = Items.item_id
-                            WHERE Order_items.order_id = ?;";
+                            New_Order_items.amount,
+                            FORMAT(New_Order_items.order_price * New_Order_items.amount, 2) AS item_total,
+                            FORMAT(New_Order_items.order_price, 2) AS price
+                            FROM New_Order_items
+                            LEFT JOIN Items ON New_Order_items.item_id = Items.item_id
+                            WHERE New_Order_items.order_id = ?;";
             $result["items"] = $db->query($sub_query, [$order_id])->fetchAll();
         
     }

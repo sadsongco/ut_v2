@@ -17,7 +17,7 @@ if (!isset($_GET['id'])) exit("No ID");
 $customer_id = decryptUniqueToken($_GET['token']);
 $order_id = $_GET['id'];
 
-$query = "SELECT customer_id FROM Orders WHERE order_id = ?";
+$query = "SELECT customer_id FROM New_Orders WHERE order_id = ?";
 $result = $db->query($query, [$order_id])->fetch();
 if ($result['customer_id'] != $customer_id) exit("Invalid Token");
 

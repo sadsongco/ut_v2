@@ -9,7 +9,7 @@ $db = new Database('orders');
 
 if (isset($_POST['status']) && $_POST['status'] == 'FAILED') {
     $order_id = explode("-",$_SESSION['order_id'])[1];
-    $query = "DELETE FROM Orders WHERE order_id = ?";
+    $query = "DELETE FROM New_Orders WHERE order_id = ?";
     try {
         $db->query($query, [$order_id]);
     }

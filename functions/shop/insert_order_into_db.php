@@ -82,7 +82,17 @@ function updateCustomer($order_details, $customer_id, $db) {
 }
 function insertOrderIntoOrderTable($order_details, $db) {
     try {
-    $query = "INSERT INTO Orders (customer_id, shipping_method, subtotal, shipping, vat, total, printed, order_date, label_printed) VALUES (?, ?, ?, ?, ?, ?, 0, NOW(), 0)";
+    $query = "INSERT INTO New_Orders
+        (customer_id,
+        shipping_method,
+        subtotal,
+        shipping,
+        vat,
+        total,
+        printed,
+        order_date,
+        label_printed)
+        VALUES (?, ?, ?, ?, ?, ?, 0, NOW(), 0)";
     $params = [
             $order_details['customer_id'],
             $order_details['shipping_method'],
@@ -101,7 +111,7 @@ function insertOrderIntoOrderTable($order_details, $db) {
 
 function insertItemIntoOrderTable($order_details, $item, $db) {
     try {
-            $query = "INSERT INTO Order_items VALUES (
+            $query = "INSERT INTO New_Order_items VALUES (
             NULL,
             ?,
             ?,
@@ -113,6 +123,7 @@ function insertItemIntoOrderTable($order_details, $item, $db) {
                     $item['amount'],
                     $item['price']
             ];
+            p_2($params);
             $db->query($query, $params);
     } catch (Exception $e) {
             throw new Exception($e);
@@ -135,6 +146,6 @@ function insertBundleIntoOrderTable($order_details, $bundle, $db) {
 
 function createOrderID($order_id, $db)
 {
-    $date_str = $db->query("SELECT DATE_FORMAT(`order_date`, '%Y%m%d') FROM `Orders` WHERE `order_id` = ?", [$order_id])->fetch()['DATE_FORMAT(`order_date`, \'%Y%m%d\')'];
+    $date_str = $db->query("SELECT DATE_FORMAT(`order_date`, '%Y%m%d') FROM `New_Orders` WHERE `order_id` = ?", [$order_id])->fetch()['DATE_FORMAT(`order_date`, \'%Y%m%d\')'];
     return "$date_str-$order_id";
 }

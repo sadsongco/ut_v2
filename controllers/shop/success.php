@@ -36,29 +36,29 @@ foreach ($_SESSION['items'] AS $item) {
     $download_tokens[] = ["name"=>$item_name, "download_token"=>$download_token];
 }
 
-$query = "SELECT customer_id FROM Orders WHERE order_id = ?";
+$query = "SELECT customer_id FROM New_Orders WHERE order_id = ?";
 $customer_id = $db->query($query, [$order_db_id])->fetch()['customer_id'];
 $customer_token = createUniqueToken($customer_id);
 
 try {
     $query = "SELECT
-            CONCAT(DATE_FORMAT(Orders.order_date, '%y%m%d'), '-', Orders.order_id) AS order_id,
+            CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_id,
             Shipping_methods.service_name,
             Customers.name,
             Customers.email
-        FROM Orders
-        JOIN Customers ON Orders.customer_id = Customers.customer_id
-        JOIN Shipping_methods ON Orders.shipping_method = Shipping_methods.shipping_method_id
-        WHERE Orders.order_id = ?";
+        FROM New_Orders
+        JOIN Customers ON New_Orders.customer_id = Customers.customer_id
+        JOIN Shipping_methods ON New_Orders.shipping_method = Shipping_methods.shipping_method_id
+        WHERE New_Orders.order_id = ?";
     $order = $db->query($query, [$order_db_id])->fetch();
 
     $query = "SELECT
             Items.name,
-            Order_items.amount,
-            Order_items.order_price
-        FROM `Order_items`
-        JOIN `Items` ON `Order_items`.`item_id` = `Items`.`item_id`
-        WHERE `Order_items`.`order_id` = ?";
+            New_Order_items.amount,
+            New_Order_items.order_price
+        FROM `New_Order_items`
+        JOIN `Items` ON `New_Order_items`.`item_id` = `Items`.`item_id`
+        WHERE `New_Order_items`.`order_id` = ?";
     $items = $db->query($query, [$order_db_id])->fetchAll();
     $items_to_send = [];
     foreach ($items as $item) {
