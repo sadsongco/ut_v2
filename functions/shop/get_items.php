@@ -15,5 +15,10 @@ function getItems($db, $category=null)
     $where
     GROUP BY Items.item_id
     ORDER BY featured DESC";
-    return $db->query($query, $params)->fetchAll();
+    $items = $db->query($query, $params)->fetchAll();
+    foreach ($items as &$item) {
+        $item_options = $db->query("SELECT * FROM Item_options WHERE item_id = ? AND option_stock > 0", [$item['item_id']])->fetchAll();
+        $item['option'] = sizeof($item_options) > 0 ? ['options'=>$item_options] : false;
+    }
+    return $items;
 }

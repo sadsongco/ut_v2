@@ -30,7 +30,7 @@ function getBundles($db, $category=null)
         $bundle['raw_price'] = 0;
         foreach ($bundle['items'] as &$item) {
             $bundle['raw_price'] += $item['price'];
-            $item_options = $db->query("SELECT * FROM Item_options WHERE item_id = ?", [$item['item_id']])->fetchAll();
+            $item_options = $db->query("SELECT * FROM Item_options WHERE item_id = ? AND option_stock > 0", [$item['item_id']])->fetchAll();
             $item['option'] = sizeof($item_options) > 0 ? ['options'=>$item_options] : false;
         }
         $bundle['saving'] = $bundle['raw_price'] - $bundle['price'];
