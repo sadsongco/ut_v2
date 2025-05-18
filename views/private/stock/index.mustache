@@ -9,7 +9,7 @@
             <i class="fa-solid fa-plus"></i>
         </header>
         <div class="accordion-content" id="item{{item_id}}-content">
-            <form hx-post="/private/functions/interface/stock/update_item.php">
+            <form id="item{{item_id}}" hx-post="/private/functions/interface/stock/update_item.php">
                 <div class="update-stock-item">
                     <input type="hidden" name="item_id" value="{{item_id}}">
                     <label for="item{{item_id}}_name" >Name</label>
@@ -25,7 +25,7 @@
                         {{/categories}}
                     </select>
                     <label for="item{{item_id}}_image" >Name</label>
-                    <input type="text" name="image" id="item{{item_id}}_image" value="{{image}}"">
+                    <input type="text" name="image" id="item{{item_id}}_image" value="{{image}}">
                     <label for="item{{item_id}}_weight">Weight</label>
                     <input type="number" name="weight" id="item{{item_id}}_weight" step="0.001" value="{{weight}}">
                     <label for="item{{item_id}}_customs_description" >customs description</label>
@@ -42,13 +42,88 @@
                     <input type="number" name="width_mm" id="item{{item_id}}_width_mm" step="1" value="{{width_mm}}">
                     <label for="item{{item_id}}_depth_mm">depth_mm</label>
                     <input type="number" name="depth_mm" id="item{{item_id}}_depth_mm" step="1" value="{{depth_mm}}">
-                    <input type="submit" value="Update Item">
+                    <input type="submit" value="Update Item" name="update_item">
+                </div>
+            </form>
+            {{#options}}
+            <form hx-post="/private/functions/interface/stock/update_item.php">
+                <div class="update-stock-item">
+                    <input type="hidden" name="item_option_id" value="{{item_option_id}}">
+                    <label for="item{{item_id}}_option{{option_id}}_stock">Option {{option_name}} stock</label>
+                    <input type="number" id="option{{option_id}}_stock" name="option_stock" value="{{option_stock}}">
+                    <input type="submit" value="Update Option Stock" name="update_option">
+                </div>
+            </form>
+            {{/options}}
+            <form hx-post="/private/functions/interface/stock/update_item.php">
+                <div class="update-stock-item">
+                    <input type="hidden" name="item_id" value="{{item_id}}">
+                    <label for="option_name">Option Name</label>
+                    <input type="text" name="option_name" id="option_name">
+                    <label for="option_price">Option Price</label>
+                    <input type="number" step="0.01" name="option_price" id="option_price">
+                    <label for="option_stock">Option Stock</label>
+                    <input type="number" step="1" name="option_stock" id="option_stock">
+                    <input type="submit" value="Add New Option" name="add_new_option">
+                </div>
+            </form>
+            <form hx-post="/private/functions/interface/stock/update_item.php" hx-confirm="Do you definitely want to delete this item? No undo">
+                <div class="update-stock-item">
+                    <input type="hidden" name="item_id" value="{{item_id}}">
+                    <input type="submit" value="Delete Item" name="delete_item">
                 </div>
             </form>
         </div>
     </section>
 
 {{/items}}
+<section class="callout">
+    <h1>Add Item</h1>
+</section>
+<section class="show accordion" id="createItem">
+    <header data-targetid="createItem">
+        <h2>Create Item</h2>
+        <i class="fa-solid fa-plus"></i>
+    </header>
+    <div class="accordion-content" id="createItem-content">
+        <form hx-post="/private/functions/interface/stock/create_item.php" enctype="multipart/form-data">
+            <div class="update-stock-item">
+                <label for="item_name">Item Name</label>
+                <input type="text" name="name" id="item_name" required>
+                <label for="item_price">Item Price</label>
+                <input type="number" name="price" id="item_price" required>
+                <label for="item_description">Item Description</label>
+                <textarea name="description" cols="15" rows="8" required></textarea>
+                <label for="item_category">Category</label>
+                <select name="category" id="item_category">
+                    {{#categories}}
+                        <option value="{{category}}" {{selected}}>{{category}}</option>
+                    {{/categories}}
+                </select>
+                <label for="item_image">Item Image</label>
+                <input type="file" name="image" id="item_image" required>
+                <label for="item_weight">Weight</label>
+                <input type="number" name="weight" id="item_weight" step="0.001" value="0">
+                <label for="item_customs_description" >customs description</label>
+                <input type="text" name="customs_description" id="item_customs_description" value="{{customs_description}}">
+                <label for="item_customs_code">customs code</label>
+                <input type="number" name="customs_code" id="item_customs_code" step="1" value="{{customs_code}}">
+                <label for="item_stock">stock</label>
+                <input type="number" name="stock" id="item_stock" step="1" value="0">
+                <label for="item_featured">featured</label>
+                <input type="checkbox" name="featured" id="item_featured" {{featured}}>
+                <label for="item_length_mm">length_mm</label>
+                <input type="number" name="length_mm" id="item_length_mm" step="1" value="0">
+                <label for="item_width_mm">width_mm</label>
+                <input type="number" name="width_mm" id="item_width_mm" step="1" value="0">
+                <label for="item_depth_mm">depth_mm</label>
+                <input type="number" name="depth_mm" id="item_depth_mm" step="1" value="0">
+
+                <input type="submit" value="Add Item">
+            </div>
+        </form>
+    </div>
+</section>
 <section class="callout">
     <h1>Add Bundle</h1>
 </section>

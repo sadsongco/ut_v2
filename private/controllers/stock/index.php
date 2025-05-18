@@ -18,6 +18,8 @@ foreach ($items as &$item) {
             $category['selected'] = "selected";
         }
     }
+    $query = "SELECT * FROM Item_options WHERE item_id = ?";
+    $item['options'] = $db->query($query, [$item['item_id']])->fetchAll();
 }
 
-echo $this->renderer->render('stock/index', ["items"=>$items, "stylesheets"=>["stock"]]);
+echo $this->renderer->render('stock/index', ["items"=>$items, "categories"=>$categories, "stylesheets"=>["stock"]]);

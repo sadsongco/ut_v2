@@ -3,4 +3,5 @@
 *.htaccess
 
 assets/images/article_images/
+assets/images/shop/item_images/
 tmp/

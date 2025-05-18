@@ -4,4 +4,6 @@
   row-gap: var(--stdMarginSmall);
   column-gap: var(--stdMarginSmall);
   padding: var(--stdPaddingSmall);
+  border-bottom: 2px solid black;
+  border-radius: 5px;
 }
