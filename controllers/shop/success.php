@@ -15,6 +15,8 @@ require (base_path('../lib/vendor/autoload.php'));
 use Database\Database;
 $db = new Database('orders');
 
+if (!isset($_SESSION['order_id'])) exit($this->renderer->render('shop/success', ["stylesheets"=>["shop"]]));
+
 $order_db_id = explode("-", $_SESSION['order_id'])[1];
 
 $download_tokens = [];
@@ -75,7 +77,7 @@ echo $this->renderer->render('shop/success', [
     "customer_token"=>$customer_token,
     "stylesheets"=>["shop"]]);
 
-// session_destroy();
+session_destroy();
 
 function checkItemForDownloadRelease($item, $order_db_id, $db, &$download_tokens, &$preorder_items)
 {
