@@ -6,12 +6,19 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+
 function sendCustomerEmail($order, $template, $db, $m) {
+    $subjects = [
+        "success" => "you have placed an order",
+        "shipped" => "your order has shipped"
+    ];
     // create pdf for order
     $order_db_id = explode("-", $order['order_id'])[1];
     $filename = createOrderPDF($order_db_id, $db);
     // send email
     require(base_path("../secure/mailauth/ut.php"));
+    $subject = "Unbeleivable Truth - ";
+    $subject .= $subjects[$template];
     $email = $m->render("emails/customer/$template", ["order"=>$order]);
 
     // mail auth
@@ -29,7 +36,7 @@ function sendCustomerEmail($order, $template, $db, $m) {
     $mail->Password = $mail_auth['password'];
     $mail->setFrom($mail_auth['from']['address'], $from_name);
     $mail->addReplyTo($mail_auth['reply']['address'], $from_name);
-    $mail->Subject = "Unbelievable Truth - your order has shipped";
+    $mail->Subject = $subject;
     $mail->msgHTML($email);
     $mail->addAddress($send_to, $order['name']);
     // $mail->addAddress("nigel@thesadsongco.com", "Nigel");

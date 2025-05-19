@@ -23,10 +23,12 @@ $order_db_id = explode("-", $_SESSION['order_id'])[1];
 $download_tokens = [];
 $preorder_items = [];
 
+if (!isset($_SESSION['items'])) $_SESSION['items'] = [];
 foreach ($_SESSION['items'] AS $item) {
     checkItemForDownloadRelease($item, $order_db_id, $db, $download_tokens, $preorder_items);
 }
 
+if (!isset($_SESSION['bundles'])) $_SESSION['bundles'] = [];
 foreach($_SESSION['bundles'] AS $bundle) {
     foreach ($bundle['items'] AS $item) {
         checkItemForDownloadRelease($item, $order_db_id, $db, $download_tokens, $preorder_items);
