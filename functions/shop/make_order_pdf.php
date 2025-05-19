@@ -71,6 +71,10 @@ class ORDER_PDF extends FPDF {
         $this->SetTextColor(...self::ITEM_GREY);
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 8, iconv('UTF-8', "CP1250//TRANSLIT", $item["name"]), 0, 0, 'L');
+        if (!isset($item['price'])) {
+            $this->Cell(0, 8, "", 0, 1, 'R');
+            return;
+        }
         $this->SetX(self::ITEM_POS[2]);
         $amount = "{$item['amount']} @ ";
         $this->Cell(0, 8, $amount . GBP.$item['price'], 0, 0, 'L');
@@ -78,11 +82,20 @@ class ORDER_PDF extends FPDF {
         $this->Cell(0, 8, GBP.$item["item_total"], 0, 1, 'R');
     }
     
-    private function GetShippingCost($order) {
-        if (strtotime($order['order_date']) <  strtotime("6th October 2023")) {
-            return 0;
+    private function BundleCell ($bundle) {
+        $this->setFont('opensansregular', '', 11);
+        $this->SetTextColor(...self::ITEM_GREY);
+        $this->SetX(self::ITEM_POS[0]);
+        foreach($bundle["items"] as $item) {
+            $this->ItemCell($item);
         }
-        return $order['shipping'];
+        $this->SetX(self::ITEM_POS[0]);
+        $this->Cell(0, 8, "Bundle:", 0, 0, 'L');
+        $this->SetX(self::ITEM_POS[2]);
+        $amount = "{$bundle['amount']} @ ";
+        $this->Cell(0, 8, $amount . GBP.$bundle['price'], 0, 0, 'L');
+        $this->SetX(self::PRICE_X);
+        $this->Cell(0, 8, GBP.$bundle["bundle_total"], 0, 1, 'R');
     }
     
     private function SubTotalCell($subtotal) {
@@ -141,22 +154,21 @@ class ORDER_PDF extends FPDF {
         $this->DateCell($order);
         $this->AddressCell($order);
         $this->OrderNoCell($order["order_id"]);
-        $total = 0;
         $this->SetXY(...self::ITEM_POS);
         foreach ($order["items"] as $item) {
             $this->ItemCell($item);
-            $total += $item["price"];
+        }
+        foreach($order["bundles"] as $bundle) {
+            $this->BundleCell($bundle);
         }
         $this->Spacer();
-        $this->SubTotalCell($order['subtotal']);
+        $this->SubTotalCell(number_format($order['subtotal'], 2));
         $this->Spacer();
-        $shipping_cost = $this->GetShippingCost($order);
-        $total += $shipping_cost;
-        $this->ShippingCell($shipping_cost);
+        $this->ShippingCell(number_format($order['shipping'], 2));
         $this->Spacer();
-        $this->VatCell($order['vat']);
+        $this->VatCell(number_format($order['vat'], 2));
         $this->Spacer();
-        $this->TotalCell($total);
+        $this->TotalCell(number_format($order['total'], 2));
         $this->Spacer(20);
         $this->Note();
     }

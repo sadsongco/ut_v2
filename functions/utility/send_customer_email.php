@@ -10,10 +10,8 @@ function sendCustomerEmail($order, $template, $db, $m) {
     // create pdf for order
     $order_db_id = explode("-", $order['order_id'])[1];
     $filename = createOrderPDF($order_db_id, $db);
-
     // send email
     require(base_path("../secure/mailauth/ut.php"));
-
     $email = $m->render("emails/customer/$template", ["order"=>$order]);
 
     // mail auth

@@ -123,7 +123,6 @@ function insertItemIntoOrderTable($order_details, $item, $db) {
                     $item['amount'],
                     $item['price']
             ];
-            p_2($params);
             $db->query($query, $params);
     } catch (Exception $e) {
             throw new Exception($e);
@@ -133,10 +132,12 @@ function insertItemIntoOrderTable($order_details, $item, $db) {
 function insertBundleIntoOrderTable($order_details, $bundle, $db) {
         try {
                 $query = "INSERT INTO Order_bundles VALUES (
-                        NULL, ?, ?)";
+                        NULL, ?, ?, ?, ?)";
                 $params = [
                         $order_details['order_id'],
-                        $bundle['bundle_id']
+                        $bundle['bundle_id'],
+                        $bundle['price'],
+                        $bundle['amount']
                 ];
                 $db->query($query, $params);
         } catch (Exception $e) {

@@ -20,24 +20,25 @@ function createOrderPDF($order_id, $db) {
                             LEFT JOIN Items ON New_Order_items.item_id = Items.item_id
                             WHERE New_Order_items.order_id = ?;";
             $result["items"] = $db->query($sub_query, [$order_id])->fetchAll();
+            $query = "SELECT *, FROM Bundles LEFT JOIN Order_bundles ON Bundles.bundle_id = Order_bundles.bundle_id WHERE order_id = ?";
+            $query = "SELECT Bundles.bundle_id,
+                Order_bundles.amount,
+                FORMAT(Order_bundles.order_bundle_price, 2) AS price,
+                FORMAT(Order_bundles.order_bundle_price * Order_bundles.amount, 2) AS bundle_total
+                FROM Order_bundles
+                LEFT JOIN Bundles ON Order_bundles.bundle_id = Bundles.bundle_id
+                WHERE Order_bundles.order_id = ?";
+            $result["bundles"] = $db->query($query, [$order_id])->fetchAll();
+            foreach ($result["bundles"] as &$bundle) {
+                $query = "SELECT Items.name FROM Items JOIN Bundle_items ON Items.item_id = Bundle_items.item_id WHERE Bundle_items.bundle_id = ?";
+                $bundle["items"] = $db->query($query, [$bundle["bundle_id"]])->fetchAll();
+            }
         
     }
     
     catch (PDOException $e) {
         echo $e->getMessage();
     }
-
-    
-    $total = $result["shipping"];
-    $subtotal = 0;
-    foreach ($result["items"] as $item) {
-        $total += $item["price"] * $item["amount"];
-        $subtotal += $item["price"] * $item["amount"];
-    }
-    
-    $result["subtotal"] = round($subtotal, 4);
-    $result["total"] = round($total, 4);
-    $result["vat"] = round($result["total"] * 0.2, 4);
     
     return makeOrderPDF($result, 'F', base_path(ORDER_PDF_PATH));
 }

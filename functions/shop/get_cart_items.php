@@ -16,7 +16,8 @@ function getCartItems($items, $db, $details=true)
             $query = "SELECT
                 $item_details,
                 Item_options.option_name,
-                Item_options.option_price
+                Item_options.option_price,
+                Items.release_date
             FROM Items
             JOIN Item_options ON Item_options.item_option_id = ?
             WHERE Items.item_id = ?";

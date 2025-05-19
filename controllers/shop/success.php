@@ -7,6 +7,7 @@ require (base_path("../secure/env/config.php"));
 require (base_path("/functions/utility/create_unique_token.php"));
 require (base_path("/functions/utility/send_customer_email.php"));
 require (base_path("/functions/utility/create_order_pdf.php"));
+require (base_path('functions/shop/get_cart_contents.php'));
 require (base_path('functions/shop/make_order_pdf.php'));
 
 //Load Composer's autoloader
@@ -48,21 +49,6 @@ try {
         WHERE New_Orders.order_id = ?";
     $order = $db->query($query, [$order_db_id])->fetch();
 
-    $query = "SELECT
-            Items.name,
-            New_Order_items.amount,
-            New_Order_items.order_price
-        FROM `New_Order_items`
-        JOIN `Items` ON `New_Order_items`.`item_id` = `Items`.`item_id`
-        WHERE `New_Order_items`.`order_id` = ?";
-    $items = $db->query($query, [$order_db_id])->fetchAll();
-    $items_to_send = [];
-    foreach ($items as $item) {
-        $order["items"][] = [
-            "name" => $item["name"],
-            "amount" => $item["amount"]
-        ];
-    }
     sendCustomerEmail($order, "success", $db, $this->renderer);
 }
 catch (Exception $e) {
@@ -81,6 +67,7 @@ session_destroy();
 
 function checkItemForDownloadRelease($item, $order_db_id, $db, &$download_tokens, &$preorder_items)
 {
+
     $query = "SELECT name, download, release_date, DATE_FORMAT(release_date, '%D %b %Y') as disp_release_date FROM Items WHERE item_id = ?";
     $res = $db->query($query, [$item['item_id']])->fetch();
     if (!isset($res['download']) || $res['download'] == "") return false;
