@@ -6,5 +6,6 @@
 </div>
 <div class="cart-item">
     <a class='cart-button' href='/shop/checkout'>Checkout</a>
+    <button class="empty-cart" hx-post="/functions/interface/shop/empty_cart.php" hx-confirm="Delete all items from your cart?">Empty Cart</button>
 </div>
 {{/checkout}}

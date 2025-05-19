@@ -1,6 +1,6 @@
         <div class="item-interact">
             {{^is_bundle}}
-            <form hx-post='/functions/interface/shop/add_to_cart.php' hx-target='#cartResult{{item_id}}' hx-swap='innerHTML'>
+            <form hx-post='/functions/interface/shop/add_to_cart.php' hx-swap='innerHTML'>
             {{/is_bundle}}
                 <input type="hidden" name="item_id{{#is_bundle}}[]{{/is_bundle}}" value='{{item_id}}'>
                 {{#option}}

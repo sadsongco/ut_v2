@@ -13,7 +13,8 @@ function getBundles($db, $category=null)
     $query = "SELECT Bundles.bundle_id, Bundles.price
     FROM `Bundles`
     $where
-    WHERE `active` = 1";
+    WHERE `active` = 1
+    GROUP BY Bundles.bundle_id";
 
     $bundles = $db->query($query, $params)->fetchAll();
     foreach ($bundles as &$bundle) {

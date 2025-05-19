@@ -129,6 +129,7 @@ a.viewCartItems .viewCartBadge {
 
 .empty-cart {
   margin: var(--stdMarginSmall) 0;
+  padding: var(--stdPaddingSmall);
   width: fit-content;
 }
 
@@ -149,6 +150,10 @@ a.viewCartItems .viewCartBadge {
   column-gap: var(--stdMarginSmall);
   row-gap: var(--stdMarginMedium);
   align-items: center;
+}
+
+.item-name {
+  text-align: left;
 }
 
 .cart-item .totals-legend {

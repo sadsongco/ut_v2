@@ -11,7 +11,8 @@ if (isset($_POST['is_bundle'])) {
 }
 
 if (isset($_POST['item_id'])) {
-    $option = isset($_POST['option']) ?? false;
+
+    $option = isset($_POST['option']) && $_POST['option'] != "" ?? false;
     
     if (!isset($_SESSION['items']) || sizeof($_SESSION['items']) == 0) {
         $_SESSION['items'][] = ['item_id'=>$_POST['item_id'], 'option_id'=>$option, 'quantity'=>1];
