@@ -71,7 +71,7 @@ function getMedia($line, $db, $auth, $m, $host) {
             }
         }
         // get images
-        preg_match_all('/{{i::([0-9])+(?:::)?(l|r)?.?}}/', $line, $image_ids);
+        preg_match_all('/{{i::(([0-9])+)(?:::)?(l|r)?.?}}/', $line, $image_ids);
         if (sizeof($image_ids[1]) > 0) {
             $nl_flag = false;
             foreach ($image_ids[1] as $key=>$image_id) {
@@ -95,7 +95,6 @@ function parseLinks($line, $m) {
     }
     if (sizeof($replacements)==0) return $line;
     foreach ($replacements as $replace) {
-        // p_2($replace);
         $replace_arr = explode("::", $replace['search']);
         $replace_arr = (preg_replace('/{{\/?link}}/', "", $replace_arr));
         if (sizeof($replace_arr) == 1) $link_text = $link_url = $replace_arr[0];
@@ -105,14 +104,13 @@ function parseLinks($line, $m) {
         }
         $html_replace = $m->render('link', ["link_text"=>$link_text, "link_url"=>$link_url]);
         $line = str_replace($replace["search"], $html_replace, $line);
-        // p_2($line);
     }
     return $line;
 }
 
 function parseBody($body, $db, $auth, $m, $host) {
     $content = explode("\n", str_replace("\n\r", "\n", $body));
-    removeExpiredStreamingTokens($db);
+    // removeExpiredStreamingTokens($db);
     $output = "<p>";
     for ($x = 0; $x < sizeof($content); $x++) {
         if ($content[$x] == "" || $content[$x] == "\n") continue;

@@ -1,10 +1,8 @@
 <?php
 
 include(__DIR__ . "/../../../../functions/functions.php");
+include(base_path("../secure/env/config.php"));
 require_once(base_path("classes/Database.php"));
-
-define("RELATIVE_ROOT", "/../../..");
-define("IMAGE_UPLOAD_PATH", "/user_area/assets/images/");
 
 use Database\Database;
 $db = new Database('admin');
@@ -33,6 +31,6 @@ catch (Exception $e){
 
 $article["preview"] = true;
 
-echo $m->render('blog', $article);
+echo $m->render('blog', ["article"=>$article]);
 
 ?>

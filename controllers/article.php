@@ -2,6 +2,7 @@
 
 
 require_once(__DIR__ . "/../functions/functions.php");
+include(base_path("../secure/env/config.php"));
 
 // load mustache for all controllers
 require base_path('../lib/mustache.php-main/src/Mustache/Autoloader.php');
@@ -16,8 +17,6 @@ use Database\Database;
 $db = new Database('content');
 
 include(base_path("functions/interface/blog/get_article_media.php"));
-
-define("IMAGE_UPLOAD_PATH", "/user_area/assets/images/");
 
 $auth = [];
 
