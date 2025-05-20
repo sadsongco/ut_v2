@@ -9,14 +9,11 @@ $posters = getPosters($db);
 if ($_POST['edit_article'] != 'null') {
     try {
         $query = "SELECT * FROM articles WHERE article_id = ?";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$_POST['edit_article']]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $content = $db->query($query, [$_POST['edit_article']])->fetch();
     }
     catch (PDOException $e) {
         die ($e->getMessage());
     }
-   $content = $result[0];
    foreach ($tabs as &$tab) {
        if (intval($tab['tab_id']) == intval($content['tab'])) $tab['selected'] = 1;
    }
