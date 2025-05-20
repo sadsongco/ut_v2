@@ -1,6 +1,7 @@
 <?php
-
+include(__DIR__ . "/../../../../functions/functions.php");
 require_once(__DIR__."/includes/privateIncludes.php");
+
 
 function deleteArticle() {
     $query = "DELETE FROM articles WHERE article_id = ?;";
@@ -56,9 +57,8 @@ try {
         $query_arr = updateArticle();
     } else {
         $query_arr = insertArticle($_POST['articleDate']);
-    }    
-    $stmt = $db->prepare($query_arr[0]);
-    $stmt->execute($query_arr[1]);
+    }
+    $db->query($query_arr[0], $query_arr[1]);
 }
 catch (PDOException $e) {
     die ($e->getMessage());
@@ -89,7 +89,3 @@ echo $m->render("articleForm", [
     "tabs"=>$tabs,
     "posters"=>$posters
 ]);
-
-require_once(__DIR__."/../../../secure/scripts/ut_disconnect.php");
-
-?>
