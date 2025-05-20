@@ -1,6 +1,5 @@
 <?php
-
-require_once("../functions.php");
+require_once(__DIR__ . "/../functions.php");
 
 require_once(base_path("functions/email/email_includes.php"));
 
@@ -24,7 +23,3 @@ if (isset($post['email']) && $post['email'] != '') {
 $output = ["success"=>true];
 
 echo json_encode($output);
-
-require_once("../../secure/scripts/ut_disconnect.php");
-
-?>

@@ -6,8 +6,7 @@ function addEmailToDB($email, $name, $db) {
         (email, domain, name, last_sent, subscribed, date_added)
         VALUES
         (?, SUBSTRING_INDEX(?, '@', -1), ?, ?, ?, NOW())";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$email, $email, $name, 0, 1]);
+        $db->query($query, [$email, $email, $name, 0, 1]);
         return ['success'=>true, 'insert_id'=>$db->lastInsertId()];
     }
     catch (PDOException $e) {

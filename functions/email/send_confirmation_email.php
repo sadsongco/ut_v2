@@ -17,8 +17,8 @@ Mustache_Autoloader::register();
 function sendConfirmationEmail($row) {
     $mail = new PHPMailer(true);
     $m = new Mustache_Engine(array(
-        'loader' => new Mustache_Loader_FilesystemLoader('templates'),
-        'partials_loader' => new Mustache_Loader_FilesystemLoader('templates/partials')
+        'loader' => new Mustache_Loader_FilesystemLoader(base_path('views/emails/customer/')),
+        'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('views/partials'))
     ));
     try {
         $row['host'] = getHost();
@@ -26,7 +26,7 @@ function sendConfirmationEmail($row) {
         $body = $m->render('confirmationEmailHtml', $row);
         $text_body = $m->render('confirmationEmailText', $row);
         $subject = 'Unbelievable Truth - confirm your email';
-        require_once("../../secure/mailauth/ut.php");
+        require_once(base_path("../secure/mailauth/ut.php"));
 
         // mail auth
         $mail->isSMTP();

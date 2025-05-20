@@ -9,11 +9,13 @@ ini_set('display_errors', FALSE); // Error/Exception display, use FALSE only in 
 ini_set('log_errors', TRUE); // Error/Exception file logging engine.
 ini_set('error_log', './debug.log'); // Logging file path
 
-require_once(base_path("../secure/scripts/ut_m_connect.php"));
+require_once(base_path("classes/Database.php"));
+use Database\Database;
+$db = new Database('admin');
+
 require_once(base_path("functions/email/send_confirmation_email.php"));
 require_once(base_path("functions/email/add_email_to_db.php"));
 
 include_once(base_path('../secure/secure_id/secure_id_ut.php'));
-include_once(base_path('email_management/includes/get_host.php'));
-include_once(base_path('private/mailout/api/includes/replace_tags.php'));
+include_once(base_path('private/functions/interface/mailout/includes/replace_tags.php'));
 
