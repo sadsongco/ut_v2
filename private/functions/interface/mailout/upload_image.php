@@ -1,7 +1,20 @@
 <?php
 
+include(__DIR__ . "/../../../../functions/functions.php");
 include_once('includes/mailout_includes.php');
 include_once('includes/media_upload.php');
+require(base_path("../secure/env/config.php"));
+require_once(base_path("classes/Database.php"));
+require_once(base_path("../lib/mustache.php-main/src/Mustache/Autoloader.php"));
+Mustache_Autoloader::register();
+if (!isset($m)) {
+    $m = new Mustache_Engine(array(
+        'loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/mailout/')),
+        'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/mailout/partials/'))
+    ));
+}
+use Database\Database;
+if (!isset($db)) $db = new Database('admin');
 
 function return_bytes($val)
 {
@@ -21,7 +34,6 @@ function return_bytes($val)
     return $value;
 }
 
-define("IMAGE_UPLOAD_PATH", __DIR__."/../../../assets/images/mailout_images/");
 define("MAX_IMAGE_WIDTH", 200);
 define("IMAGE_THUMBNAIL_WIDTH", 100);
 define("MAX_FILE_SIZE", return_bytes(ini_get("upload_max_filesize")));

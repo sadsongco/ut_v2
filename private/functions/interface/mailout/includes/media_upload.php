@@ -6,8 +6,7 @@ function insertMediaDB ($files, $key, $db, $table_name) {
     $params['url'] = $files['name'][$key];
     try {
         $query = "INSERT INTO $table_name VALUES (NULL, :url, :caption);";
-        $stmt = $db->prepare($query);
-        $stmt->execute($params);
+        $db->query($query, $params);
         return $db->lastInsertId();
     }
     catch (PDOException $e) {
@@ -19,14 +18,12 @@ function fileExists($filename, $table, $tag, $db) {
     $id = "img_id";
     try {
         $query = "SELECT $id FROM $table WHERE url=?;";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$filename]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $db->query($query, [$filename])->fetch();
     }
     catch (PDOException $e) {
         return ["success"=>false, "message"=>"Database error: ".$e->getMessage()];
     }
-    $media_id = $result[0][$id];
+    $media_id = $result[$id];
     return ["success"=>false, "message"=>"File exists! Either rename the file or insert the existing version.", "tag"=>"<!--{{".$tag."::".$media_id."}}-->"];
 }
 
@@ -59,19 +56,13 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
     // this is for uploads too large - change to throw a reasonable error
     if ($files["tmp_name"][$key] == "") die ("NO TMP_NAME:<br />..");
     $files["name"][$key] = str_replace(" ", "_", $files["name"][$key]);
-    $upload_path = IMAGE_UPLOAD_PATH.$files["name"][$key];
+    $upload_path = base_path(MAILOUT_IMAGE_PATH).$files["name"][$key];
     $tag  = "i";
     if (file_exists($upload_path)) {
         return fileExists($files["name"][$key], $table, $tag, $db);
     }
 
     $uploaded_file = $files["tmp_name"][$key];
-    try {
-        $media_id = insertMediaDB($files, $key, $db, $table);
-    }
-    catch (PDOException $e) {
-        return ["success"=>false, "message"=>"Database error: ".$e->getMessage()];
-    }
     try {
         $image = null;
         $image_fnc = "";
@@ -109,12 +100,21 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
     catch (Exception $e) {
         return ["success"=>false, "message"=>"File copy error: ".$e->getMessage()];
     }
+    
+    try {
+        $media_id = insertMediaDB($files, $key, $db, $table);
+    }
+    catch (PDOException $e) {
+        return ["success"=>false, "message"=>"Database error: ".$e->getMessage()];
+    }
+    saveThumbnail($image, $files["name"][$key], $image_file_type);
+    
     return ["success"=>true, "filename"=>$files["name"][$key], "tag"=>"<!--{{".$tag."::".$media_id."}}-->"];
 }
 
-function saveThumbnail($image, $filename, $image_file_type, $upload_path=IMAGE_UPLOAD_PATH) {
+function saveThumbnail($image, $filename, $image_file_type, $upload_path=MAILOUT_IMAGE_PATH) {
     $thumbnail = imagescale($image, IMAGE_THUMBNAIL_WIDTH);
-    $file_path = $upload_path."thumbnail/".$filename;
+    $file_path = base_path($upload_path."thumbnails/".$filename);
     switch ($image_file_type) {
         case "jpg":
         case "jpeg":
