@@ -2,6 +2,9 @@
 
 include(__DIR__ . "/../../../../functions/functions.php");
 require_once('includes/mailout_includes.php');
+require_once(base_path("classes/Database.php"));
+use Database\Database;
+if (!isset($db)) $db = new Database('admin');
 
 // templating
 require base_path('../lib/mustache.php-main/src/Mustache/Autoloader.php');
