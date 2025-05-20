@@ -15,6 +15,18 @@ class AdminRouter extends Router
         'stock' => [
             'name' => 'Stock Management',
             'controller' => 'stock/index'
+        ],
+        'orders' => [
+            'name' => 'Order Management',
+            'controller' => 'orders/index'
+        ],
+        'content' => [
+            'name' => 'Content Management',
+            'controller' => 'content/index'
+        ],
+        'mailout' => [
+            'name' => 'Mailout Management',
+            'controller' => 'mailout/index'
         ]
     ];
     function __construct($renderer)
@@ -39,5 +51,11 @@ class AdminRouter extends Router
             }
             $this->abort();
         }
+    }
+    function abort($code = 404) 
+    {
+        http_response_code($code);
+        require base_path('controllers/abort.php');
+        die();
     }
 }

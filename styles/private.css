@@ -1,0 +1,12 @@
+.content-container {
+  color: black;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: var(--darkShadow);
+  padding: 1em;
+  margin: var(--stdMarginSmall);
+}
+
+.content-container input {
+  display: block;
+}

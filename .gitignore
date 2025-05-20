@@ -3,5 +3,6 @@
 *.htaccess
 
 assets/images/article_images/
+assets/audio/article_audio/
 assets/images/shop/item_images/
 tmp/

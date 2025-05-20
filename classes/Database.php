@@ -55,4 +55,8 @@ class Database
     {
         return $this->conn->rollBack();
     }
+    public function rowCount($stmt)
+    {
+        return $stmt->rowCount();
+    }
 }
