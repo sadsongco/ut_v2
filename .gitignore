@@ -3,6 +3,10 @@
 *.htaccess
 
 assets/images/article_images/
+assets/images/mailout_images/
 assets/audio/article_audio/
 assets/images/shop/item_images/
 tmp/
+
+private/data/mailout/current_mailout.txt
+private/data/mailout/logs/
