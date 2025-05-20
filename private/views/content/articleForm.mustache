@@ -1,5 +1,5 @@
         {{#message}}<h2>{{msg}}</h2>{{/message}}
-        <form id="articleForm" hx-encoding="multipart/form-data" hx-post="/private/functions/interface/content/add_user_area_article.php" hx-target="this">
+        <form id="articleForm" hx-encoding="multipart/form-data" hx-post="/private/functions/interface/content/add_article.php" hx-target="this">
           <input type="text" name="title" id="title" placeholder="User Area Item Title" hx-post="/private/functions/interface/content/article_preview.php" hx-trigger="keyup changed delay:1s" hx-target="#articlePreviewContainer" {{#content}}value="{{title}}"{{/content}} />
           <textarea id="articleBody" hx-post="/private/functions/interface/content/article_preview.php" hx-trigger="keyup changed delay:1s, updatePreview" hx-target="#articlePreviewContainer" name="body" id="body" cols="50" rows="20" placeholder="User Area Item Body">{{#content}}{{body}}{{/content}}</textarea><br />
           <label for="articleDate">Article Live Date <span class="small">(will go live immediately if left blank)</span>:</label>
@@ -20,7 +20,7 @@
           <input type="checkbox" name="draft" id="draftArticle" {{#content}}{{#draft}}checked{{/draft}}{{/content}} />
           {{#content}}
             <input type="hidden" name="article_id" value={{article_id}} />
-            <input type="submit" name="delete_article" value="Delete Article" hx-post="/private/functions/interface/content/add_user_area_article.php" hx-target="#articleForm" hx-confirm="Do you really want to delete this article?" />
+            <input type="submit" name="delete_article" value="Delete Article" hx-post="/private/functions/interface/content/add_article.php" hx-target="#articleForm" hx-confirm="Do you really want to delete this article?" />
             <input type="submit" value="Update" />
           {{/content}}
           {{^content}}

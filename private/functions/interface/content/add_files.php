@@ -33,7 +33,6 @@ function insertMediaDB ($files, $key, $db, $table_name) {
 }
 
 function fileExists($filename, $table, $tag, $db) {
-    p_2($filename);
     $id = $table == "media" ? "media_id" : "image_id";
     try {
         $query = "SELECT $id FROM $table WHERE filename=?;";
@@ -43,7 +42,6 @@ function fileExists($filename, $table, $tag, $db) {
         return ["success"=>false, "message"=>"Database error: ".$e->getMessage()];
     }
     $media_id = $result[$id];
-    p_2($media_id);
     return ["success"=>false, "message"=>"File exists! Either rename the file or insert the existing version.", "tag"=>"{{".$tag."::".$media_id."}}"];
 }
 
@@ -104,7 +102,6 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
         switch ($image_file_type) {
             case "jpg":
             case "jpeg":
-                echo "JPG";
                 $image = imagecreatefromjpeg($uploaded_file);
                 $image_fnc = "imagejpeg";
                 break;
@@ -147,7 +144,6 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
     // add image to images database
     try {
         $media_id = insertMediaDB($files, $key, $db, $table);
-        p_2($media_id);
     }
     catch (PDOException $e) {
         return ["success"=>false, "message"=>"Database error: ".$e->getMessage()];
