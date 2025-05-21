@@ -120,9 +120,9 @@ class FileUploader
 
     private function resizeImage() {
         if (!$this->max_width) return;
-        $image_size = getimagesize($this->uploaded_file);
+        $image_size = getimagesize($this->uploaded_file);        
         if ($image_size[0] <= $this->max_width) return;
-        return imagescale($this->image, $this->max_width);
+        $this->image = imagescale($this->image, $this->max_width);
     }
 
     private function makeThumbnail($filename) {

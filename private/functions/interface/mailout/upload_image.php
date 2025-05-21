@@ -3,11 +3,11 @@
 include_once(__DIR__ . "/../../../../functions/functions.php");
 include(base_path("private/classes/FileUploader.php"));
 include_once('includes/mailout_includes.php');
-include_once('includes/media_upload.php');
 
 use FileUploader\FileUploader;
 $uploader = new FileUploader(MAILOUT_ASSET_PATH, MAILOUT_MAX_IMAGE_WIDTH, MAILOUT_THUMBNAIL_WIDTH);
 $uploaded_files = $uploader->checkFileSizes()->uploadFiles()->getResponse();
+
 $uploaded_file = $uploaded_files[0];
 $media_id = addMailoutMediaToDB($uploaded_file, $db);
 
