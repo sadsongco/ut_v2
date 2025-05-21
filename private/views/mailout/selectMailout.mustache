@@ -15,7 +15,7 @@
     onchange="htmx.trigger('#previews', 'mailoutSelected')"
   >
   </select>
-  <button hx-post="api/edit_mailout.php" hx-include="#mailoutSelect" hx-target="#createMailout">Edit Mailout</button>
+  <button hx-post="/private/functions/interface/mailout/edit_mailout.php" hx-include="#mailoutSelect" hx-target="#createMailout">Edit Mailout</button>
   <br>
   <label for="testMailout">Send email to test list</label>
   <input type="checkbox" name="test_mailout" id="testMailout" />

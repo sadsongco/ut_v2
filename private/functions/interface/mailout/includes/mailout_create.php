@@ -18,13 +18,13 @@ function replaceHTMLLink($line) {
     return $line;
 }
 
-function createHTMLBody($body, $m) {
+function createHTMLBody($body, $m, $db) {
     $content = explode("\n", $body);
     $body = "<p>";
     for ($x = 0; $x < sizeof($content); $x++) {
         if ($content[$x] == "" || $content[$x] == "\n") continue;
         $content[$x] = replaceHTMLLink($content[$x]);
-        $content[$x] = replaceImageTags($content[$x], $m);
+        $content[$x] = replaceImageTags($content[$x], $m, $db);
         if ($x+1 < sizeof($content) && ($content[$x+1] == "" || $content[$x+1] == "\n")) {
             $body .= trim($content[$x])."</p>\n<p>";
             continue;
@@ -47,8 +47,7 @@ function createTextBody($body) {
     return implode("\n", $content);
 }
 
-function replaceImageTags($line, $m) {
-    global $m; global $db;
+function replaceImageTags($line, $m, $db) {
     $line = preg_replace_callback('/<!--{{i::([0-9]+)(::)?(l|r)?}}-->/',
     fn ($matches) => $m->render('articleImage', getImageData($db, $matches[1], isset($matches[3]) ? $matches[3] : null)),
     $line);
@@ -61,6 +60,7 @@ function getImageData($db, $img_id, $img_align=null) {
         $result = $db->query($query, [$img_id])->fetch();
         $result['caption'] = htmlentities($result['caption']);
         $result['host'] =  getHost();
+        $result['path'] = MAILOUT_ASSET_PATH . "images/";
     }
     catch (PDOException $e) {
         throw new Exception($e);

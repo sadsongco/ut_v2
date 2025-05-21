@@ -135,7 +135,7 @@ $output = "";
 
 include_once(__DIR__."/generate_mailout_content.php");
 include_once(__DIR__."/generate_mailout_email_content.php");
-$replacements = generateMailoutContent($mailout_data, $m);
+$replacements = generateMailoutContent($mailout_data, $m, $db);
 $replacements['host'] = getHost();
 $replacements['remove_path'] = $remove_path;
 

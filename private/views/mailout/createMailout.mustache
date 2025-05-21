@@ -2,9 +2,9 @@
 <p>Surround external links URLs with the tags &#123;&#123;link&#125;&#125; &#123;&#123;/link&#125;&#125;, image URLs with &#123;&#123;img&#125;&#125; &#123;&#123;/img&#125;&#125;</p>
 <form hx-post="/private/functions/interface/mailout/upload_image.php" enctype="multipart/form-data">
     <h3>Add an image to the mailout (will be resized)</h3>
-    <input type="file" name="image_upload[]" id="imageUpload" value="" />
+    <input type="file" name="files[]" id="imageUpload" value="" />
     <label for="imageCaption">Caption for image</label>
-    <input type="text" name="caption" id="imageCaption" />
+    <input type="text" name="caption[]" id="imageCaption" />
     <input type="submit" value="Upload Image">
 </form>
 <form>

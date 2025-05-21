@@ -25,7 +25,7 @@ include_once(__DIR__."/includes/generate_mailout_email_content.php");
 $remove_path = '/email_management/unsubscribe.php';
 
 // $secure_id = generateSecureId($email, $id);
-$replacements = generateMailoutContent($mailout_data, $m);
+$replacements = generateMailoutContent($mailout_data, $m, $db);
 $replacements['host'] = getHost();
 $replacements['remove_path'] = $remove_path;
 

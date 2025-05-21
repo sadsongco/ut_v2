@@ -26,7 +26,7 @@ function sendLastMailout($row, $last_sent, $db, $m) {
     $mail = new PHPMailer(true);
     
     try {
-        $replacements = generateMailoutContent($last_mailout, $m);
+        $replacements = generateMailoutContent($last_mailout, $m, $db);
         $replacements['host'] = getHost();
         $replacements['remove_path'] = $remove_path;
         
