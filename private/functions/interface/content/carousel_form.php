@@ -14,4 +14,4 @@ use Database\Database;
 
 $db = new Database('admin');
 
-echo $m->render('heroForm');
+echo $m->render('carouselForm');
