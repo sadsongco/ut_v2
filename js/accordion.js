@@ -1,5 +1,9 @@
 const resize = async (e) => {
   const item = document.getElementById(e.target.dataset.targetid);
+  if (item.id === 'hero') {
+    if (item.classList.contains('is-open')) setTimeout(stopCarousel, 500);
+    else startCarousel();
+  }
   await resizeAccordion(item);
 };
 

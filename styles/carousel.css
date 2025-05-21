@@ -1,0 +1,85 @@
+.carousel {
+  position: relative;
+  width: 100%;
+  height: fit-content;
+  min-height: 25em;
+  overflow-x: hidden;
+}
+
+.carousel-item {
+  padding: var(--stdPaddingSmall);
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: fit-content;
+  border: none;
+  top: 0;
+  left: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: var(--tableBackground);
+  color: var(--tabColour);
+}
+
+.carousel-item img {
+  max-width: 100%;
+}
+
+.carousel-item .slide-image {
+  width: 100%;
+  height: auto;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.carousel-item .slide-text {
+  padding: var(--stdPaddingSmall);
+  text-align: left;
+}
+
+.carousel-item .slide-text img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform: scaleX(-1);
+  opacity: 0.5;
+  filter: grayscale(100%);
+  filter: blur(10px);
+}
+
+@media screen and (max-width: 900px) {
+  .carousel-item {
+    grid-template-columns: 1fr;
+  }
+  .carousel-item .slide-text img {
+    display: none;
+  }
+}
+.carousel-item.active {
+  z-index: 3;
+  left: 0;
+  transition: left var(--stdTransitionTime) ease-in-out;
+  opacity: 1;
+}
+
+.carousel-item div {
+  height: 100%;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.violet {
+  background-color: violet;
+}

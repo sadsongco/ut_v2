@@ -64,8 +64,8 @@
   --alertInPos: var(--stdMarginSmall);
 
   /* typography */
-  --stdFont: OpenSans, Inter, sans-serif;
-  --headingFont: OpenSansBold, Inter sans-serif;
+  --stdFont: Inter, OpenSane, sans-serif;
+  --headingFont: Inter, OpenSansBold, sans-serif;
   --fontBaseSize: 1em;
   --stdLineHeight: 1.27em;
   --fontSmall: 0.8em;
@@ -73,4 +73,7 @@
 
   /* other */
   --darkShadow: 0.5em 0.5em 0.45em #ccc;
+
+  /* animaation */
+  --stdTransitionTime: 900ms;
 }
