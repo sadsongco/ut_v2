@@ -6,6 +6,13 @@ const carouselWaitTime = 5000;
 
 const startCarousel = () => {
   slides = document.getElementsByClassName('carousel-item');
+  if (slides.length == 1) {
+    const slide = slides[0];
+    slide.classList.add('active');
+    slide.style.opacity = '1';
+    slide.style.zIndex = '2';
+    return;
+  }
 
   function addActive(slide) {
     slide.classList.add('active');

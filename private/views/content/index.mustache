@@ -4,9 +4,11 @@
 </section>
 <section>
       <h2>Hero Carousel</h2>
+      <script src="/js/carousel.js"></script>
+
       <section class="content-container" hx-get="/private/functions/interface/content/carousel_form.php" hx-trigger="load"></section>
       <section class="content-container" hx-get="/private/functions/interface/content/carousel_edit.php" hx-trigger="load"></section>
-      <section class="content-container" hx-get="/private/functions/interface/content/carousel_preview.php" hx-trigger="load, heroUpdated from:body"></section>
+      <section class="content-container" hx-get="/private/functions/interface/content/carousel_preview.php" hx-trigger="load, heroUpdated from:body" hx-on::after-settle="startCarousel();"></section>
 </section>
 <section>
       <h2>Add / Edit Acticle</h2>

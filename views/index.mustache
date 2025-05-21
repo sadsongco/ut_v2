@@ -10,7 +10,12 @@
             <i class="fa-solid fa-plus"></i>
         </header>
         <div class="accordion-content" id="hero-content">
-            {{>carousel}}
+            <script src="/js/carousel.js"></script>
+            <div class="carousel">
+                {{#carousel_tiles}}
+                    {{>carousel_tile}}
+                {{/carousel_tiles}}
+            </div>
         </div>
     </section>
     <section class="show accordion" id="gigs">

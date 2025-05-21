@@ -1,7 +1,6 @@
 <?php
 
 include(base_path("functions/interface/blog/get_article_media.php"));
-include(base_path('../secure/env/config.php'));
 
 use Database\Database;
 $db = new Database('content');
