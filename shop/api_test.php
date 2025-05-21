@@ -2,9 +2,6 @@
 
 include("../functions/functions.php");
 
-require(base_path("../secure/env/config.php"));
-
-
 $headers = [
     "Authorization: Bearer " . SU_API_KEY,
     "Content-Type: application/json"

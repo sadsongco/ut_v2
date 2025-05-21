@@ -1,7 +1,6 @@
 <?php
 
 include(__DIR__ . "/../../../../functions/functions.php");
-include(base_path("../secure/env/config.php"));
 require_once(base_path("classes/Database.php"));
 
 use Database\Database;

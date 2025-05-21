@@ -1,12 +1,21 @@
 {{>html_header}}
 <section class="callout">
-      <h2>Content Management Page</h2>
+      <h1>Content Management Page</h1>
 </section>
-<section class="content-container" hx-get="/private/functions/interface/content/file_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML"></section>
-<section class="content-container" id="articleFormContainer" hx-get="/private/functions/interface/content/article_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML" hx-on::after-settle="updateArticlePreview()"></section>
-<section class="content-container" hx-get="/private/functions/interface/content/edit_article_form.php" hx-trigger="load, refreshArticleList from:body" hx-target="this" hx-swap="innerHTML"></section>
-<section class="content-container" id="articlePreview">
-<h2>ARTICLE PREVIEW</h2>
-<div id="articlePreviewContainer" class="articlePreview"></div>
+<section>
+      <h2>Hero Carousel</h2>
+      <section class="content-container" hx-get="/private/functions/interface/content/hero_form.php" hx-trigger="load"></section>
+      <section class="content-container" hx-get="/private/functions/interface/content/hero_edit.php" hx-trigger="load"></section>
+      <section class="content-container" hx-get="/private/functions/interface/content/hero_preview.php" hx-trigger="load, heroUpdated from:body"></section>
+</section>
+<section>
+      <h2>Add / Edit Acticle</h2>
+      <section class="content-container" hx-get="/private/functions/interface/content/file_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML"></section>
+      <section class="content-container" id="articleFormContainer" hx-get="/private/functions/interface/content/article_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML" hx-on::after-settle="updateArticlePreview()"></section>
+      <section class="content-container" hx-get="/private/functions/interface/content/edit_article_form.php" hx-trigger="load, refreshArticleList from:body" hx-target="this" hx-swap="innerHTML"></section>
+      <section class="content-container" id="articlePreview">
+      <h2>ARTICLE PREVIEW</h2>
+      <div id="articlePreviewContainer" class="articlePreview"></div>
+      </section>
 </section>
 {{>html_footer}}

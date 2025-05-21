@@ -8,4 +8,4 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/partials'))
 ));
 
-echo $m->render("content/uploadFileForm", ["session_upload_name"=>ini_get("session.upload_progress.name")]);
+echo $m->render("content/uploadArticleFileForm", ["session_upload_name"=>ini_get("session.upload_progress.name")]);

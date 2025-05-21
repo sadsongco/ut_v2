@@ -2,7 +2,6 @@
 
 include_once(__DIR__ . "/../../functions/functions.php");
 include_once(base_path("functions/shop/get_categories.php"));
-require(base_path("../secure/env/config.php"));
 require(base_path("functions/utility/decrypt_token.php"));
 require(base_path("functions/utility/trigger_download.php"));
 

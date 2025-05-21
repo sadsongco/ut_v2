@@ -1,7 +1,6 @@
 <?php
 
 require_once('includes/mailout_includes.php');
-require(base_path("../secure/env/config.php"));
 
 function getCompletedEmails($db, $table, $current_mailout) {
     $all = null;

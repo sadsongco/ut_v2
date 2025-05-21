@@ -3,8 +3,11 @@
 *.htaccess
 
 assets/images/article_images/
+assets/articles/
 assets/images/mailout_images/
+assets/mailout/
 assets/images/carousel/
+assets/carousel/
 assets/audio/article_audio/
 assets/images/shop/item_images/
 tmp/

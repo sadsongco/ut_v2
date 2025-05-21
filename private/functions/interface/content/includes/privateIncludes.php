@@ -5,8 +5,6 @@ require(base_path("classes/Database.php"));
 use Database\Database;
 $db = new Database('admin');
 
-include(__DIR__."/../includes/returnBytes.php");
-
 // templating
 require base_path('../lib/mustache.php-main/src/Mustache/Autoloader.php');
 Mustache_Autoloader::register();

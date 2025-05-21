@@ -3,7 +3,6 @@
 session_start();
 
 include(__DIR__ . "/../../functions/functions.php");
-require (base_path("../secure/env/config.php"));
 require (base_path("/functions/utility/create_unique_token.php"));
 require (base_path("/functions/utility/send_customer_email.php"));
 require (base_path("/functions/utility/create_order_pdf.php"));

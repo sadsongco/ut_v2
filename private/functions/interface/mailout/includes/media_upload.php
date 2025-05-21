@@ -33,17 +33,17 @@ function resizeImage($file_path, $image_file_type, $image=null, $target_filepath
         case "jpg":
         case "jpeg":
             $image =  $image ?? imagecreatefromjpeg($file_path);
-            $resized_image = imagescale($image, MAX_IMAGE_WIDTH);
+            $resized_image = imagescale($image, ARTICLE_MAX_IMAGE_WIDTH);
             imagejpeg($resized_image, $target_filepath);
             break;
         case "png":
             $image = $image ?? imagecreatefrompng($file_path);
-            $resized_image = imagescale($image, MAX_IMAGE_WIDTH);
+            $resized_image = imagescale($image, ARTICLE_MAX_IMAGE_WIDTH);
             imagepng($resized_image, $target_filepath);
             break;
         case "gif":
             $image = $image ?? imagecreatefromgif($file_path);
-            $resized_image = imagescale($image, MAX_IMAGE_WIDTH);
+            $resized_image = imagescale($image, ARTICLE_MAX_IMAGE_WIDTH);
             imagegif($resized_image, $target_filepath);
             break;
         default:
@@ -87,7 +87,7 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
         if ($image) {
             // resize images and save thumbnails
             $image_size = getimagesize($uploaded_file);
-            if ($image_size[0] > MAX_IMAGE_WIDTH){
+            if ($image_size[0] > ARTICLE_MAX_IMAGE_WIDTH){
                 try {
                     resizeImage($upload_path, $image_file_type);
                 }
@@ -113,7 +113,7 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
 }
 
 function saveThumbnail($image, $filename, $image_file_type, $upload_path=MAILOUT_IMAGE_PATH) {
-    $thumbnail = imagescale($image, IMAGE_THUMBNAIL_WIDTH);
+    $thumbnail = imagescale($image, ARTICLE_THUMBNAIL_WIDTH);
     $file_path = base_path($upload_path."thumbnails/".$filename);
     switch ($image_file_type) {
         case "jpg":

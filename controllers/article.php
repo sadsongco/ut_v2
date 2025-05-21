@@ -2,7 +2,6 @@
 
 
 require_once(__DIR__ . "/../functions/functions.php");
-include(base_path("../secure/env/config.php"));
 
 // load mustache for all controllers
 require base_path('../lib/mustache.php-main/src/Mustache/Autoloader.php');
