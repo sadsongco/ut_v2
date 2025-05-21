@@ -28,13 +28,14 @@ function email_admin($mail, $msg) {
 }
 
 function get_email_addresses($db, $mailout_id, $mailing_list_table, $log_fp) {
+    if (ENV !== "production") $cond = ' AND email LIKE "%sadsongco%" ';
     try {
         if ($mailout_id == 'test') $mailout_id = 1;
         else $mailout_id = (int)$mailout_id;
         $query = "SELECT email, name, email_id
         FROM $mailing_list_table
         WHERE last_sent < ?
-        AND subscribed = 1
+        AND subscribed = 1 $cond
         AND error = 0
         ORDER BY domain
         LIMIT 1";
