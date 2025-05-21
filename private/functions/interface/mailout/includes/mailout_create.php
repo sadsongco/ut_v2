@@ -1,19 +1,7 @@
 <?php
 
-include (__DIR__ . "/../../../../../functions/functions.php");
-require_once(base_path("classes/Database.php"));
-use Database\Database;
+include_once(__DIR__ . "/mailout_includes.php");
 
-if (!isset($db)) $db = new Database('admin');
-
-// Load Mustache
-require_once(base_path('../lib/mustache.php-main/src/Mustache/Autoloader.php'));
-Mustache_Autoloader::register();
-
-$m = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader(base_path('/private/views/mailout/')),
-    'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/mailout/partials/'))
-));
 /* *** FUNCTIONS *** */
 function replaceHTMLLink($line) {
     $links = [];
@@ -30,13 +18,13 @@ function replaceHTMLLink($line) {
     return $line;
 }
 
-function createHTMLBody($body) {
+function createHTMLBody($body, $m) {
     $content = explode("\n", $body);
     $body = "<p>";
     for ($x = 0; $x < sizeof($content); $x++) {
         if ($content[$x] == "" || $content[$x] == "\n") continue;
         $content[$x] = replaceHTMLLink($content[$x]);
-        $content[$x] = replaceImageTags($content[$x]);
+        $content[$x] = replaceImageTags($content[$x], $m);
         if ($x+1 < sizeof($content) && ($content[$x+1] == "" || $content[$x+1] == "\n")) {
             $body .= trim($content[$x])."</p>\n<p>";
             continue;
@@ -59,7 +47,7 @@ function createTextBody($body) {
     return implode("\n", $content);
 }
 
-function replaceImageTags($line) {
+function replaceImageTags($line, $m) {
     global $m; global $db;
     $line = preg_replace_callback('/<!--{{i::([0-9]+)(::)?(l|r)?}}-->/',
     fn ($matches) => $m->render('articleImage', getImageData($db, $matches[1], isset($matches[3]) ? $matches[3] : null)),

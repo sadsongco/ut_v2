@@ -1,18 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/../../../../functions/functions.php");
-require(base_path("classes/Database.php"));
-use Database\Database;
-$db = new Database('admin');
-
-// Load Mustache
-require_once(base_path('../lib/mustache.php-main/src/Mustache/Autoloader.php'));
-Mustache_Autoloader::register();
-
-$m = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/mailout/')),
-    'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/mailout/partials/'))
-));
+require_once("includes/mailout_includes.php");
 
 try {
     $query = "SELECT id, DATE_FORMAT(date, '%Y%m%d') AS `date` FROM mailouts ORDER BY date DESC";

@@ -1,27 +1,14 @@
 <?php
 
-include(__DIR__ . "/../../../../functions/functions.php");
 require_once('includes/mailout_includes.php');
-require_once(base_path("classes/Database.php"));
-use Database\Database;
-if (!isset($db)) $db = new Database('admin');
-
-// templating
-require base_path('../lib/mustache.php-main/src/Mustache/Autoloader.php');
-Mustache_Autoloader::register();
-
-$m = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/mailout/')),
-    'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/mailout/partials/'))
-));
-define("CURRENT_MAILOUT_PATH", base_path("private/data/mailout/current_mailout.txt"));
+require(base_path("../secure/env/config.php"));
 
 function getCompletedEmails($db, $table, $current_mailout) {
     $all = null;
     $sent = null;
     try {
         $query = "SELECT COUNT(*) AS `total` FROM `$table`";
-        $result = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        $result = $db->query($query)->fetchAll();
         $all = $result[0]['total'];
         $query = "SELECT COUNT(*) AS `sent` FROM `$table` WHERE `last_sent` = ?";
 
@@ -30,7 +17,7 @@ function getCompletedEmails($db, $table, $current_mailout) {
         $query = "SELECT COUNT(*) AS `errors`, IF(COUNT(*) > 0, 1, NULL) AS `error_flag` FROM `$table` WHERE `error`=?";
         $errors = $db->query($query, [1])->fetch();
     }
-    catch (PDO_EXCEPTION $e) {
+    catch (EXCEPTION $e) {
         echo "Error retrieving completed emails: ".$e->getMessage();
         return;
     }

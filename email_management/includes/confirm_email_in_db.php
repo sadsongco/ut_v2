@@ -1,8 +1,8 @@
 <?php
 function confirmEmailInDB($email_id, $db) {
     try {
-        $stmt = $db->prepare('UPDATE ut_mailing_list SET confirmed = 1 WHERE email_id = ?');
-        $stmt->execute([$email_id]);
+        $query = 'UPDATE ut_mailing_list SET confirmed = 1 WHERE email_id = ?';
+        $db->query($query, [$email_id]);
         return ["success"=>true];
     }
     catch (PDOException $e) {

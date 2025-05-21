@@ -134,7 +134,7 @@ $output = "";
 
 include_once(__DIR__."/generate_mailout_content.php");
 include_once(__DIR__."/generate_mailout_email_content.php");
-$replacements = generateMailoutContent($mailout_data);
+$replacements = generateMailoutContent($mailout_data, $m);
 $replacements['host'] = getHost();
 $replacements['remove_path'] = $remove_path;
 
@@ -143,7 +143,7 @@ $mail->Subject = $replacements["subject"];
 
 foreach ($result as $row) {
     try {
-        $bodies = generateMailoutEmailContent($replacements, $row);
+        $bodies = generateMailoutEmailContent($replacements, $row, $m);
         $mail->msgHTML($bodies["html_body"]);
         $mail->AltBody = $bodies["text_body"];
         $mail->addAddress($row['email'], $row['name']);

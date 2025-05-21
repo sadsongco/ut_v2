@@ -1,50 +1,41 @@
 <?php
 
+include_once(base_path("../lib/vendor/autoload.php"));
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-//Load Composer's autoloader
-require '../private/mailout/api/vendor/autoload.php';
+include_once(__DIR__ . '/get_latest_mailout.php');
 
-// Load Mustache
-require('../lib/mustache.php-main/src/Mustache/Autoloader.php');
-Mustache_Autoloader::register();
-
-require("./includes/get_host.php");
-include_once(__DIR__.'/get_latest_mailout.php');
-
-function sendLastMailout($row, $last_sent) {
-
+function sendLastMailout($row, $last_sent, $db, $m) {
+    
     if (!isset($row['name'])) $row['name'] = '';
     
-    require("../private/mailout/api/includes/mailout_create.php");
-    include_once(__DIR__."/../../private/mailout/api/includes/generate_mailout_content.php");
-    include_once(__DIR__."/../../private/mailout/api/includes/generate_mailout_email_content.php");
+    require(base_path("private/functions/interface/mailout/includes/mailout_create.php"));
+    include_once(base_path("private/functions/interface/mailout/includes/generate_mailout_content.php"));
+    include_once(base_path("private/functions/interface/mailout/includes/generate_mailout_email_content.php"));
     
-    $last_mailout = getLatestMailout();
-    if ($last_mailout == $last_sent) return ["success"=>true, "last_mailout"=>$last_mailout];
+    $last_mailout = getLatestMailout($db);
+    if ($last_mailout['mailout_id'] == $last_sent) return ["success"=>true, "last_mailout"=>$last_mailout];
     if ($last_mailout == 0) throw new Exception("Test exception");
-    $content_path = "../private/mailout/assets/content/";
     $remove_path = '/email_management/unsubscribe.php';
-    $subject_id = "[UNBELIEVABLE TRUTH]";
+    $last_mailout['subject'] = "[UNBELIEVABLE TRUTH]" . $last_mailout['subject'];
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
     
     try {
-        $content = file($content_path.$last_mailout.'.txt');
-        $replacements = generateMailoutContent($content, $subject_id);
+        $replacements = generateMailoutContent($last_mailout, $m);
         $replacements['host'] = getHost();
         $replacements['remove_path'] = $remove_path;
         
         $mail->Subject = $replacements["subject"];
-        $bodies = generateMailoutEmailContent($replacements, $row);
+        $bodies = generateMailoutEmailContent($replacements, $row, $m);
         $mail->msgHTML($bodies["html_body"]);
         $mail->AltBody = $bodies["text_body"];
 
-        require_once("../../secure/mailauth/ut.php");
+        require_once(base_path("../secure/mailauth/ut.php"));
 
         // mail auth
         $mail->isSMTP();
@@ -65,7 +56,7 @@ function sendLastMailout($row, $last_sent) {
         $mail->addAddress($row['email'], $row['name']);
 
         $mail->send();
-        return ["success"=>true, "last_mailout"=>$last_mailout];
+        return ["success"=>true, "last_mailout"=>$last_mailout['mailout_id']];
     } catch (Exception $e) {
         error_log($mail->ErrorInfo);
         error_log($e);

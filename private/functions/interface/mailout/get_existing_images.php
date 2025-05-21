@@ -3,7 +3,6 @@
 require_once('includes/mailout_includes.php');
 require_once('includes/mailout_create.php');
 
-
 try {
     $query = "SELECT * FROM MailoutImages";
     $result = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);

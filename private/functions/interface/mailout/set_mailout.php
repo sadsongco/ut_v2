@@ -1,8 +1,7 @@
 <?php
 
-include(__DIR__ . "/../../../../functions/functions.php");
-include(base_path("../secure/env/config.php"));
 include_once("includes/mailout_includes.php");
+include(base_path("../secure/env/config.php"));
 
 $test = isset($_POST['test_mailout']); 
 

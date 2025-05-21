@@ -1,6 +1,5 @@
 <?php
 
-include_once(__DIR__ . "/../../../../functions/functions.php");
 require_once('includes/mailout_includes.php');
 require_once('includes/mailout_create.php');
 
@@ -26,11 +25,11 @@ include_once(__DIR__."/includes/generate_mailout_email_content.php");
 $remove_path = '/email_management/unsubscribe.php';
 
 // $secure_id = generateSecureId($email, $id);
-$replacements = generateMailoutContent($mailout_data);
+$replacements = generateMailoutContent($mailout_data, $m);
 $replacements['host'] = getHost();
 $replacements['remove_path'] = $remove_path;
 
 $data = ["name"=>"Preview Name", "email"=>$email, "email_id"=>$id];
-$bodies = generateMailoutEmailContent($replacements, $data);
+$bodies = generateMailoutEmailContent($replacements, $data, $m);
 
 echo $m->render('mailoutPreview', $bodies);

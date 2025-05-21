@@ -1,11 +1,6 @@
 <?php
 
-include(__DIR__ . "/../../../../functions/functions.php");
-require_once(base_path("classes/Database.php"));
 include_once("includes/mailout_includes.php");
-
-use Database\Database;
-$db = new Database('admin');
 
 $clear_create = '<section id="createMailout" hx-swap-oob="true"></section>';
 if (isset($_POST['cancel'])) exit($clear_create);
