@@ -2,6 +2,8 @@
 
 session_start();
 
+exit($this->renderer->render('shop/tmp_index', ["stylesheets"=>["shop"]]));
+
 use Database\Database;
 $db = new Database('orders');
 
