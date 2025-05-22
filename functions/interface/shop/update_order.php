@@ -6,6 +6,9 @@ require(base_path("classes/RoyalMail.php"));
 use Database\Database;
 $db = new Database('orders');
 
+p_2($_SESSION);
+exit();
+
 $order_id = explode("-",$_SESSION['order_id'])[1];
 
 $query = "DELETE FROM New_Orders WHERE order_id = ?";
