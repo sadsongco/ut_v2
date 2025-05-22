@@ -25,8 +25,8 @@ const updateOrder = async (body) => {
       body: postBody,
     });
 
-    // return console.log(await res.text());
-    return await res.json();
+    return await res.text();
+    // return await res.json();
   } catch (err) {
     console.log(err.message);
     return false;

@@ -3,6 +3,7 @@ const processPayment = async (type, body) => {
   const target = document.getElementById('paymentResponse');
   const res = await updateOrder(body);
   if (!res) return;
+  console.log(res);
   if (res.status != 'success') {
     const output = await getResponseScreen(res.status);
     target.innerHTML = output;

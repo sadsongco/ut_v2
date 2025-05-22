@@ -31,6 +31,7 @@ $order_details['totals']['shipping'] = calculateShipping($db, $_SESSION['rm_zone
 $order_details['totals']['total'] = $order_details['totals']['subtotal'] + $order_details['totals']['shipping'];
 $order_details['totals']['vat'] = $order_details['totals']['total'] - ($order_details['totals']['total'] / 1.2);
 $order_details['shipping_method'] = $_SESSION['shipping_method']['shipping_method_id'];
+$order_details['package_specs'] = $_SESSION['package_specs'];
 
 $saved_order = insertOrderIntoDB($order_details, $db);
 
