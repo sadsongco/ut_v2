@@ -1,0 +1,30 @@
+{{>html_header}}
+
+    <section class="callout">
+      <h1>Order Management Page</h1>
+    </section>
+    <section class="content-container">
+        <h1>Orders</h1>
+        <button hx-get="/private/functions/interface/orders/get_rm_orders.php" hx-target="#rmOutcomes" onclick="disableButton(event)">Update Orders from Royal Mail</button>
+        <div id="rmOutcomes"></div>
+        <p>Go to <a class="stdLink" href="https://business.parcel.royalmail.com/orders/" target="_blank">Royal Mail Orders</a> to pay and download labels</p>
+        <div>
+        <label for="orderFilter">Filter Orders:</label>
+        <form id="orderFilterForm">
+            <select name="orderFilter" id="orderFilter" hx-post="/private/functions/interface/orders/order_list.php" hx-trigger="change" hx-target="#orderList">
+            <option value="all">All Orders</option>
+            <option value="printed">PDF Printed</option>
+            <option value="label printed">Label Printed</option>
+            <option value="dispatched">Dispatched</option>
+            <option value="new" selected>New Orders</option>
+            </select>
+            <label for="nameFilter">Filter By Name:</label>
+        </form>
+        <input type="text" name="nameFilter" id="nameFilter" hx-post="/private/functions/interface/orders/order_list.php" hx-trigger="keyup changed delay:0.5s" hx-target="#orderList" />
+        </div>
+        <h1>Current Picking List</h1>
+        <div id="pickingList" class="pickingList" hx-get="/private/functions/interface/orders/picking.php" hx-trigger="load, updateOrderList from:body"></div>
+        <div id="orderList" hx-post="/private/functions/interface/orders/order_list.php" hx-trigger="load, updateOrderList from:body" hx-include="#orderFilterForm"></div>
+    </section>
+
+{{>html_footer}}
