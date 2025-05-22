@@ -2,7 +2,7 @@ let slides;
 let interval;
 let transitionTime = window.getComputedStyle(document.body).getPropertyValue('--stdTransitionTime');
 transitionTime = transitionTime.substring(0, transitionTime.length - 2);
-const carouselWaitTime = 5000;
+const carouselWaitTime = 7500;
 
 const startCarousel = () => {
   const container = document.getElementById('carousel');
