@@ -2,8 +2,6 @@
 
 namespace SUCheckout;
 
-require(base_path("../secure/env/config.php"));
-
 class SUCheckout
 {
     private $headers;

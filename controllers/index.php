@@ -12,5 +12,5 @@ foreach ($carousel_tiles as &$tile) {
     $tile['tile_text'] = nl2p($tile['tile_text']);
 }
 
-echo $this->renderer->render('index', ['carousel_tiles'=>$carousel_tiles]);
+echo $this->renderer->render('index', ['carousel_tiles'=>$carousel_tiles, "nav"=>$this->nav]);
 
