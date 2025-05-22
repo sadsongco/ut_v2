@@ -2,8 +2,6 @@
 *.DS_Store
 *.htaccess
 
-tmp.html
-
 assets/images/article_images/
 assets/articles/
 assets/images/mailout_images/
