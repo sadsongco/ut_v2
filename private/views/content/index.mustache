@@ -7,8 +7,8 @@
       <script src="/js/carousel.js"></script>
 
       <section class="content-container" hx-get="/private/functions/interface/content/carousel_form.php" hx-trigger="load"></section>
-      <section class="content-container" hx-get="/private/functions/interface/content/carousel_edit.php" hx-trigger="load"></section>
-      <section class="content-container" hx-get="/private/functions/interface/content/carousel_preview.php" hx-trigger="load, heroUpdated from:body" hx-on::after-settle="startCarousel();"></section>
+      <section class="content-container carousel-preview" id="carouselPreview" hx-get="/private/functions/interface/content/carousel_edit.php" hx-trigger="load, carouselUpdated from:body"></section>
+      <section class="content-container" hx-get="/private/functions/interface/content/carousel_preview.php" hx-trigger="load, carouselUpdated from:body" hx-on::after-settle="startCarousel();"></section>
 </section>
 <section>
       <h2>Add / Edit Acticle</h2>

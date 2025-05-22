@@ -1,0 +1,44 @@
+{{#updated}}
+    <div>Carousel updated</div>
+{{/updated}}
+{{#deleted}}
+    <div>Carousel tile deleted</div>
+{{/deleted}}
+<form hx-post="/private/functions/interface/content/update_carousel.php">
+    <div class="carousel-preview">
+    {{#carousel_tiles}}
+        <input id="carousel_id{{carousel_id}}" type="hidden" name="carousel_id[]" value="{{carousel_id}}">
+        <div class="carouselTilePreview">
+            <div class="tile-element-preview">
+                <img class="span2" src="{{path}}">
+            </div>
+            <div class="tile-element-preview">
+                <label for="title{{carousel_id}}">Title</label>
+                <input type="text" name="title[]" id="title{{carousel_id}}" value="{{tile_title}}">
+            </div>
+            <div class="tile-element-preview">
+                <textarea class="span2" name="text[]" id="text{{carousel_id}}" cols="30" rows="10">{{tile_text}}</textarea>
+            </div>
+            <div class="tile-element-preview">
+                <label for="tile_order{{carousel_id}}">Position</label>
+                <select name="tile_order[]" id="tile_order{{carousel_id}}">
+                    {{#order_options}}
+                        <<option value="{{order}}" {{selected}}>{{order}}</option>
+                    {{/order_options}}
+                </select>
+            </div>
+            <input
+                hx-post="/private/functions/interface/content/update_carousel.php"
+                type="submit"
+                name="delete"
+                value="Delete Tile"\
+                hx-confirm="Really delete this tile?"
+                hx-vals='{"carousel_id": "{{carousel_id}}"", "img_url": "{{img_url}}"}'
+                hx-target="#carouselPreview"
+                hx-replace="innerHTML"
+                >
+        </div>
+    {{/carousel_tiles}}
+    </div>
+    <input type="submit" name="update" value="Update Carousel">
+</form>
