@@ -98,6 +98,8 @@ class RoyalMail {
             $this->getShippingMethod();
             $this->getItems();
             if ($this->old_order) $this->order_data['weight'] = getPackageWeight($this->order_data);
+            p_2($this->order_data);
+            exit();
         } catch (PDOException $e) {
             echo $e->getMessage(); 
         }
@@ -340,5 +342,5 @@ function getPackageWeight($order) {
     foreach ($order['items'] as $item) {
         $weight += $item['weight'] * $item['amount'];
     }
-    return $weight + 100;
+    return ($weight * 1000) + 160;
 }
