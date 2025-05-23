@@ -2,15 +2,17 @@
 
 require(__DIR__ . "/../../../../functions/functions.php");
 require(base_path("classes/Database.php"));
+require(base_path("private/classes/FileUploader.php"));
 
 use Database\Database;
 $db = new Database('orders');
 
-// upload image
-$target_dir = base_path("assets/images/shop/item_images/");
-$target_file = $target_dir . basename($_FILES["image"]["name"]);
-move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-$_POST['image'] = basename($_FILES["image"]["name"]);
+use FileUploader\FileUploader;
+$uploader = new FileUploader(SHOP_ASSET_PATH, SHOP_MAX_IMAGE_WIDTH, SHOP_THUMBNAIL_WIDTH);
+$uploaded_files = $uploader->checkFileSizes()->uploadFiles()->getResponse();
+$_POST['image'] = $uploaded_files[0]['filename'];
+
+if(isset($_POST['featured'])) $_POST['featured'] = $_POST['featured'] == "on" ? 1 : 0;
 
 $update = [];
 $params = [];

@@ -26,7 +26,7 @@
                     </select>
                     <label for="item{{item_id}}_image" >Name</label>
                     <input type="text" name="image" id="item{{item_id}}_image" value="{{image}}">
-                    <label for="item{{item_id}}_weight">Weight</label>
+                    <label for="item{{item_id}}_weight">Weight kg</label>
                     <input type="number" name="weight" id="item{{item_id}}_weight" step="0.001" value="{{weight}}">
                     <label for="item{{item_id}}_customs_description" >customs description</label>
                     <input type="text" name="customs_description" id="item{{item_id}}_customs_description" value="{{customs_description}}">
@@ -42,6 +42,8 @@
                     <input type="number" name="width_mm" id="item{{item_id}}_width_mm" step="1" value="{{width_mm}}">
                     <label for="item{{item_id}}_depth_mm">depth_mm</label>
                     <input type="number" name="depth_mm" id="item{{item_id}}_depth_mm" step="1" value="{{depth_mm}}">
+                    <label for="item{{item_id}}_release_date">Release Date</label>
+                    <input type="date" name="release_date" id="item{{item_id}}_release_date" value="{{release_date}}">
                     <input type="submit" value="Update Item" name="update_item">
                 </div>
             </form>
@@ -86,7 +88,7 @@
         <i class="fa-solid fa-plus"></i>
     </header>
     <div class="accordion-content" id="createItem-content">
-        <form hx-post="/private/functions/interface/stock/create_item.php" enctype="multipart/form-data">
+        <form hx-post="/private/functions/interface/stock/create_item.php" enctype="multipart/form-data" hx-target="#createResult">
             <div class="update-stock-item">
                 <label for="item_name">Item Name</label>
                 <input type="text" name="name" id="item_name" required>
@@ -101,7 +103,7 @@
                     {{/categories}}
                 </select>
                 <label for="item_image">Item Image</label>
-                <input type="file" name="image" id="item_image" required>
+                <input type="file" name="files[]" id="item_image" required>
                 <label for="item_weight">Weight</label>
                 <input type="number" name="weight" id="item_weight" step="0.001" value="0">
                 <label for="item_customs_description" >customs description</label>
@@ -118,11 +120,14 @@
                 <input type="number" name="width_mm" id="item_width_mm" step="1" value="0">
                 <label for="item_depth_mm">depth_mm</label>
                 <input type="number" name="depth_mm" id="item_depth_mm" step="1" value="0">
+                <label for="item{{item_id}}_release_date">Release Date</label>
+                <input type="date" name="release_date" id="item{{item_id}}_release_date">
 
                 <input type="submit" value="Add Item">
             </div>
         </form>
     </div>
+    <div id="createResult"></div>
 </section>
 <section class="callout">
     <h1>Add Bundle</h1>
