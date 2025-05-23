@@ -98,8 +98,6 @@ class RoyalMail {
             $this->getShippingMethod();
             $this->getItems();
             if ($this->old_order) $this->order_data['weight'] = getPackageWeight($this->order_data);
-            p_2($this->order_data);
-            exit();
         } catch (PDOException $e) {
             echo $e->getMessage(); 
         }

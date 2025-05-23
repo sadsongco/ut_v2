@@ -48,7 +48,6 @@ foreach ($orders as &$order) {
     $rm->submitRMOrder();
 
     $order_outcomes[] = $rm->getOrderOutcomes();
-    p_2($order_outcomes);
 
     
     echo $m->render("orderOutcomes", ["outcomes"=>$order_outcomes]);
