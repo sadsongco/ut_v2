@@ -10,8 +10,6 @@ const processPayment = async (type, body) => {
     popOver.style.display = 'none';
     return;
   }
-  const redirect = () => {
-    window.location.href = '/shop/success';
-  };
-  const myTimeout = setTimeout(redirect, 5000);
+
+  window.location.href = '/shop/success';
 };
