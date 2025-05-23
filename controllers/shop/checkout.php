@@ -28,17 +28,27 @@ $subtotal = calculateCartSubtotal($cart_contents);
 $_SESSION['subtotal'] = $subtotal;
 
 $_SESSION['package_specs'] = getPackageSpecs($cart_contents);
+$shipping_options = [
+    "shipping_method_id" => 1,
+    "service_name" => "Digital Download",
+    "service_code" => "E_DEL"
+];
+$_SESSION['shipping_method'] = 1;
+$_SESSION['shipping'] = $shipping = 0;
+$shipping_disp = "0.00";
 
-$shipping_options = getShippingMethods($default_zone, $db);
-if (sizeof($shipping_options) == 0) {
-    exit("Sorry, no shipping options available.");
+if (!isset($_SESSION['package_specs']['e_delivery'])) {
+    $shipping_options = getShippingMethods($default_zone, $db);
+    if (sizeof($shipping_options) == 0) {
+        exit("Sorry, no shipping options available.");
+    }
+    $default_method = $shipping_options[0];
+    $_SESSION['shipping_method'] = $default_method;
+    
+    $shipping = calculateShipping($db, $default_zone, $default_method);
+    $_SESSION['shipping'] = round($shipping, 2);
+    $shipping_disp = number_format($shipping, 2);
 }
-$default_method = $shipping_options[0];
-$_SESSION['shipping_method'] = $default_method;
-
-$shipping = calculateShipping($db, $default_zone, $default_method);
-$_SESSION['shipping'] = round($shipping, 2);
-$shipping_disp = number_format($shipping, 2);
 
 $total = $subtotal + $shipping;
 $_SESSION['total'] = $total;

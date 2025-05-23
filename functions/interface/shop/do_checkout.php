@@ -27,10 +27,16 @@ $order_details['billing-country-code'] = $country_code['country_code'];
 
 $order_details['items'] = getCartContents($db);
 $order_details['totals']['subtotal'] = calculateCartSubtotal($order_details['items']);
-$order_details['totals']['shipping'] = calculateShipping($db, $_SESSION['rm_zone'], $_SESSION['shipping_method']);
+$order_details['totals']['shipping'] = 0;
+$order_details['shipping_method'] = 1;
+
+if ($_SESSION['shipping_method'] != 1) {
+    $order_details['totals']['shipping'] = calculateShipping($db, $_SESSION['rm_zone'], $_SESSION['shipping_method']);
+    $order_details['shipping_method'] = $_SESSION['shipping_method']['shipping_method_id'];
+}
+
 $order_details['totals']['total'] = $order_details['totals']['subtotal'] + $order_details['totals']['shipping'];
 $order_details['totals']['vat'] = $order_details['totals']['total'] - ($order_details['totals']['total'] / 1.2);
-$order_details['shipping_method'] = $_SESSION['shipping_method']['shipping_method_id'];
 $order_details['package_specs'] = $_SESSION['package_specs'];
 
 $saved_order = insertOrderIntoDB($order_details, $db);

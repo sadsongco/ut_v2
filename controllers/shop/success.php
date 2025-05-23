@@ -19,12 +19,12 @@ $db = new Database('orders');
 
 if (!isset($_SESSION['order_id'])) exit($this->renderer->render('shop/success', ["stylesheets"=>["shop"]]));
 $order_db_id = explode("-", $_SESSION['order_id'])[1];
-
 use RoyalMail\RoyalMail;
-$rm = new RoyalMail($order_db_id, $db);
-$rm->createRMOrder();
-$rm->submitRMOrder();
-
+if ($_SESSION['shipping_method'] != 1) {
+    $rm = new RoyalMail($order_db_id, $db);
+    $rm->createRMOrder();
+    $rm->submitRMOrder();
+}
 
 $download_tokens = [];
 $preorder_items = [];
@@ -62,7 +62,6 @@ try {
 catch (Exception $e) {
     echo $e->getMessage();
 }
-
 echo $this->renderer->render('shop/success', [
     "order_id"=>$_SESSION['order_id'],
     "download_tokens"=>$download_tokens,
