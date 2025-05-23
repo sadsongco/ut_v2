@@ -5,6 +5,8 @@
     </section>
     <section class="content-container">
         <h1>Orders</h1>
+        <button hx-get="/private/functions/interface/orders/get_su_orders.php" hx-swap="outerHTML" hx-trigger="click" onclick="disableButton(event)">Get Orders From SumUp</button>
+        <button hx-get="/private/functions/interface/orders/submit_rm_orders.php" hx-target="#rmOutcomes" onclick="disableButton(event)">Submit Old Orders to Royal Mail</button>
         <button hx-get="/private/functions/interface/orders/get_rm_orders.php" hx-target="#rmOutcomes" onclick="disableButton(event)">Update Orders from Royal Mail</button>
         <div id="rmOutcomes"></div>
         <p>Go to <a class="stdLink" href="https://business.parcel.royalmail.com/orders/" target="_blank">Royal Mail Orders</a> to pay and download labels</p>
@@ -26,5 +28,14 @@
         <div id="pickingList" class="pickingList" hx-get="/private/functions/interface/orders/picking.php" hx-trigger="load, updateOrderList from:body"></div>
         <div id="orderList" hx-post="/private/functions/interface/orders/order_list.php" hx-trigger="load, updateOrderList from:body" hx-include="#orderFilterForm"></div>
     </section>
+    <script>
+      const copyLinkToClipboard = (e) => {
+        navigator.clipboard.writeText(e.target.previousElementSibling.innerText);
+      };
+      const disableButton = (e) => {
+        e.target.disabled = true;
+        e.target.classList.add('disabled');
+      };
+    </script>
 
 {{>html_footer}}

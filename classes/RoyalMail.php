@@ -11,6 +11,31 @@ include_once(base_path("functions/shop/get_shipping_methods.php"));
 include_once(base_path("functions/shop/calculate_cart_subtotal.php"));
 include_once(base_path("functions/interface/shop/calculate_shipping.php"));
 
+// for old orders
+define('SHIPPING_METHODS_MAP', [
+    "First Class (1 - 2 days)" => 3,
+    "Second Class" => 4,
+    "Europe" => 6,
+    "Rest Of World" => 6,
+]);
+define('PACKAGE_FORMATS', [
+    "LARGE_LETTER" => [
+        "name" => "large letter",
+        "weight_min" => 0,
+        "weight_max" => 249,
+    ],
+    "SMALL_PARCEL" => [
+        "name" => "small parcel",
+        "weight_min" => 250,
+        "weight_max" => 1999,
+    ],
+    "MEDIUM_PARCEL" => [
+        "name" => "medium parcel",
+        "weight_min" => 2000,
+        "weight_max" => 9999,
+    ]
+]);
+
 function jsFormatDate($date) {
     $dateObj = new DateTime($date);
     return date_format($dateObj, 'Y-m-d\TH:i:s\Z');
@@ -24,8 +49,15 @@ class RoyalMail {
     protected $order_data;
     protected $rm_order;
     protected $order_outcomes;
-    function __construct($order_id, $db)
+    protected $orders_table;
+    protected $order_items_table;
+    protected $old_order;
+
+    function __construct($order_id, $db, $old=false)
     {
+        $this->orders_table = $old ? "Orders" : "New_Orders";
+        $this->order_items_table = $old ? "Order_items" : "New_Order__items";
+        $this->old_order = $old;
         $this->db = $db;
         $this->order_id = $order_id;
         $this->getOrderData();
@@ -33,17 +65,21 @@ class RoyalMail {
 
     private function getOrderData()
     {
+        $package_specs = "";
+        if (!$this->old_order) {
+            $package_specs = $this->orders_table . ".package_specs, ";
+        }
         try {
             $query = "SELECT
-                New_Orders.order_id,
-                New_Orders.sumup_id,
-                TRIM(New_Orders.shipping_method) AS shipping_method,
-                New_Orders.shipping,
-                New_Orders.subtotal,
-                New_Orders.vat,
-                New_Orders.total,
-                New_Orders.order_date,
-                New_Orders.package_specs,
+                " . $this->orders_table . ".order_id,
+                " . $this->orders_table . ".sumup_id,
+                TRIM(" . $this->orders_table . ".shipping_method) AS shipping_method,
+                " . $this->orders_table . ".shipping,
+                " . $this->orders_table . ".subtotal,
+                " . $this->orders_table . ".vat,
+                " . $this->orders_table . ".total,
+                " . $this->orders_table . ".order_date,
+                $package_specs
                 Customers.name,
                 Customers.address_1,
                 Customers.address_2,
@@ -51,16 +87,17 @@ class RoyalMail {
                 Customers.postcode,
                 Customers.country,
                 Customers.email
-            FROM New_Orders
-            LEFT JOIN Customers ON New_Orders.customer_id = Customers.customer_id
+            FROM " . $this->orders_table . "
+            LEFT JOIN Customers ON " . $this->orders_table . ".customer_id = Customers.customer_id
             WHERE `order_id` = ?
             ";
             $params = [$this->order_id];
             $this->order_data = $this->db->query($query, $params)->fetch();
-            $this->order_data['package_specs'] = json_decode($this->order_data['package_specs'], true);
+            if (!$this->old_order) $this->order_data['package_specs'] = json_decode($this->order_data['package_specs'], true);
             $this->getCountryCode();
             $this->getShippingMethod();
             $this->getItems();
+            if ($this->old_order) $this->order_data['weight'] = getPackageWeight($this->order_data);
         } catch (PDOException $e) {
             echo $e->getMessage(); 
         }
@@ -69,6 +106,7 @@ class RoyalMail {
     private function getCountryCode ()
     {
         $query = "SELECT country_code FROM Countries WHERE country_id = ?";
+        if ($this->old_order) $query = "SELECT country_code FROM Countries WHERE name = ?";
         $params = [$this->order_data['country']];
         $result = $this->db->query($query, $params)->fetch();
         $this->order_data['country_code'] = $result['country_code'];
@@ -76,6 +114,9 @@ class RoyalMail {
 
     private function getShippingMethod()
     {
+        if (!is_numeric($this->order_data['shipping_method'])) {
+            $this->order_data['shipping_method'] = SHIPPING_METHODS_MAP[$this->order_data['shipping_method']];
+        }
         $query = "SELECT service_name, service_code FROM Shipping_methods WHERE shipping_method_id = ?";
         $params = [$this->order_data['shipping_method']];
         $this->order_data['rm_shipping_method'] = $this->db->query($query, $params)->fetch();
@@ -89,10 +130,10 @@ class RoyalMail {
             Items.weight,
             Items.customs_description,
             Items.customs_code,
-            New_Order_items.amount
-            FROM New_Order_items
-            JOIN Items ON New_Order_items.item_id = Items.item_id
-            WHERE New_Order_items.order_id = ?
+            " . $this->order_items_table . ".amount
+            FROM " . $this->order_items_table . "
+            JOIN Items ON " . $this->order_items_table . ".item_id = Items.item_id
+            WHERE " . $this->order_items_table . ".order_id = ?
             ";
         $params = [$this->order_id];
         $items = $this->db->query($query, $params)->fetchAll();
@@ -126,12 +167,27 @@ class RoyalMail {
     public function createRMOrder()
     {
         $this->order_data['order_date'] = jsFormatDate($this->order_data['order_date']);
+        if (!isset($this->order_data['rm_shipping_method']['service_code'])) {
+            $this->getShippingMethod();
+        }
         if (!$this->order_data['rm_shipping_method']['service_code']) return false;
         $order_items = [];
         foreach($this->order_data['items'] as $item) {
             $order_items[] = $this->createRMItem($item);
         }
         $this->order_data['items'] = $order_items;
+        if ($this->old_order) {
+            $weight = $this->order_data['weight'];
+            foreach (PACKAGE_FORMATS as $package_format) {
+                if ($weight > $package_format['weight_min'] && $weight <= $package_format['weight_max']) {
+                    $package_format = $package_format['name'];
+                    break;
+                }
+            }
+        } else {
+            $weight = $this->order_data['package_specs']['weight'];
+            $package_format = strtolower($this->order_data['package_specs']['package_name']);
+        }
         $this->rm_order = [
             "orderReference"=>$this->order_data['order_id'],
             "recipient"=>[
@@ -157,8 +213,8 @@ class RoyalMail {
             ],
             "packages"=>[
                 [
-                    "weightInGrams"=>(string)$this->order_data['package_specs']['weight'],
-                    "packageFormatIdentifier"=>strtolower($this->order_data['package_specs']['package_name']),
+                    "weightInGrams"=>(int)$weight,
+                    "packageFormatIdentifier"=>$package_format,
                     "contents"=>$order_items
                 ],
             ],
@@ -245,7 +301,7 @@ class RoyalMail {
 
         if (isset($responseObj->createdOrders)) {
             foreach($responseObj->createdOrders as $successful_order) {
-                $query = "UPDATE `New_Orders`
+                $query = "UPDATE `" . $this->orders_table . "`
                 SET 
                 `rm_order_identifier` = ?,
                 `rm_created` = ?
@@ -278,3 +334,11 @@ class RoyalMail {
     }
 
 };
+
+function getPackageWeight($order) {
+    $weight = 0;
+    foreach ($order['items'] as $item) {
+        $weight += $item['weight'] * $item['amount'];
+    }
+    return $weight + 100;
+}
