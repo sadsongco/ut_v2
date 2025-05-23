@@ -5,9 +5,6 @@ namespace RoyalMail;
 use DateTime;
 use PDOException;
 
-session_start();
-
-include(base_path("functions/shop/get_cart_contents.php"));
 include_once(base_path("functions/shop/get_cart_contents.php"));
 include_once(base_path("functions/shop/get_package_specs.php"));
 include_once(base_path("functions/shop/get_shipping_methods.php"));
@@ -201,7 +198,7 @@ class RoyalMail {
             "name"=>$item['name'],
             "quantity"=>$item['amount'],
             "unitValue"=>$item['price'],
-            "unitWeightInGrams"=>$item['weight'],
+            "unitWeightInGrams"=>(int)$item['weight']*1000,
             "customsDescription"=>$item['customs_description'],
             "extendedCustomsDescription"=>$item['name'],
             "customsCode"=>$item['customs_code'],
@@ -246,10 +243,10 @@ class RoyalMail {
 
         $order_outcomes = [];
 
-        if (isset($responseObj->createdNew_Orders)) {
-            foreach($responseObj->createdNew_Orders as $successful_order) {
+        if (isset($responseObj->createdOrders)) {
+            foreach($responseObj->createdOrders as $successful_order) {
                 $query = "UPDATE `New_Orders`
-                SET `label_printed` = 1,
+                SET 
                 `rm_order_identifier` = ?,
                 `rm_created` = ?
                 WHERE `order_id` = ?";
@@ -258,8 +255,8 @@ class RoyalMail {
                     $successful_order->createdOn,
                     (int)$successful_order->orderReference,
                 ];
-                $this->db->query($query, $params);
-                if ($this->db->rowCount() == 0) {
+                $stmt = $this->db->query($query, $params);
+                if ($this->db->rowCount($stmt) == 0) {
                     $order_outcomes[] = "FAILED to update database for " . $successful_order->orderReference . " : " . $this->db->error;
                     continue;
                 }
@@ -267,8 +264,8 @@ class RoyalMail {
             }
         }
 
-        if (isset($responseObj->failedNew_Orders)) {
-            foreach($responseObj->failedNew_Orders as $failed_order) {
+        if (isset($responseObj->failedOrders)) {
+            foreach($responseObj->failedOrders as $failed_order) {
                 $order_outcomes[] = "FAILED TO CREATE ORDER: " . $failed_order->errors[0]->errorMessage;
             };
         }

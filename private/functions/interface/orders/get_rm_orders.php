@@ -127,6 +127,8 @@ function sendCustomerShippedEmail($order_id, $tracking_number, $db, $m) {
     // mail auth
     $from_name = "Unbelievable Truth shop";
 
+    $send_to = ENV == "production" ? $order['email'] : "nigel@thesadsongco.com";
+
     $mail = new PHPMailer(true);
     $mail->isSMTP();
     $mail->Host = $mail_auth['host'];
@@ -139,7 +141,7 @@ function sendCustomerShippedEmail($order_id, $tracking_number, $db, $m) {
     $mail->addReplyTo($mail_auth['reply']['address'], $from_name);
     $mail->Subject = "Unbelievable Truth - your order has shipped";
     $mail->msgHTML($email);
-    $mail->addAddress($order['email']);
+    $mail->addAddress($send_to);
     // $mail->addAddress("nigel@thesadsongco.com", "Nigel");
     $mail->addBCC("info@unbelievabletruth.co.uk");
     $mail->addAttachment(base_path(ORDER_PDF_PATH) . $filename, $filename);

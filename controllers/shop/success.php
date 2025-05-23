@@ -8,6 +8,8 @@ require (base_path("/functions/utility/send_customer_email.php"));
 require (base_path("/functions/utility/create_order_pdf.php"));
 require (base_path('functions/shop/get_cart_contents.php'));
 require (base_path('functions/shop/make_order_pdf.php'));
+require(base_path("classes/RoyalMail.php"));
+
 
 //Load Composer's autoloader
 require (base_path('../lib/vendor/autoload.php'));
@@ -16,8 +18,13 @@ use Database\Database;
 $db = new Database('orders');
 
 if (!isset($_SESSION['order_id'])) exit($this->renderer->render('shop/success', ["stylesheets"=>["shop"]]));
-
 $order_db_id = explode("-", $_SESSION['order_id'])[1];
+
+use RoyalMail\RoyalMail;
+$rm = new RoyalMail($order_db_id, $db);
+$rm->createRMOrder();
+$rm->submitRMOrder();
+
 
 $download_tokens = [];
 $preorder_items = [];

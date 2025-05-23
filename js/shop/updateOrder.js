@@ -12,7 +12,7 @@ const spoofResponse = {
 };
 
 const updateOrder = async (body) => {
-  body = spoofResponse;
+  // body = spoofResponse;
   if (!body.checkout_reference) return false;
   const postBody = new FormData();
   for (const [key, value] of Object.entries(body)) {
@@ -25,8 +25,8 @@ const updateOrder = async (body) => {
       body: postBody,
     });
 
-    return await res.text();
-    // return await res.json();
+    // return await res.text();
+    return await res.json();
   } catch (err) {
     console.log(err.message);
     return false;

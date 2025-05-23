@@ -6,9 +6,6 @@ require(base_path("classes/RoyalMail.php"));
 use Database\Database;
 $db = new Database('orders');
 
-p_2($_SESSION);
-exit();
-
 $order_id = explode("-",$_SESSION['order_id'])[1];
 
 $query = "DELETE FROM New_Orders WHERE order_id = ?";
@@ -22,9 +19,6 @@ $response = [
     'status' => 'failed',
     'response'=> $_POST
 ];
-unset($_SESSION['order_id']);
-echo json_encode($response);
-exit();
 
 if (isset($_POST['status']) && $_POST['status'] == 'FAILED') {
     $query = "DELETE FROM New_Orders WHERE order_id = ?";
@@ -43,11 +37,6 @@ if (isset($_POST['status']) && $_POST['status'] == 'FAILED') {
     exit();
 }
 
-use RoyalMail\RoyalMail;
-$rm = new RoyalMail($order_id, $db);
-$rm->createRMOrder();
-$rm->submitRMOrder();
-exit();
 
 $query = "UPDATE New_Orders SET transaction_id = ? WHERE order_id = ?";
 try {

@@ -24,7 +24,7 @@ function sendCustomerEmail($order, $template, $db, $m) {
     // mail auth
     $from_name = "Unbelievable Truth shop";
 
-    $send_to = ENV == "production" ? $order['email'] : "info@unbelievabletruth.co.uk";
+    $send_to = ENV == "production" ? $order['email'] : "nigel@thesadsongco.com";
 
     $mail = new PHPMailer(true);
     $mail->isSMTP();
