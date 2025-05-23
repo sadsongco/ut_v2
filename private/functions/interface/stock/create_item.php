@@ -14,6 +14,8 @@ $_POST['image'] = $uploaded_files[0]['filename'];
 
 if(isset($_POST['featured'])) $_POST['featured'] = $_POST['featured'] == "on" ? 1 : 0;
 
+if ($_POST['release_date'] == "") unset($_POST['release_date']);
+
 $update = [];
 $params = [];
 foreach ($_POST as $field=>$value) {
@@ -27,4 +29,5 @@ $query = "INSERT INTO Items $columns VALUES $values";
 
 $db->query($query, $params);
 
+header("HX-Trigger: stockUpdated");
 echo "<h1>New Item Added</h1>";

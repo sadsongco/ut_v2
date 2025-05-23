@@ -30,6 +30,9 @@ $_SESSION['subtotal'] = $subtotal;
 $_SESSION['package_specs'] = getPackageSpecs($cart_contents);
 
 $shipping_options = getShippingMethods($default_zone, $db);
+if (sizeof($shipping_options) == 0) {
+    exit("Sorry, no shipping options available.");
+}
 $default_method = $shipping_options[0];
 $_SESSION['shipping_method'] = $default_method;
 

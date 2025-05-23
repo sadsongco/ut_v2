@@ -1,5 +1,7 @@
 <?php
 
+define ("TmpPackageWeight", 180);
+define( "TmpPackageSize", 1.2);
 
 function getPackageSpecs($cart_contents)
 {
@@ -19,10 +21,11 @@ function getPackageSpecs($cart_contents)
             $depth += $item['depth_mm'] * $bundle['quantity'];
         }
     }
+
     return [
-        "weight"=>$package_weight,
-        "length"=>$length,
-        "width"=>$width,
-        "depth"=>$depth
+        "weight"=>$package_weight + TmpPackageWeight,
+        "length"=>$length * TmpPackageSize,
+        "width"=>$width * TmpPackageSize,
+        "depth"=>$depth * TmpPackageSize
     ];
 }

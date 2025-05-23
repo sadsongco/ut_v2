@@ -72,7 +72,7 @@ class FileUploader
             $filename = str_replace(" ", "_", $filename);
             $this->upload_path = $this->upload_dir . $subdir . "/" . $filename;
             if (file_exists($this->upload_path)) {
-                $this->response[] = ["success"=>false, "message"=>$filename." already exists"];
+                $this->response[] = ["success"=>false, "message"=>$filename." already exists", "filename"=>$filename];
                 continue;
             }
             if ($subdir === "images") {
