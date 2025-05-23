@@ -1,24 +1,13 @@
 <?php
 
+session_start();
+
 include("../../functions.php");
-require(base_path("classes/RoyalMail.php"));
-// require (base_path("classes/Database.php"));
+require (base_path("classes/Database.php"));
 use Database\Database;
 $db = new Database('orders');
 
 $order_id = explode("-",$_SESSION['order_id'])[1];
-
-$query = "DELETE FROM New_Orders WHERE order_id = ?";
-try {
-    $db->query($query, [$order_id]);
-}
-catch (Exception $e) {
-    error_log($e);
-}
-$response = [
-    'status' => 'failed',
-    'response'=> $_POST
-];
 
 if (isset($_POST['status']) && $_POST['status'] == 'FAILED') {
     $query = "DELETE FROM New_Orders WHERE order_id = ?";
@@ -45,8 +34,6 @@ try {
 catch (Exception $e) {
     error_log($e);
 }
-
-
 
 $response = [
     'status' => 'success',
