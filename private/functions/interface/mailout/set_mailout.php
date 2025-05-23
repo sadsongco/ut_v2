@@ -1,7 +1,7 @@
 <?php
 
 include_once("includes/mailout_includes.php");
-include(base_path("../secure/env/config.php"));
+include_once(base_path("../secure/env/config.php"));
 
 $test = isset($_POST['test_mailout']); 
 
