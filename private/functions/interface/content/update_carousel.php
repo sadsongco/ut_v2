@@ -38,11 +38,10 @@ if (isset($_POST['update'])) {
 }
 
 if (isset($_POST['delete'])) {
-    unlink(CAROUSEL_ASSET_PATH . "images/" . $_POST['img_url']);
+    unlink(base_path(CAROUSEL_ASSET_PATH . "images/" . $_POST['img_url']));
     $query = "DELETE FROM carousel WHERE carousel_id = ?;";
     $params = [$_POST['carousel_id']];
     $db->query($query, $params);
-    echo $m->render("carouselEdit", ["deleted"=>true]);
 }
 
 

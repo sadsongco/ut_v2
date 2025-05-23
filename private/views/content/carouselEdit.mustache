@@ -27,18 +27,29 @@
                     {{/order_options}}
                 </select>
             </div>
-            <input
-                hx-post="/private/functions/interface/content/update_carousel.php"
-                type="submit"
-                name="delete"
-                value="Delete Tile"\
-                hx-confirm="Really delete this tile?"
-                hx-vals='{"carousel_id": "{{carousel_id}}"", "img_url": "{{img_url}}"}'
-                hx-target="#carouselPreview"
-                hx-replace="innerHTML"
-                >
+            <button
+                onclick="deleteTile(event)"
+                data-img_url="{{img_url}}"
+                data-tile_id="{{carousel_id}}"
+            >Delete Tile</button>
         </div>
     {{/carousel_tiles}}
     </div>
     <input type="submit" name="update" value="Update Carousel">
 </form>
+
+<script>
+const deleteTile = async (e) => {
+    e.preventDefault();
+    const params = new FormData;
+    params.append("delete", true);
+    params.append("carousel_id", e.target.dataset.tile_id);
+    params.append("img_url", e.target.dataset.img_url);
+    const url = "/private/functions/interface/content/update_carousel.php";
+    res = await fetch(url, {
+        method: 'POST',
+        body: params
+    });
+    console.log(await res.text());
+}
+</script>
