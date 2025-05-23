@@ -83,7 +83,7 @@ function checkItemForDownloadRelease($item, $order_db_id, $db, &$download_tokens
         return false;
     }
     $item_name = $res['name'];
-    $query = "SELECT download_token_id FROM download_tokens WHERE order_id = ? AND item_id = ?";
+    $query = "SELECT download_token_id FROM Download_tokens WHERE order_id = ? AND item_id = ?";
     $res = $db->query($query, [$order_db_id, $item['item_id']])->fetch();
     if (isset($res['download_token_id'])) {
         $download_token = createUniqueToken($res['download_token_id']);

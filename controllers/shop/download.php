@@ -27,5 +27,5 @@ $file_path = base_path(DOWNLOAD_PATH . $filename);
 
 triggerDownload($filename, $file_path);
 
-// $query = "DELETE FROM download_tokens WHERE download_token_id = ?";
-// $db->query($query, [$id]);
+$query = "DELETE FROM Download_tokens WHERE download_token_id = ?";
+$db->query($query, [$id]);
