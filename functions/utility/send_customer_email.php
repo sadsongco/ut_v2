@@ -9,8 +9,8 @@ use PHPMailer\PHPMailer\Exception;
 
 function sendCustomerEmail($order, $template, $db, $m) {
     $subjects = [
-        "success" => "you have placed an order",
-        "shipped" => "your order has shipped"
+        "success" => "you have placed an order #" . $order['order_id'],
+        "shipped" => "your order #" . $order['order_id'] . " has shipped"
     ];
     // create pdf for order
     $order_db_id = explode("-", $order['order_id'])[1];
@@ -19,7 +19,7 @@ function sendCustomerEmail($order, $template, $db, $m) {
     require(base_path("../secure/mailauth/ut.php"));
     $subject = "Unbeleivable Truth - ";
     $subject .= $subjects[$template];
-    $email = $m->render("emails/customer/$template", ["order"=>$order]);
+    $email = $m->render("emails/customer/$template", ["order"=>$order, "host"=>getHost()]);
 
     // mail auth
     $from_name = "Unbelievable Truth shop";

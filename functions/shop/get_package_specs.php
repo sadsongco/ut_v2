@@ -9,7 +9,7 @@ function getPackageSpecs($cart_contents)
     $length = $width = $depth = 0;
     $package_weight = 0;
     foreach ($cart_contents['items'] as $item) {
-        if ($item['e_delivery'] = 1) continue;
+        if ($item['e_delivery'] == 1) continue;
         $all_e_delivery = false;
         $package_weight += $item['weight'] * $item['quantity'] * 1000;
         if ($item['length_mm'] > $length) $length = $item['length_mm'];
@@ -18,7 +18,7 @@ function getPackageSpecs($cart_contents)
     }
     foreach ($cart_contents['bundles'] as $bundle) {
         foreach ($bundle['items'] as $item) {
-            if ($item['e_delivery'] = 1) continue;
+            if ($item['e_delivery'] == 1) continue;
             $all_e_delivery = false;
             $package_weight += $item['weight'] * $bundle['quantity'] * 1000;
             if ($item['length_mm'] > $length) $length = $item['length_mm'];

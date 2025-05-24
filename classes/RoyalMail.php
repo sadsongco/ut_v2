@@ -56,7 +56,7 @@ class RoyalMail {
     function __construct($order_id, $db, $old=false)
     {
         $this->orders_table = $old ? "Orders" : "New_Orders";
-        $this->order_items_table = $old ? "Order_items" : "New_Order__items";
+        $this->order_items_table = $old ? "Order_items" : "New_Order_items";
         $this->old_order = $old;
         $this->db = $db;
         $this->order_id = $order_id;

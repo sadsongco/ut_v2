@@ -2,6 +2,7 @@
 
 function triggerDownload($filename, $file_path)
 {
+    if (!is_file($file_path)) exit("There was an error. Please try again or contact info@unbelievabletruth.co.uk");
     try {
     header("Pragma: public");
     header("Expires: 0");

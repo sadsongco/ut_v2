@@ -112,15 +112,25 @@ function insertOrderIntoOrderTable($order_details, $db) {
 
 function insertItemIntoOrderTable($order_details, $item, $db) {
     try {
-            $query = "INSERT INTO New_Order_items VALUES (
-            NULL,
+            $query = "INSERT INTO New_Order_items
+            (
+                order_id,
+                item_id,
+                option_id,
+                amount,
+                order_price
+            )
+            VALUES (
             ?,
             ?,
             ?,
-            ?);";
+            ?,
+            ?
+            );";
             $params = [
                     $order_details['order_id'],
                     $item['item_id'],
+                    $item['item_option_id'],
                     $item['amount'],
                     $item['price']
             ];

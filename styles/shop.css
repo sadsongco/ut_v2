@@ -283,16 +283,6 @@ a.viewCartItems .viewCartBadge {
   border-color: transparent;
 }
 
-.billing-address {
-}
-
-.billing-address > * {
-  /* overflow: hidden; */
-}
-
-.address {
-}
-
 .address h2 {
   font-family: var(--headingFont);
   font-weight: bold;
@@ -308,4 +298,8 @@ a.viewCartItems .viewCartBadge {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
+}
+
+.success {
+  text-align: left;
 }

@@ -1,21 +1,42 @@
 {{>html_header}}
 
 <section class="cartContainer">
-    <div class="checkout-container">
+    <div class="checkout-container success">
+        {{^order}}
+            <p>You seem to have come to this page from the wrong place. You need to have completed a purchase. Please return to the <a href="/shop/">shop</a></p>
+        {{/order}}
+        {{#order}}
         {{#order_id}}
-        <h2>Thank you for your order</h2>
-        <p>Your order {{order_id}} has been received.</p>
-        {{^preorder_items}}<p>It will be sent out to you within 2 working days, unless there are pre-order items in which case it will be sent on or just before the release date. When it is sent you will receive an email where you can track your parcel.</p>{{/preorder_items}} 
-        {{#preorder_items}}<p>{{name}} will be sent on {{release_date}}, or just before. When it is sent you will receive an email where you can track your parcel, which will contain a download link for your digital version.</p>{{/preorder_items}}
-        
-        <p>If you would like to download a pdf of your receipt you can do so here: <a href="/functions/interface/shop/download_invoice.php?id={{order_db_id}}&token={{customer_token}}" download>Download invoice</a></p>
-        {{#download_tokens}}
-            <div>You can download your digital copy of {{name}} <a href="/shop/download/{{download_token}}" download>here</a></div>
-        {{/download_tokens}}
+            <h2>Thank you for your order</h2>
+            <p>Your order #{{order_id}} has been received.</p>
         {{/order_id}}
-        {{^order_id}}
-        <p>You seem to have come to this page from the wrong place. You need to have completed a purchase. Please return to the <a href="/shop/">shop</a></p>
+        {{#shipping_items}}
+            <p>Your package will be sent out to you within 2 working days. When it is sent you will receive an email with a link to track your parcel.</p>
+        {{/shipping_items}}
+        {{#preorder_items}}
+            {{#shipping}}
+                <p>{{name}}{{#option_name}} {{option_name}}{{/option_name}} will be sent on {{disp_release_date}}, or just before.
+                {{#download_token}}
+                    <br>When it is sent you will receive an email where you can track your parcel, which will contain a download link for your digital version.</p>
+                {{/download_token}}
+            {{/shipping}}
+            {{#e_delivery}}
+                {{#download_token}}
+                    You will receive an email with a link to download your digital copy of {{name}} on {{disp_release_date}}.
+                {{/download_token}}
+                {{^download_token}}
+                    Please contact us regarding your order for {{name}} on <a href="mailto:info@unbelievabletruth.co.uk">info@unbelievabletruth.co.uk</a>
+                {{/download_token}}
+            {{/e_delivery}}
+        {{/preorder_items}}
+        {{#download_items}}
+            <div>You can download your digital copy of {{name}} <a href="/shop/download/{{download_token}}" target="_blank">here</a>. If you have any issues please contact us on <a href="mailto:info@unbelievabletruth.co.uk">info@unbelievabletruth.co.uk</a>.</div>
+        {{/download_items}}
+        {{#order_id}}
+            <p>If you would like to download a pdf of your order receipt you can do so here: <br><a class="button" href="/functions/interface/shop/download_invoice.php?id={{order_db_id}}&token={{customer_token}}" download>Download invoice</a></p>
+            <p>We really appreciate you ordering direct from us, it keeps the band going. Please consider joining the mailing list below to stay in touch with new releases, touring and any other things.</p>
         {{/order_id}}
+        {{/order}}
     </div>
 </section>
 

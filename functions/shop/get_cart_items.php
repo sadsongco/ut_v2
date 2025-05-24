@@ -15,6 +15,7 @@ function getCartItems($items, $db, $details=true)
         if ($item['option_id']) {
             $query = "SELECT
                 $item_details,
+                Item_options.item_option_id,
                 Item_options.option_name,
                 Item_options.option_price,
                 Items.release_date,

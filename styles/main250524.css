@@ -6,9 +6,20 @@ body {
   color: var(--stdColour);
 }
 
+h1 {
+  font-family: var(--headingFont);
+  font-size: 2em;
+  line-height: 1em;
+}
+
 h2 {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+p {
+  line-height: 1.7em;
+  margin-bottom: 1em;
 }
 
 p.small {
@@ -84,6 +95,17 @@ footer {
   z-index: 10;
 }
 
+video {
+  object-fit: fill;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.3;
+  z-index: -1;
+}
+
 @media screen and (min-width: 900px) {
   footer {
     position: sticky;
@@ -107,15 +129,6 @@ footer section.socials {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-}
-
-p {
-  margin-bottom: 1em;
-}
-
-h1 {
-  font-family: var(--headingFont);
-  font-size: 2em;
 }
 
 a.button {
@@ -182,17 +195,6 @@ a.button:active {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap; */
-}
-
-video {
-  object-fit: fill;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0.3;
-  z-index: -1;
 }
 
 .accordion {
