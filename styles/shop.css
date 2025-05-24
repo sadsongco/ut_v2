@@ -115,6 +115,7 @@ a.viewCartItems .viewCartBadge {
   margin: var(--stdMarginSmall) 0;
   padding: var(--stdPaddingSmall);
   width: fit-content;
+  grid-column: -1;
 }
 
 .shop-item,
@@ -138,10 +139,6 @@ a.viewCartItems .viewCartBadge {
 
 .item-name {
   text-align: left;
-}
-
-.cart-item .totals-legend {
-  grid-column: 1/ 4;
 }
 
 @media screen and (min-width: 900px) {
@@ -191,6 +188,7 @@ a.viewCartItems .viewCartBadge {
 .checkout-form input[type='submit'],
 .checkout-form select {
   width: fit-content;
+  max-width: 10em;
 }
 
 .checkout-form .date-input,
@@ -206,11 +204,45 @@ a.viewCartItems .viewCartBadge {
   row-gap: var(--stdMarginSmall);
   column-gap: var(--stdMarginSmall);
 }
+.col-space {
+  display: none;
+}
+
+.cart-item .subtotal {
+  grid-column: 4;
+}
 
 @media screen and (max-width: 900px) {
-  .checkout-form,
+  .col-space {
+    display: block;
+  }
+  .checkout-form {
+    grid-template-columns: 1fr 1fr;
+  }
   .cart-item {
-    grid-template-columns: 1fr;
+    grid-template-columns: 3em 1fr 1fr;
+  }
+  .cart-item .item-img,
+  .cart-item .item-name {
+    grid-column: 1 / -1;
+  }
+  .cart-item .item-price {
+    grid-column: 2;
+  }
+  .cart-item .item-interact form {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 3em 1fr 1fr;
+  }
+  .cart-item .totals-legend {
+    grid-column: 1;
+  }
+  .cart-item .subtotal {
+    grid-column: 2;
+  }
+  .checkout-form input,
+  .checkout-form label {
+    min-width: auto;
   }
 }
 

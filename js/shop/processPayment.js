@@ -2,7 +2,6 @@ const processPayment = async (type, body) => {
   const popOver = document.getElementById('sumup-card');
   const target = document.getElementById('paymentResponse');
   const res = await updateOrder(body);
-  console.log(res);
   if (!res) return;
   if (res.status != 'success') {
     const output = await getResponseScreen(res.status);
