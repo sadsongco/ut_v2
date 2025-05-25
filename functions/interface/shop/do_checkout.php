@@ -23,10 +23,19 @@ $m = new Mustache_Engine(array(
 
 // reduce stock by item quantity
 try {
-    foreach ($_SESSION['items'] AS $item) {
-        reduceStock($item, $db);
+    if (isset($_SESSION['items'])) {
+        foreach ($_SESSION['items'] AS $item) {
+            reduceStock($item, $db);
+        }
     }
-    /* repeat for bundles */
+    if (isset($_SESSION['bundles'])) {
+        foreach ($_SESSION['bundles'] AS $bundle) {
+            foreach ($bundle['items'] AS $item) {
+                $item['quantity'] = $bundle['quantity'];
+                reduceStock($item, $db);
+            }
+        }
+    }
 }
 catch (Exception $e) {
     echo "Error: " . $e->getMessage();

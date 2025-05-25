@@ -16,8 +16,8 @@ const updateShippingMethods = (e) => {
   console.log(e.target.value);
 };
 
-window.addEventListener('keydown', async (e) => {
-  if (e.key !== 'Escape') return;
+const cancelOrder = async () => {
+  console.log('cancel order');
   document.getElementById('sumup-card').style.display = 'none';
   const postBody = new FormData();
   postBody.append('status', 'FAILED');
@@ -30,4 +30,9 @@ window.addEventListener('keydown', async (e) => {
   } catch (err) {
     console.log(err.message);
   }
+};
+
+window.addEventListener('keydown', async (e) => {
+  if (e.key !== 'Escape') return;
+  cancelOrder();
 });

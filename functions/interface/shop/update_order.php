@@ -2,20 +2,31 @@
 
 session_start();
 
-include("../../functions.php");
-require (base_path("classes/Database.php"));
+include_once("../../functions.php");
+require_once(base_path("classes/Database.php"));
 use Database\Database;
 $db = new Database('orders');
 
 $order_id = explode("-",$_SESSION['order_id'])[1];
+
 
 if (isset($_POST['status']) && $_POST['status'] == 'FAILED') {
     try {
         $db->beginTransaction();
         $query = "DELETE FROM New_Orders WHERE order_id = ?";
         $db->query($query, [$order_id]);
-        foreach($_SESSION['items'] AS $item) {
-            returnStock($item, $db);
+        if (isset($_SESSION['items'])) {
+            foreach($_SESSION['items'] AS $item) {
+                returnStock($item, $db);
+            }
+        }
+        if (isset($_SESSION['bundles'])) {
+            foreach($_SESSION['bundles'] AS $bundle) {
+                foreach($bundle['items'] AS $item) {
+                    $item['quantity'] = $bundle['quantity'];
+                    returnStock($item, $db);
+                }
+            }
         }
         $db->commit();
         $response = [
@@ -51,7 +62,7 @@ echo json_encode($response);
 
 function returnStock($item, $db)
 {
-    if (isset($item['option_id'])) {
+    if (isset($item['option_id']) && $item['option_id']) {
         $query = "UPDATE Item_options SET option_stock = option_stock + ? WHERE item_option_id = ?";
         $params = [$item['quantity'], $item['option_id']];
         $db->query($query, $params);
