@@ -10,20 +10,27 @@ $db = new Database('orders');
 $order_id = explode("-",$_SESSION['order_id'])[1];
 
 if (isset($_POST['status']) && $_POST['status'] == 'FAILED') {
-    $query = "DELETE FROM New_Orders WHERE order_id = ?";
     try {
+        $db->beginTransaction();
+        $query = "DELETE FROM New_Orders WHERE order_id = ?";
         $db->query($query, [$order_id]);
+        foreach($_SESSION['items'] AS $item) {
+            returnStock($item, $db);
+        }
+        $db->commit();
+        $response = [
+            'status' => 'failed',
+            'response'=> $_POST
+        ];
+        unset($_SESSION['order_id']);
+        echo json_encode($response);
+        exit();
     }
     catch (Exception $e) {
+        $db->rollback();
         error_log($e);
+        exit();
     }
-    $response = [
-        'status' => 'failed',
-        'response'=> $_POST
-    ];
-    unset($_SESSION['order_id']);
-    echo json_encode($response);
-    exit();
 }
 
 
@@ -41,3 +48,16 @@ $response = [
 ];
 
 echo json_encode($response);
+
+function returnStock($item, $db)
+{
+    if (isset($item['option_id'])) {
+        $query = "UPDATE Item_options SET option_stock = option_stock + ? WHERE item_option_id = ?";
+        $params = [$item['quantity'], $item['option_id']];
+        $db->query($query, $params);
+    } else {
+        $query = "UPDATE Items SET stock = stock + ? WHERE item_id = ?";
+        $params = [$item['quantity'], $item['item_id']];
+        $db->query($query, $params);
+    }
+}

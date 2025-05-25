@@ -21,6 +21,18 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('views/partials'))
 ));
 
+// reduce stock by item quantity
+try {
+    foreach ($_SESSION['items'] AS $item) {
+        reduceStock($item, $db);
+    }
+    /* repeat for bundles */
+}
+catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+    exit();
+}
+
 $order_details = $_POST;
 $country_code = $db->query("SELECT country_code FROM Countries WHERE country_id = ?", [$_POST['billing-country']])->fetch();
 $order_details['billing-country-code'] = $country_code['country_code'];
@@ -49,3 +61,31 @@ $checkout = new SUCheckout($saved_order);
 $response = $checkout->createCheckout()->getResponse();
 
 echo $m->render('shop/payment', ["checkout_id"=>$response->id, "name"=>$order_details['name'], "amount"=>$order_details['totals']['total']]);
+
+function reduceStock($item, $db)
+{
+    if ($item['option_id']) {
+        $query = "SELECT option_stock FROM Item_options WHERE item_option_id = ?";
+        $stock = $db->query($query, [$item['option_id']])->fetch();
+        if ($stock['option_stock'] < $item['quantity']) {
+            /** deal with out of stock  */
+            echo "Out of stock";
+            exit();
+        }
+        $query = "UPDATE Item_options SET option_stock = option_stock - ? WHERE item_option_id = ?";
+        $params = [$item['quantity'], $item['option_id']];
+        $db->query($query, $params);
+    } else {
+        $query = "SELECT stock FROM Items WHERE item_id = ?";
+        $stock = $db->query($query, [$item['item_id']])->fetch();
+        if ($stock['stock'] < $item['quantity']) {
+            /** deal with out of stock  */
+            echo "Out of stock";
+            exit();
+        }
+        $query = "UPDATE Items SET stock = stock - ? WHERE item_id = ?";
+        $params = [$item['quantity'], $item['item_id']];
+        $db->query($query, $params);
+    }
+
+}
