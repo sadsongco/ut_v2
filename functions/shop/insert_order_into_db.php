@@ -119,6 +119,8 @@ function insertItemIntoOrderTable($order_details, $item, $db, $order_bundle_id =
                 $item['quantity'],
                 $item['price']
         ];
+        $order_bundle_col = "";
+        $order_bundle_val = "";
         if ($order_bundle_id) {
                 $order_bundle_col = ", order_bundle_id";
                 $order_bundle_val = ", ?";

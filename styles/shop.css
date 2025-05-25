@@ -306,7 +306,7 @@ a.viewCartItems .viewCartBadge {
   .cart-item .item-interact form {
     grid-column: 1 / -1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
   .cart-item .totals-legend {
     grid-column: 1;
