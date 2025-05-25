@@ -17,7 +17,10 @@ function insertOrderIntoDB($order_details, $db) {
                     insertItemIntoOrderTable($order_details, $order_item, $db);
             }
             foreach ($order_details['items']['bundles'] as $bundle) {
-                    insertBundleIntoOrderTable($order_details, $bundle, $db);
+                    $order_bundle_id = insertBundleIntoOrderTable($order_details, $bundle, $db);
+                    foreach ($bundle['items'] as $bundle_item) {
+                            insertItemIntoOrderTable($order_details, $bundle_item, $db, $order_bundle_id);
+                    }
             }
 
     } catch (Exception $e) {
@@ -108,7 +111,19 @@ function insertOrderIntoOrderTable($order_details, $db) {
     }
 }
 
-function insertItemIntoOrderTable($order_details, $item, $db) {
+function insertItemIntoOrderTable($order_details, $item, $db, $order_bundle_id = NULL) {
+        $params = [
+                $order_details['order_id'],
+                $item['item_id'],
+                !isset($item['option_id']) || !$item['option_id'] ? NULL : $item['option_id'],
+                $item['quantity'],
+                $item['price']
+        ];
+        if ($order_bundle_id) {
+                $order_bundle_col = ", order_bundle_id";
+                $order_bundle_val = ", ?";
+                $params[] = $order_bundle_id;
+        }
     try {
             $query = "INSERT INTO New_Order_items
             (
@@ -117,6 +132,7 @@ function insertItemIntoOrderTable($order_details, $item, $db) {
                 option_id,
                 quantity,
                 order_price
+                $order_bundle_col
             )
             VALUES (
             ?,
@@ -124,14 +140,8 @@ function insertItemIntoOrderTable($order_details, $item, $db) {
             ?,
             ?,
             ?
+            $order_bundle_val
             );";
-            $params = [
-                    $order_details['order_id'],
-                    $item['item_id'],
-                    !$item['option_id'] ? NULL : $item['option_id'],
-                    $item['quantity'],
-                    $item['price']
-            ];
             $db->query($query, $params);
     } catch (Exception $e) {
             throw new Exception($e);
@@ -152,6 +162,7 @@ function insertBundleIntoOrderTable($order_details, $bundle, $db) {
         } catch (Exception $e) {
                 throw new Exception($e);
         }
+        return $db->lastInsertId();
 }
 
 function createOrderID($order_id, $db)
