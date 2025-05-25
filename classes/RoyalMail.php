@@ -130,7 +130,7 @@ class RoyalMail {
             Items.weight,
             Items.customs_description,
             Items.customs_code,
-            " . $this->order_items_table . ".amount
+            " . $this->order_items_table . ".quantity
             FROM " . $this->order_items_table . "
             JOIN Items ON " . $this->order_items_table . ".item_id = Items.item_id
             WHERE " . $this->order_items_table . ".order_id = ?
@@ -143,7 +143,7 @@ class RoyalMail {
                 Items.weight,
                 Items.customs_description,
                 Items.customs_code,
-                Order_bundles.amount
+                Order_bundles.quantity
             FROM Order_bundles
             JOIN Bundle_items ON Bundle_items.bundle_id = Order_bundles.bundle_id
             JOIN Items ON Items.item_id = Bundle_items.item_id
@@ -252,7 +252,7 @@ class RoyalMail {
     private function createRMItem($item) {
         $rm_item = [
             "name"=>$item['name'],
-            "quantity"=>$item['amount'],
+            "quantity"=>$item['quantity'],
             "unitValue"=>$item['price'],
             "unitWeightInGrams"=>(int)$item['weight']*1000,
             "customsDescription"=>$item['customs_description'],
@@ -338,7 +338,7 @@ class RoyalMail {
 function getPackageWeight($order) {
     $weight = 0;
     foreach ($order['items'] as $item) {
-        $weight += $item['weight'] * $item['amount'];
+        $weight += $item['weight'] * $item['quantity'];
     }
     return ($weight * 1000) + 160;
 }

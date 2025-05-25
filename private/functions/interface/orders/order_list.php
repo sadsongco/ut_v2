@@ -51,18 +51,18 @@ try {
     foreach ($result AS &$row) {
         $sub_query = "SELECT
                         Items.name,
-                        New_Order_items.amount,
+                        New_Order_items.quantity,
                         FORMAT(New_Order_items.order_price, 2) AS price,
-						FORMAT(New_Order_items.order_price * New_Order_items.amount, 2) AS item_total
+						FORMAT(New_Order_items.order_price * New_Order_items.quantity, 2) AS item_total
                         FROM New_Order_items
                         LEFT JOIN Items ON New_Order_items.item_id = Items.item_id
                         WHERE New_Order_items.order_id = ?;";
         $row["items"] = $db->query($sub_query, [$row["order_id"]])->fetchAll();
         $bundle_query = "SELECT
                             Bundles.name,
-                            Order_bundles.amount,
+                            Order_bundles.quantity,
                             FORMAT(Bundles.price, 2) AS price,
-                            FORMAT(Bundles.price * Order_bundles.amount, 2) AS bundle_total
+                            FORMAT(Bundles.price * Order_bundles.quantity, 2) AS bundle_total
                             FROM Order_bundles
                             LEFT JOIN Bundles ON Order_bundles.bundle_id = Bundles.bundle_id
                             WHERE Order_bundles.order_id = ?;";

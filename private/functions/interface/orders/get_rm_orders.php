@@ -103,7 +103,7 @@ function sendCustomerShippedEmail($order_id, $tracking_number, $db, $m) {
         $order = $result[0];
         $query = "SELECT
         Items.name,
-        New_Order_items.amount,
+        New_Order_items.quantity,
         New_Order_items.order_price
         FROM `New_Order_items`
         JOIN `Items` ON `New_Order_items`.`item_id` = `Items`.`item_id`
@@ -115,7 +115,7 @@ function sendCustomerShippedEmail($order_id, $tracking_number, $db, $m) {
         foreach ($items as $item) {
             $order["items"][] = [
                 "name" => $item["name"],
-                "amount" => $item["amount"]
+                "quantity" => $item["quantity"]
             ];
         }
     } catch (PDOException $e) {
@@ -162,8 +162,8 @@ function createOrderPDF($order_id, $db) {
             $stmt->execute([$order_id]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             $sub_query = "SELECT Items.name, 
-                            New_Order_items.amount,
-                            FORMAT(New_Order_items.order_price * New_Order_items.amount, 2) AS item_total,
+                            New_Order_items.quantity,
+                            FORMAT(New_Order_items.order_price * New_Order_items.quantity, 2) AS item_total,
                             FORMAT(New_Order_items.order_price, 2) AS price
                             FROM New_Order_items
                             LEFT JOIN Items ON New_Order_items.item_id = Items.item_id
@@ -181,8 +181,8 @@ function createOrderPDF($order_id, $db) {
     $total = $result["shipping"];
     $subtotal = 0;
     foreach ($result["items"] as $item) {
-        $total += $item["price"] * $item["amount"];
-        $subtotal += $item["price"] * $item["amount"];
+        $total += $item["price"] * $item["quantity"];
+        $subtotal += $item["price"] * $item["quantity"];
     }
 
     $result["subtotal"] = round($subtotal, 4);

@@ -76,8 +76,8 @@ class ORDER_PDF extends FPDF {
             return;
         }
         $this->SetX(self::ITEM_POS[2]);
-        $amount = "{$item['amount']} @ ";
-        $this->Cell(0, 8, $amount . GBP.$item['price'], 0, 0, 'L');
+        $quantity = "{$item['quantity']} @ ";
+        $this->Cell(0, 8, $quantity . GBP.$item['price'], 0, 0, 'L');
         $this->SetX(self::PRICE_X);
         $this->Cell(0, 8, GBP.$item["item_total"], 0, 1, 'R');
     }
@@ -92,8 +92,8 @@ class ORDER_PDF extends FPDF {
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 8, "Bundle:", 0, 0, 'L');
         $this->SetX(self::ITEM_POS[2]);
-        $amount = "{$bundle['amount']} @ ";
-        $this->Cell(0, 8, $amount . GBP.$bundle['price'], 0, 0, 'L');
+        $quantity = "{$bundle['quantity']} @ ";
+        $this->Cell(0, 8, $quantity . GBP.$bundle['price'], 0, 0, 'L');
         $this->SetX(self::PRICE_X);
         $this->Cell(0, 8, GBP.$bundle["bundle_total"], 0, 1, 'R');
     }
