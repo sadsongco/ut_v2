@@ -14,10 +14,12 @@ function createOrderPDF($order_id, $db) {
             $result = $db->query($query, [$order_id])->fetch();
             $sub_query = "SELECT Items.name, 
                             New_Order_items.quantity,
+                            Item_options.option_name,
                             FORMAT(New_Order_items.order_price * New_Order_items.quantity, 2) AS item_total,
                             FORMAT(New_Order_items.order_price, 2) AS price
                             FROM New_Order_items
                             LEFT JOIN Items ON New_Order_items.item_id = Items.item_id
+                            LEFT JOIN Item_options ON New_Order_items.option_id = Item_options.item_option_id
                             WHERE New_Order_items.order_id = ?;";
             $result["items"] = $db->query($sub_query, [$order_id])->fetchAll();
             $query = "SELECT *, FROM Bundles LEFT JOIN Order_bundles ON Bundles.bundle_id = Order_bundles.bundle_id WHERE order_id = ?";

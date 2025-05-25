@@ -15,7 +15,7 @@ function getCartItems($items, $db, $details=true)
         if ($item['option_id']) {
             $query = "SELECT
                 $item_details,
-                Item_options.item_option_id,
+                Item_options.item_option_id as option_id,
                 Item_options.option_name,
                 Item_options.option_price,
                 Items.release_date,
@@ -31,7 +31,7 @@ function getCartItems($items, $db, $details=true)
         $cart_item = $db->query($query, $params)->fetch();
         if ($cart_item['image'] == "") unset($cart_item['image']);
         $cart_item_option = isset($cart_item['option_name']) ? $cart_item['option_name'] : false;
-        $cart_items[] = [...$cart_item, "quantity"=>$item['quantity'], "option"=>$cart_item_option]; // add quantity to $cart_item;
+        $cart_items[] = [...$cart_item, "quantity"=>$item['quantity']]; // add quantity to $cart_item;
     }
     return $cart_items;
 }

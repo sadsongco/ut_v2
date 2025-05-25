@@ -128,7 +128,7 @@ function insertItemIntoOrderTable($order_details, $item, $db) {
             $params = [
                     $order_details['order_id'],
                     $item['item_id'],
-                    $item['item_option_id'],
+                    !$item['option_id'] ? NULL : $item['option_id'],
                     $item['quantity'],
                     $item['price']
             ];

@@ -70,7 +70,8 @@ class ORDER_PDF extends FPDF {
         $this->setFont('opensansregular', '', 11);
         $this->SetTextColor(...self::ITEM_GREY);
         $this->SetX(self::ITEM_POS[0]);
-        $this->Cell(0, 8, iconv('UTF-8', "CP1250//TRANSLIT", $item["name"]), 0, 0, 'L');
+        $name = $item["option_name"] ? $item["name"] . " " . $item["option_name"] : $item["name"];
+        $this->Cell(0, 8, iconv('UTF-8', "CP1250//TRANSLIT", $name), 0, 0, 'L');
         if (!isset($item['price'])) {
             $this->Cell(0, 8, "", 0, 1, 'R');
             return;

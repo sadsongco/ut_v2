@@ -128,5 +128,5 @@ echo $this->renderer->render('shop/success', [
     "stylesheets"=>["shop"]]
 );
 
-// session_destroy();
+session_destroy();
 
