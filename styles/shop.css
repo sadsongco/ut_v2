@@ -278,6 +278,12 @@ a.viewCartItems .viewCartBadge {
   right: 0.5em;
   cursor: pointer;
   z-index: 4;
+  transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.cancel:hover {
+  opacity: 1;
+  color: var(--alertColour);
 }
 
 @media screen and (max-width: 900px) {

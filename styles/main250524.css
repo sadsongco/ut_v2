@@ -30,6 +30,11 @@ p.small {
   text-decoration: line-through;
 }
 
+b {
+  font-family: var(--headingFont);
+  font-weight: bold;
+}
+
 main {
   padding: var(--stdPaddingMedium);
   max-width: 100%;

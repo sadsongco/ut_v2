@@ -4,8 +4,8 @@ function classifyItem($item, $order_db_id,$db, &$shipping_items, &$download_item
 {
     if (isset($item['release_date']) && $item['release_date'] > date("Y-m-d")) {
         if (isset($item['download']) && $item['download'] != "") $item["download_token"] = createUniqueToken($db->lastInsertId());
-        if ($item['e_delivery']) $preorder_items[]["e_delivery"] = $item;
-        else $preorder_items[]['shipping'] = $item;
+        if ($item['e_delivery']) $preorder_items["e_delivery"][] = $item;
+        else $preorder_items['shipping'][] = $item;
         return;
     }
     if (!$item['e_delivery']) {
@@ -69,6 +69,7 @@ $order_db_id = explode("-", $_SESSION['order_id'])[1];
 $shipping_items = [];
 $download_items = [];
 $preorder_items = [];
+$shipping_all = false;
 
 $query = "SELECT * FROM New_Orders WHERE order_id = ?";
 $order = $db->query($query, [$order_db_id])->fetch();
@@ -88,8 +89,11 @@ foreach($_SESSION['bundles'] AS $bundle) {
     }
 }
 
+if (!empty($shipping_items) && empty($preorder_items)) $shipping_all = true;
+if (!empty($shipping_items) && !empty($preorder_items)) $preorder_items['held'] = [...$shipping_items];
+
 use RoyalMail\RoyalMail;
-if (!empty($shipping_items)) {
+if ($shipping_all) {
     $rm = new RoyalMail($order_db_id, $db);
     $rm->createRMOrder();
     $rm->submitRMOrder();
@@ -111,7 +115,7 @@ try {
         WHERE New_Orders.order_id = ?";
     $order = $db->query($query, [$order_db_id])->fetch();
 
-    $order['shipping_items'] = $shipping_items;
+    $order['shipping_items'] = $shipping_all;
     $order['download_items'] = $download_items;
     $order['preorder_items'] = $preorder_items;
 
