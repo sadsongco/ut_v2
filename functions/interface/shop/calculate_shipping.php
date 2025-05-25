@@ -38,7 +38,7 @@ function calculateShipping($db, $zone, $method) {
         $params = [$package_specs['package_id'], $method['shipping_method_id'], $zone];
         $shipping_price = $db->query($query, $params)->fetch();
         if (!$shipping_price) throw new Exception("No applicable shipping price found");
-        return $shipping_price['shipping_price'] + PackagingCosts::LABOUR + PackagingCosts::PACKAGING;
+        return $shipping_price['shipping_price'] + $_SESSION['package_specs']['package_price'] + PackagingCosts::LABOUR;
     } catch (Exception $e) {
         throw new Exception($e);
     }
