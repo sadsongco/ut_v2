@@ -17,8 +17,9 @@ const updateShippingMethods = (e) => {
 };
 
 const cancelOrder = async () => {
-  console.log('cancel order');
   document.getElementById('sumup-card').style.display = 'none';
+  document.getElementById('processing-order').style.display = 'none';
+
   const postBody = new FormData();
   postBody.append('status', 'FAILED');
   const apiURL = '/functions/interface/shop/update_order.php';

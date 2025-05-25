@@ -1,4 +1,8 @@
 {{>html_header}}
+        <div id="processing-order" class="processingDefeat">
+            <h1>...processing order, please wait</h1>
+            <img src="/assets/images/graphics/loading.gif" />
+        </div>
         <div id="paymentTarget"></div>
         <section class="cartContainer" hx-get="/functions/shop/cart_items.php?checkout=true" hx-trigger="load, cartUpdated from:body">
         </section>
