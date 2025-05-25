@@ -8,7 +8,7 @@
             <div class='item-interact'>
                 <form hx-post='/functions/interface/shop/update_cart.php'>
                     <input type="hidden" name="item_id" value="{{item_id}}">
-                    <input type="number" name="quantity" value="{{quantity}}">
+                    <input type="number" name="quantity" value="{{quantity}}" max="{{stock}}">
                     <input type="submit" name="update" value="Update Quantity">
                     <input type="submit" name="remove" value="Remove From Cart">
                 </form>
