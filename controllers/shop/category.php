@@ -14,9 +14,10 @@ if ($paths[2] == "All") {
     $paths[2] = null;
 }
 
+$featured = getFeatured($db, $paths[2]);
 $items = getItems($db, $paths[2]);
 $bundles = getBundles($db, $paths[2]);
 
 $categories = getCategories($db);
 
-echo $this->renderer->render('shop/index', ["items"=>$items, "bundles"=>$bundles, "categories"=>$categories, "stylesheets"=>["shop"]]);
+echo $this->renderer->render('shop/index', ["featured"=>$featured, "items"=>$items, "bundles"=>$bundles, "categories"=>$categories, "stylesheets"=>["shop"]]);

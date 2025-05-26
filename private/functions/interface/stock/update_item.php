@@ -7,8 +7,11 @@ use Database\Database;
 $db = new Database('orders');
 
 if (isset($_POST['update_item'])) {
+    if (isset($_POST['featured'])) $_POST['featured'] = 1;
+    else $_POST['featured'] = "0";
     unset ($_POST['update_item']);
     $_POST['release_date'] = $_POST['release_date'] ?? null;
+
     $query = "UPDATE Items SET ";
     [$query, $params] = buildUpdateQuery($query, "item_id");
     $db->query($query, $params);
@@ -42,7 +45,7 @@ function buildUpdateQuery($query, $index) {
     $params = [];
     foreach ($_POST as $field=>$value) {
         if ($field == $index) continue;
-        if (!$value) continue;
+        if (!$value) $value = NULL;
         $params[$field] = $value;
         if ($field == 'item_id') continue;
         $update[] = "$field = :$field";
@@ -50,5 +53,7 @@ function buildUpdateQuery($query, $index) {
     $query .= implode(", ", $update);
     $query .= " WHERE $index = :$index";
     $params[$index] = $_POST[$index];
+    p_2($query);
+    p_2($params);
     return [$query, $params];
 }
