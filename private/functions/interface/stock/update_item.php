@@ -53,7 +53,5 @@ function buildUpdateQuery($query, $index) {
     $query .= implode(", ", $update);
     $query .= " WHERE $index = :$index";
     $params[$index] = $_POST[$index];
-    p_2($query);
-    p_2($params);
     return [$query, $params];
 }
