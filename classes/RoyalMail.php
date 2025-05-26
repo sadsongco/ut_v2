@@ -130,13 +130,23 @@ class RoyalMail {
             Items.weight,
             Items.customs_description,
             Items.customs_code,
+            New_Order_items.option_id,
             " . $this->order_items_table . ".quantity
             FROM " . $this->order_items_table . "
             JOIN Items ON " . $this->order_items_table . ".item_id = Items.item_id
             WHERE " . $this->order_items_table . ".order_id = ?
+            AND order_bundle_id IS NULL
             ";
         $params = [$this->order_id];
         $items = $this->db->query($query, $params)->fetchAll();
+        foreach ($items as &$item) {
+            $item['weight'] *= 1000; // item weights in annoying kg
+            if ($item['option_id']) {
+                $query = "SELECT option_weight FROM Item_options WHERE item_option_id = ?";
+                $params = [$item['option_id']];
+                $item['weight'] = $this->db->query($query, $params)->fetch()['option_weight'];
+            }
+        }
         $query = "SELECT
                 Items.name,
                 Items.price,
@@ -151,6 +161,13 @@ class RoyalMail {
         ";
         $params = [$this->order_id];
         $bundle_items = $this->db->query($query, $params)->fetchAll();
+        foreach ($bundle_items as &$item) {
+            if ($item['option_id']) {
+                $query = "SELECT option_weight FROM Item_options WHERE item_option_id = ?";
+                $params = [$item['option_id']];
+                $item['weight'] = $this->db->query($query, $params)->fetch()['option_weight'];
+            }
+        }
         $this->order_data['items'] = array_merge($items, $bundle_items);
     }
 
@@ -254,7 +271,7 @@ class RoyalMail {
             "name"=>$item['name'],
             "quantity"=>$item['quantity'],
             "unitValue"=>$item['price'],
-            "unitWeightInGrams"=>(int)$item['weight']*1000,
+            "unitWeightInGrams"=>(int)$item['weight'],
             "customsDescription"=>$item['customs_description'],
             "extendedCustomsDescription"=>$item['name'],
             "customsCode"=>$item['customs_code'],
