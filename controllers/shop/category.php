@@ -3,6 +3,7 @@
 session_start();
 
 include_once(__DIR__ . "/../../functions/functions.php");
+include_once(base_path("functions/shop/get_featured.php"));
 include_once(base_path("functions/shop/get_items.php"));
 include_once(base_path("functions/shop/get_bundles.php"));
 include_once(base_path("functions/shop/get_categories.php"));
