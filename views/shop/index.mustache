@@ -25,16 +25,18 @@
         <section class='show items'>
         <h2>Items</h2>
         {{#items}}
-            <a {{#featured}}class="featured" {{/featured}} href="/shop/item/{{item_id}}">
             <section class='item'>
-                <p>{{name}}</p>
-                <p>&pound;{{price}}</p>
-                {{#image}}
-                <img src="/assets/shop/images/{{image}}" alt="image" width="100">
-                {{/image}}
+                <a {{#featured}}class="featured" {{/featured}} href="/shop/item/{{item_id}}">
+                <div class="link-container">
+                    <p>{{name}}</p>
+                    <p>&pound;{{price}}</p>
+                    {{#image}}
+                    <img src="/assets/shop/images/{{image}}" alt="image" width="100">
+                    {{/image}}
+                </div>
+                </a>
                 {{>item_interact}}
             </section>
-            </a>
         {{/items}}
         </section>
         <div id="cartMessage"></div>

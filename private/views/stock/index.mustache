@@ -49,10 +49,13 @@
             </form>
             {{#options}}
             <form hx-post="/private/functions/interface/stock/update_item.php">
+                <p>Option: {{option_name}}</p>
                 <div class="update-stock-item">
                     <input type="hidden" name="item_option_id" value="{{item_option_id}}">
-                    <label for="item{{item_id}}_option{{option_id}}_stock">Option {{option_name}} stock</label>
+                    <label for="item{{item_id}}_option{{option_id}}_stock">Stock</label>
                     <input type="number" id="option{{option_id}}_stock" name="option_stock" value="{{option_stock}}">
+                    <label for="item{{item_id}}_option{{option_id}}_weight">Weight (g)</label>
+                    <input type="number" id="option{{option_id}}_weight" name="option_weight" value="{{option_weight}}">
                     <input type="submit" value="Update Option Stock" name="update_option">
                 </div>
             </form>
@@ -64,6 +67,8 @@
                     <input type="text" name="option_name" id="option_name">
                     <label for="option_price">Option Price</label>
                     <input type="number" step="0.01" name="option_price" id="option_price">
+                    <label for="option_weight">Option Weight (g)</label>
+                    <input type="number" step="1" name="option_weight" id="option_weight">
                     <label for="option_stock">Option Stock</label>
                     <input type="number" step="1" name="option_stock" id="option_stock">
                     <input type="submit" value="Add New Option" name="add_new_option">
@@ -129,6 +134,40 @@
     </div>
     <div id="createResult"></div>
 </section>
+<section class="callout">
+    <h1>Bundles</h1>
+</section>
+{{#bundles}}
+    <section class="show accordion" id="editBundle{{bundle_id}}">
+        <header data-targetid="editBundle{{bundle_id}}">
+            <h2>Bundle # {{bundle_id}}</h2>
+            <i class="fa-solid fa-plus"></i>
+        </header>
+        <div class="accordion-content" id="editBundle{{bundle_id}}-content">
+            <form hx-post="/private/functions/interface/stock/update_bundle.php">
+                <p>
+                    Bundle items:
+                    <ul>
+                    {{#items}}
+                        <li>{{name}}</li>
+                    {{/items}}
+                    </ul>
+                </p>
+                <p>
+                    Bundle stock: {{stock}}
+                </p>
+                <div class="update-stock-item">
+                    <input type="hidden" name="bundle_id" value="{{bundle_id}}">
+                    <label for="bundlePrice{{bundle_id}}">Price &pound;</label>
+                    <input type="number" step="0.5" id="bundlePrice{{bundle_id}}" name="price" value="{{price}}" />
+                    <label for="bundleActive{{bundle_id}}">Active</label>
+                    <input type="checkbox" name="active" {{active}} />
+                    <input type="submit" value="Update Bundle" /> 
+                </div>
+            </form>
+        </div>
+    </section>
+{{/bundles}}
 <section class="callout">
     <h1>Add Bundle</h1>
 </section>

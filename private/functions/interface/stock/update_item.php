@@ -8,23 +8,17 @@ $db = new Database('orders');
 
 if (isset($_POST['update_item'])) {
     unset ($_POST['update_item']);
+    $_POST['release_date'] = $_POST['release_date'] ?? null;
     $query = "UPDATE Items SET ";
-    $update = [];
-    $params = [];
-    foreach ($_POST as $field=>$value) {
-        $params[$field] = $value;
-        if ($field == 'item_id') continue;
-        $update[] = "$field = :$field";
-    }
-    $query .= implode(", ", $update);
-    $query .= " WHERE item_id = :item_id";
+    [$query, $params] = buildUpdateQuery($query, "item_id");
     $db->query($query, $params);
 }
 
 if (isset($_POST['update_option'])) {
     unset ($_POST['update_option']);
-    $query = "UPDATE Item_options SET option_stock = ? WHERE item_option_id = ?";
-    $db->query($query, [$_POST['option_stock'], $_POST['item_option_id']]);
+    $query = "UPDATE Item_options SET ";
+    [$query, $params] = buildUpdateQuery($query, "item_option_id");
+    $db->query($query, $params);
 }
 
 if (isset($_POST['add_new_option'])) {
@@ -41,4 +35,20 @@ if (isset($_POST['delete_item'])) {
     $db->query($query, [$_POST['item_id']]);
 }
 
-echo "<h1>Item Updated</h1>";
+echo "<h2>Item Updated</h2>";
+
+function buildUpdateQuery($query, $index) {
+    $update = [];
+    $params = [];
+    foreach ($_POST as $field=>$value) {
+        if ($field == $index) continue;
+        if (!$value) continue;
+        $params[$field] = $value;
+        if ($field == 'item_id') continue;
+        $update[] = "$field = :$field";
+    }
+    $query .= implode(", ", $update);
+    $query .= " WHERE $index = :$index";
+    $params[$index] = $_POST[$index];
+    return [$query, $params];
+}

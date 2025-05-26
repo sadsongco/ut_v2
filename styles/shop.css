@@ -1,10 +1,14 @@
 section.bundles,
 section.items {
+  margin-top: var(--stdMarginSmall);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   grid-template-columns: repeat(auto-fit, 25em);
   grid-template-rows: repeat(auto-fit, 1fr);
+}
+section.items {
+  padding-top: var(--stdPaddingMedium);
 }
 
 section.bundles h2,
@@ -34,10 +38,15 @@ section.item {
 section.item,
 section.bundle,
 section.bundle .bundle-item {
+  color: var(--articleText);
   background-color: var(--articleBackground);
   /* height: fit-content; */
   padding: var(--stdPaddingMedium);
   margin: var(--stdMarginSmall);
+}
+
+.item a p {
+  color: var(--articleText);
 }
 
 section.bundle img {

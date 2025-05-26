@@ -152,6 +152,16 @@ a.button:active {
   background-color: #eee;
 }
 
+ul {
+  list-style-type: circle;
+  margin-left: var(--stdMarginSmall);
+  padding-left: var(--stdPaddingSmall);
+}
+
+ul li::marker {
+  color: var(--compColBrt1);
+}
+
 .error {
   color: var(--errorColour);
 }
