@@ -75,7 +75,7 @@ function getPackageSpecs($cart_contents)
         if ($item['e_delivery'] == 1) continue;
         addPackagingClassification($item, $packaging_classifications);
         $all_e_delivery = false;
-        $items_weight += $item['weight'] * $item['quantity'] * 1000;
+        $items_weight += getItemWeight($item);
         if ($item['length_mm'] > $length) $length = $item['length_mm'];
         if ($item['length_mm'] > $width) $width = $item['length_mm'];
         $depth += $item['depth_mm'] * $item['quantity'];
@@ -85,7 +85,7 @@ function getPackageSpecs($cart_contents)
             if ($item['e_delivery'] == 1) continue;
             addPackagingClassification($item, $packaging_classifications);
             $all_e_delivery = false;
-            $items_weight += $item['weight'] * $bundle['quantity'] * 1000;
+            $items_weight += getItemWeight($item);
             if ($item['length_mm'] > $length) $length = $item['length_mm'];
             if ($item['length_mm'] > $width) $width = $item['length_mm'];
             $depth += $item['depth_mm'] * $bundle['quantity'];
@@ -126,4 +126,11 @@ function addPackagingClassification ($item, &$packaging_classifications)
     } else {
         $packaging_classifications[$item['packaging_classification']] += $item['quantity'];
     }
+}
+
+function getItemWeight ($item) {
+    if (isset($item['option_id']) && $item['option_id']) {
+        return $item['option_weight'] * $item['quantity']; //stored in grams. annoyingly
+    }
+    return $item['weight'] * $item['quantity'] * 1000;
 }

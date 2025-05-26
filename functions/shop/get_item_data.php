@@ -9,6 +9,7 @@ function getItemData($item, $item_details, $db)
                 Item_options.item_option_id as option_id,
                 Item_options.option_name,
                 Item_options.option_price,
+                Item_options.option_weight,
                 Items.release_date,
                 Items.e_delivery,
                 Items.packaging_classification
