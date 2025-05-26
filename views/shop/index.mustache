@@ -28,7 +28,7 @@
             <a href="/shop/item/{{item_id}}">
             <div class="link-container">
                 <p>{{name}}</p>
-                <p>&pound;{{price}}</p>
+                <p id="item{{item_id}}-price">&pound;{{price}}</p>
                 {{#image}}
                 <img src="/assets/shop/images/{{image}}" alt="image" width="100">
                 {{/image}}
@@ -64,7 +64,7 @@
             <a href="/shop/item/{{item_id}}">
             <div class="link-container">
                 <p>{{name}}</p>
-                <p>&pound;{{price}}</p>
+                <p id="item{{item_id}}-price">&pound;{{price}}</p>
                 {{#image}}
                 <img src="/assets/shop/images/{{image}}" alt="image" width="100">
                 {{/image}}
@@ -76,4 +76,5 @@
     </section>
     <div id="cartMessage"></div>
 </section>
+<script src="/js/shop/updateItemPrice.js"></script>
 {{>html_footer}}

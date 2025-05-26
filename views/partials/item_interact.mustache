@@ -4,7 +4,7 @@
             {{/is_bundle}}
                 <input type="hidden" name="item_id{{#is_bundle}}[]{{/is_bundle}}" value='{{item_id}}'>
                 {{#option}}
-                    <select name='option_id{{#is_bundle}}[]{{/is_bundle}}' onchange='updateItemPrice(event)'>
+                    <select name='option_id{{#is_bundle}}[]{{/is_bundle}}' data-item_id='{{item_id}}' onchange='updateItemPrice(event)'>
                         {{#options}}
                             <option value='{{item_option_id}}' data-price='{{option_price}}'>{{option_name}}</option>
                         {{/options}}
