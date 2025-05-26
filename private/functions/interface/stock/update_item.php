@@ -38,9 +38,8 @@ if (isset($_POST['add_new_option'])) {
         $insert[] = "?";
         $params[] = $value;
     }
+    
     $query .= "(" . implode(", ", $fields) . ") VALUES (" . implode(", ", $insert) . ")";
-    p_2($query);
-    p_2($params);
     $db->query($query, $params);
 }
 
