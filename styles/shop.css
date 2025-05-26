@@ -54,7 +54,8 @@ section.bundle img {
 }
 
 .items a,
-.cart-item a {
+.cart-item a,
+.shop-item a {
   text-decoration: none;
   color: var(--articleText);
 }

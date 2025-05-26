@@ -21,8 +21,23 @@ foreach ($bundles as &$bundle) {
 $query = "SELECT DISTINCT category FROM Items";
 $categories = $db->query($query)->fetchAll();
 
+$packaging_classifications = [
+    ["name"=>"CD", "selected"=>false],
+    ["name"=>"LP", "selected"=>false],
+    ["name"=>"SHIRT", "selected"=>false],
+    ["name"=>"POSTER", "selected"=>false],
+    ["name"=>"OTHER", "selected"=>false],
+];
+
 foreach ($items as &$item) {
+    $item['packaging_options'] = $packaging_classifications;
+    foreach($item['packaging_options'] as &$classification) {
+        if ($classification['name'] == $item['packaging_classification']) {
+            $classification['selected'] = " selected";
+        }
+    }
     $item['featured'] = $item['featured'] == 1 ? "checked" : null;
+    $item['e_delivery'] = $item['e_delivery'] == 1 ? "checked" : null;
     $item['categories'] = $categories;
     foreach ($item['categories'] as &$category) {
         $category['selected'] = "";
@@ -34,4 +49,4 @@ foreach ($items as &$item) {
     $item['options'] = $db->query($query, [$item['item_id']])->fetchAll();
 }
 
-echo $this->renderer->render('stock/index', ["items"=>$items, "bundles"=>$bundles, "categories"=>$categories, "stylesheets"=>["stock"]]);
+echo $this->renderer->render('stock/index', ["items"=>$items, "bundles"=>$bundles, "categories"=>$categories, "packaging_options"=>$packaging_classifications, "stylesheets"=>["stock"]]);

@@ -12,7 +12,8 @@ $uploader = new FileUploader(SHOP_ASSET_PATH, SHOP_MAX_IMAGE_WIDTH, SHOP_THUMBNA
 $uploaded_files = $uploader->checkFileSizes()->uploadFiles()->getResponse();
 $_POST['image'] = $uploaded_files[0]['filename'];
 
-if(isset($_POST['featured'])) $_POST['featured'] = $_POST['featured'] == "on" ? 1 : 0;
+if(isset($_POST['featured'])) $_POST['featured'] = $_POST['featured'] == "on" ? 1 : NULL;
+if(isset($_POST['e_delivery'])) $_POST['e_delivery'] = $_POST['e_delivery'] == "on" ? 1 : NULL;
 
 if ($_POST['release_date'] == "") unset($_POST['release_date']);
 

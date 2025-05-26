@@ -3,13 +3,14 @@
     <h1>Stock Management Page</h1>
 </section>
 {{#items}}
+    <div id="item{{item_id}}-message"></div>
     <section class="show accordion" id="item{{item_id}}">
         <header data-targetid="item{{item_id}}">
             <h2>{{name}}</h2>
             <i class="fa-solid fa-plus"></i>
         </header>
         <div class="accordion-content" id="item{{item_id}}-content">
-            <form id="item{{item_id}}" hx-post="/private/functions/interface/stock/update_item.php">
+            <form id="item{{item_id}}" hx-post="/private/functions/interface/stock/update_item.php" hx-target="#item{{item_id}}-message">
                 <div class="update-stock-item">
                     <input type="hidden" name="item_id" value="{{item_id}}">
                     <label for="item{{item_id}}_name" >Name</label>
@@ -34,6 +35,10 @@
                     <input type="number" name="customs_code" id="item{{item_id}}_customs_code" step="1" value="{{customs_code}}">
                     <label for="item{{item_id}}_stock">stock</label>
                     <input type="number" name="stock" id="item{{item_id}}_stock" step="1" value="{{stock}}">
+                    <label for="item{{item_id}}_e_delivery">E-delivery</label>
+                    <input type="checkbox" name="e_delivery" id="item{{item_id}}_e_delivery" {{e_delivery}}>
+                    <label for="item{{item_id}}_download">Download (THIS HAS TO BE UPLOADED MANUALLY IF CHANGED)</label>
+                    <input type="text" name="download" id="item{{item_id}}_download" value="{{download}}" />
                     <label for="item{{item_id}}_featured">featured</label>
                     <input type="checkbox" name="featured" id="item{{item_id}}_featured" {{featured}}>
                     <label for="item{{item_id}}_length_mm">length_mm</label>
@@ -44,6 +49,12 @@
                     <input type="number" name="depth_mm" id="item{{item_id}}_depth_mm" step="1" value="{{depth_mm}}">
                     <label for="item{{item_id}}_release_date">Release Date</label>
                     <input type="date" name="release_date" id="item{{item_id}}_release_date" value="{{release_date}}">
+                    <label for="packaging_classification">Packaging Classification</label>
+                    <select name="packaging_classification" id="packaging_classification">
+                    {{#packaging_options}}
+                        <option value="{{name}}"{{selected}}>{{name}}</option>
+                    {{/packaging_options}}
+                    </select>
                     <input type="submit" value="Update Item" name="update_item">
                 </div>
             </form>
@@ -117,8 +128,12 @@
                 <input type="number" name="customs_code" id="item_customs_code" step="1" value="{{customs_code}}">
                 <label for="item_stock">stock</label>
                 <input type="number" name="stock" id="item_stock" step="1" value="0">
+                <label for="item{{item_id}}_e_delivery">E-delivery</label>
+                <input type="checkbox" name="e_delivery" id="item{{item_id}}_e_delivery">
+                <label for="item{{item_id}}_download">Download (THIS HAS TO BE UPLOADED MANUALLY)</label>
+                <input type="text" name="download" id="item{{item_id}}_download" />
                 <label for="item_featured">featured</label>
-                <input type="checkbox" name="featured" id="item_featured" {{featured}}>
+                <input type="checkbox" name="featured" id="item_featured">
                 <label for="item_length_mm">length_mm</label>
                 <input type="number" name="length_mm" id="item_length_mm" step="1" value="0">
                 <label for="item_width_mm">width_mm</label>
@@ -127,7 +142,12 @@
                 <input type="number" name="depth_mm" id="item_depth_mm" step="1" value="0">
                 <label for="item{{item_id}}_release_date">Release Date</label>
                 <input type="date" name="release_date" id="item{{item_id}}_release_date">
-
+                <label for="packaging_classification">Packaging Classification</label>
+                <select name="packaging_classification" id="packaging_classification">
+                {{#packaging_options}}
+                    <option value="{{name}}">{{name}}</option>
+                {{/packaging_options}}
+                </select>
                 <input type="submit" value="Add Item">
             </div>
         </form>

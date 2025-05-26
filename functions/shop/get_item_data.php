@@ -23,6 +23,5 @@ function getItemData($item, $item_details, $db)
         }
         $cart_item = $db->query($query, $params)->fetch();
         if ($cart_item['image'] == "") unset($cart_item['image']);
-        $cart_item_option = isset($cart_item['option_name']) ? $cart_item['option_name'] : false;
         return [...$cart_item, "quantity"=>$item['quantity']]; // add quantity to $cart_item;
 }

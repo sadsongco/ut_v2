@@ -11,7 +11,7 @@ function getItems($db, $category=null)
     $query = "SELECT * FROM (
         SELECT
             Items.item_id, Items.name, Items.price, Items.image, Items.featured,
-            Items.stock + (SELECT IFNULL(SUM(Item_options.option_stock), 0) FROM Item_options WHERE Item_options.item_id = Items.item_id) AS stock
+            IFNULL(Items.stock, 0) + (SELECT IFNULL(SUM(Item_options.option_stock), 0) FROM Item_options WHERE Item_options.item_id = Items.item_id) AS stock
             FROM Items
             $where
             GROUP BY Items.item_id
