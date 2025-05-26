@@ -8,6 +8,7 @@ function getCartContents($db)
 {
     $bundles = isset($_SESSION['bundles']) && sizeof($_SESSION['bundles']) > 0 ? getCartBundles($_SESSION['bundles'], $db) : [];
     $cart_items = isset($_SESSION['items']) && sizeof($_SESSION['items']) > 0 ? getCartItems($_SESSION['items'], $db) : [];
+    if (sizeof($cart_items) == 0 && sizeof($bundles) == 0) return false;
     return ["items"=>$cart_items, "bundles"=>$bundles];
 }
 

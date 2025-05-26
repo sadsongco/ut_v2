@@ -15,7 +15,7 @@ if (!isset($db)) $db = new Database('orders');
 $countries = $db->query('SELECT * FROM `Countries` ORDER BY `name` ASC')->fetchAll();
 
 if ((!isset($_SESSION['bundles']) || sizeof($_SESSION['bundles']) == 0) && (!isset($_SESSION['items']) || sizeof($_SESSION['items']) == 0)) {
-    echo "no items in cart";
+    header("Location: /shop/");
     exit();
 }
 

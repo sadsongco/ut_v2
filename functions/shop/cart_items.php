@@ -25,6 +25,8 @@ $checkout = false;
 if (isset($_GET['checkout'])) $checkout = true;
 
 $cart_contents = getCartContents($db);
-$subtotal = calculateCartSubtotal($cart_contents);
+$subtotal = false;
+if ($cart_contents)
+    $subtotal = calculateCartSubtotal($cart_contents);
 
 echo $m->render('shop/cart_items', ["cart_items"=>$cart_contents, "checkout"=>$checkout, "subtotal"=>$subtotal]);

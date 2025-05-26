@@ -55,7 +55,7 @@ section.bundle img {
 
 .items a {
   text-decoration: none;
-  color: var(--stdColour);
+  color: var(--articleText);
 }
 
 input.invalid {
@@ -229,10 +229,8 @@ a.viewCartItems .viewCartBadge {
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  color: var(--stdColour);
   background-color: buttonface;
   padding: var(--stdPaddingSmall);
-  color: black;
   border: 1px solid #787878;
   border-radius: 3px;
 }

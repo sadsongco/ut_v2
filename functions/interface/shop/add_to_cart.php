@@ -43,7 +43,7 @@ if (isset($_POST['item_id'])) {
 }
 
 header("HX-Trigger: cartUpdated");
-echo "Item added to cart";
+echo 'Item added to cart<br><a class="cart-button" href="/shop/cart">View Cart</a>';
 
 function rearrayBundleItems($bundle) {
     $items = [];
