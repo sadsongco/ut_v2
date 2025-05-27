@@ -10,7 +10,7 @@ class SUCheckout
     private $response;
     private $checkout_id;
 
-    public function __construct($order_details)
+    public function __construct($order_details=false)
     {
         $this->headers = [
             "Authorization: Bearer " . SU_API_KEY,
@@ -99,10 +99,10 @@ class SUCheckout
         return $this;
     }
 
-    public function listTransactions()
+    public function listTransactions($query_params = [])
     {
-        echo "LIST TRANSACTIONS";
-        $url =  "https://api.sumup.com/v2.1/merchants/".SU_MERCHANT_CODE."/transactions/history";
+        $query_string = http_build_query($query_params);
+        $url =  "https://api.sumup.com/v2.1/merchants/".SU_MERCHANT_CODE."/transactions/history?" . $query_string;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);

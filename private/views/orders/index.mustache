@@ -5,6 +5,8 @@
     </section>
     <section class="content-container">
         <h1>Orders</h1>
+        <button hx-get="/private/functions/interface/orders/view_transactions.php" hx-target="#orderResult" hx-trigger="click" onclick="disableButton(event)">View Transactions</button>
+        <div id="orderResult"></div>
         <button hx-get="/private/functions/interface/orders/get_su_orders.php" hx-swap="outerHTML" hx-trigger="click" onclick="disableButton(event)">Get Orders From SumUp</button>
         <button hx-get="/private/functions/interface/orders/submit_rm_orders.php" hx-target="#rmOutcomes" onclick="disableButton(event)">Submit Old Orders to Royal Mail</button>
         <button hx-get="/private/functions/interface/orders/get_rm_orders.php" hx-target="#rmOutcomes" onclick="disableButton(event)">Update Orders from Royal Mail</button>
