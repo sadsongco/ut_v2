@@ -23,6 +23,7 @@ class FileUploader
     private $max_width;
     private $thumb_width;
     private $resources;
+    private $web_path;
 
     public function __construct($path, $resources=false, $max_width=false, $thumb_width=80) {
         $this->upload_dir = base_path($path);
@@ -80,6 +81,17 @@ class FileUploader
             $target_dir = $this->resources ? $this->upload_dir ."/"  : $this->upload_dir . $subdir . "/";
             if (!is_dir($target_dir)) mkdir($target_dir);
             $this->upload_path = $target_dir . $filename;
+            if ($this->resources) {
+                if (!$this->thumb_width) {
+                    $upload_dir = $target_dir;
+                    $this->web_path = false;
+                } else {
+                    $upload_dir = $target_dir . "full_res/";
+                    $this->web_path = $target_dir . "web/";
+                }
+                if (!is_dir($upload_dir)) mkdir($upload_dir);
+                $this->upload_path  = $upload_dir . $filename;
+            }
             if (file_exists($this->upload_path)) {
                 $this->response[] = ["success"=>false, "message"=>$filename." already exists", "filename"=>$filename];
                 continue;
@@ -91,6 +103,9 @@ class FileUploader
                 }
                 $this->resizeImage($this->max_width);
                 if (($this->image_fnc)($this->image, $this->upload_path)) {
+                    if ($this->web_path) {
+                        $this->makeWebImage($filename);
+                    }
                     $this->makeThumbnail($filename);
                     $this->response[] = [
                         "success"=>true,
@@ -100,6 +115,7 @@ class FileUploader
                         "key"=>$key
                     ];
                 }
+                imagedestroy($this->image);
             }
             else {
                 if (move_uploaded_file($this->uploaded_file, $this->upload_path)) {
@@ -146,10 +162,20 @@ class FileUploader
     }
 
     private function makeThumbnail($filename) {
-        $thumbnail_dir = $this->resources ? $this->upload_dir . "/thumbnails/" : $this->upload_dir . "images/thumbnails/";
+        if (!$this->thumb_width) return;
+        $thumbnail_dir = $this->resources ? $this->upload_dir . "/thumbnail/" : $this->upload_dir . "images/thumbnail/";
         if (!is_dir($thumbnail_dir)) mkdir($thumbnail_dir);
         $path = $thumbnail_dir . $filename;
         $this->image = imagescale($this->image, $this->thumb_width);
+        ($this->image_fnc)($this->image, $path);
+    }
+
+    private function makeWebImage($filename) {
+        if (!$this->web_path) return;
+        $web_dir = $this->web_path;
+        if (!is_dir($web_dir)) mkdir($web_dir);
+        $path = $web_dir . $filename;
+        $this->image = imagescale($this->image, RESOURCE_WEB_WIDTH);
         ($this->image_fnc)($this->image, $path);
     }
 
