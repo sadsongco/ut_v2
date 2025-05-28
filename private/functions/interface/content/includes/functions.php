@@ -9,7 +9,6 @@ function parseLinks($line) {
     }
     if (sizeof($replacements)==0) return $line;
     foreach ($replacements as $replace) {
-        p_2($replace);
         $replace_arr = explode("::", $replace);
         if (sizeof($replace_arr) == 1) $link_text = $link_url = $replace_arr[0];
         else {

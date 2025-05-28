@@ -60,7 +60,6 @@ class FileUploader
 
     public function uploadFiles() {
         if (isset($this->response["success"]) && !$this->response["success"]) return $this;
-        p_2($this->files_to_upload);
         foreach($this->files_to_upload["name"] as $key=>$filename) {
             if (!isset($this->files_to_upload["tmp_name"][$key])) {
                 $this->response[] = ["success"=>false, "message"=>"NO TMP_NAME:.."];
