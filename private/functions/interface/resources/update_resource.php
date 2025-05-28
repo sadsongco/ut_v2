@@ -14,7 +14,7 @@ if ((isset($uploaded_files["success"]) && !$uploaded_files["success"])
 }
 $fields = null;
 if (isset($_POST["meta_filename"]) && $_POST["meta_filename"] != "") {
-    $file_path = $parent_dir . $_POST["resource_dir"] . "/" . $_POST["meta_filename"] . ".txt";
+    $file_path = base_path(RESOURCE_ASSET_PATH) . $_POST["resource_dir"] . "/" . $_POST["meta_filename"] . ".txt";
     $fields = $update_map[$_POST["meta_filename"]];
     $res_str_arr = [];
     foreach ($fields as $field) {
