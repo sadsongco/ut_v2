@@ -102,7 +102,7 @@ class SUCheckout
     public function listTransactions($query_params = [])
     {
         $query_string = http_build_query($query_params);
-        $url =  "https://api.sumup.com/v2.1/merchants/".SU_MERCHANT_CODE."/transactions/history?" . $query_string;
+        $url =  "https://api.sumup.com/v2.1/merchants/".SU_MERCHANT_CODE."/transactions/history?order=descending&" . $query_string;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -111,6 +111,20 @@ class SUCheckout
         curl_close($ch);
         return $this;
 
+    }
+
+    public function refundTransaction($transaction_id)
+    {
+        $url = "https://api.sumup.com/v0.1/me/refund/$transaction_id";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
+        $this->response = json_decode(curl_exec($ch));
+        curl_close($ch);
+        // $this->checkout_id = $this->response->id;
+        return $this;
     }
 
     public function getResponse()

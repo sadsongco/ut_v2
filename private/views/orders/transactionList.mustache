@@ -1,3 +1,36 @@
+<div id="updatedResult"></div>
 {{#transactions}}
-    <p>Amount: {{amount}}</p>
+    {{#href}}
+            <section id="transactions-list" hx-get="/private/functions/interface/orders/view_transactions.php?{{href}}" hx-swap="outerHTML" hx-trigger="transactionListUpdated from:body">
+    {{/href}}
+    {{^href}}
+            <section id="transactions-list" hx-get="/private/functions/interface/orders/view_transactions.php" hx-swap="outerHTML" hx-trigger="transactionListUpdated from:body">
+    {{/href}}
+    {{#items}}
+        <div class="view-transaction zebra">
+            <p>Transaction Amount</p> <p>&pound;{{amount}}{{#amount_match}} (matches order amount){{/amount_match}}</p>
+            <p>Transaction Time</p> <p>{{time}}</p>
+            <p>Status</p><p>{{status}}</p>
+            {{#order}}
+                <p>Order No.</p> <p>{{order_id}}</p>
+                <p>Customer</p><p>{{customer_name}}, {{customer_city}} {{customer_country}} (<a href="mailto:{{customer_email}}">{{customer_email}}</a>)</p>
+                {{#submitted}}<p>Submitted to Royal Mail</p><p></p>{{/submitted}}
+                {{#shipped}}<p>Shipped</p><p>{{service_name}}</p>{{/shipped}}
+            {{/order}}
+            {{^order}}
+                <p class="error">No Matching Order</p><p></p>
+            {{/order}}
+            <p>Action:</p><p><button hx-get="/private/functions/interface/orders/refund_transaction.php?transaction_id={{transaction_id}}" hx-confirm="Really refund transaction {{transaction_id}}?">Refund Transaction</button></p>
+        </div>
+    {{/items}}
+    {{#href}}
+            <button hx-get="/private/functions/interface/orders/view_transactions.php?{{href}}" hx-target="#orderResult" hx-trigger="click" onclick="disableButton(event)">Next Transactions</button>
+    {{/href}}
+    </section>
 {{/transactions}}
+
+<script type="text/javascript">
+    document.addEventListener('htmx:afterSettle', (e)=>{
+        e.target.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    })
+</script>

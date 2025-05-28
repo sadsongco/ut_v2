@@ -181,3 +181,14 @@ button:hover,
 .stdLink {
   color: #d9d9ff;
 }
+
+.view-transaction {
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1em;
+  padding: var(--stdPaddingMedium);
+  margin: var(--stdMarginSmall);
+  border: 1px solid black;
+  border-radius: 3px;
+}
