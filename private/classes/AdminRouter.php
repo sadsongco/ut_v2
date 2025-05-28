@@ -27,6 +27,10 @@ class AdminRouter extends Router
         'mailout' => [
             'name' => 'Mailout Management',
             'controller' => 'mailout/index'
+        ],
+        'resources' => [
+            'name' => 'Resources Management',
+            'controller' => 'resources/index'
         ]
     ];
     function __construct($renderer)

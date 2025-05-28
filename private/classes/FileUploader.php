@@ -20,14 +20,16 @@ class FileUploader
     private $image;
     private $max_width;
     private $thumb_width;
+    private $resources;
 
-    public function __construct($path, $max_width=false, $thumb_width=80) {
+    public function __construct($path, $resources=false, $max_width=false, $thumb_width=80) {
         $this->upload_dir = base_path($path);
         $this->max_width = $max_width;
         $this->thumb_width = $thumb_width;
         $this->response = [];
-        if (!isset($_FILES) || !isset($_FILES["files"])) {
-            $this->response = ["success"=>false, "messsage"=>"No files uploaded"];
+        $this->resources = $resources;
+        if (!isset($_FILES) || !isset($_FILES["files"]) || sizeof($_FILES) == 0 || sizeof($_FILES["files"]) == 0) {
+            $this->response = ["success"=>false, "message"=>"No files uploaded"];
             return $this;
         } else {
             $this->files_to_upload = $_FILES["files"];
@@ -36,6 +38,7 @@ class FileUploader
     }
 
     public function checkFileSizes() {
+        if (isset($this->response["success"]) && !$this->response["success"]) return $this;
         $post_size = 0;
         foreach ($this->files_to_upload["name"] as $key=>$filename) {
             if ($this->files_to_upload["size"][$key] > MAX_FILE_SIZE) {
@@ -53,6 +56,7 @@ class FileUploader
     }
 
     public function uploadFiles() {
+        if (isset($this->response["success"]) && !$this->response["success"]) return $this;
         foreach($this->files_to_upload["name"] as $key=>$filename) {
             if (!isset($this->files_to_upload["tmp_name"][$key])) {
                 $this->response[] = ["success"=>false, "message"=>"NO TMP_NAME:<br />.."];
@@ -70,7 +74,9 @@ class FileUploader
             }
             $subdir = $this->subdirs[$image_file_type];
             $filename = str_replace(" ", "_", $filename);
-            $this->upload_path = $this->upload_dir . $subdir . "/" . $filename;
+            $target_dir = $this->resources ? $this->upload_dir ."/"  : $this->upload_dir . $subdir . "/";
+            if (!is_dir($target_dir)) mkdir($target_dir);
+            $this->upload_path = $target_dir . $filename;
             if (file_exists($this->upload_path)) {
                 $this->response[] = ["success"=>false, "message"=>$filename." already exists", "filename"=>$filename];
                 continue;
@@ -126,7 +132,9 @@ class FileUploader
     }
 
     private function makeThumbnail($filename) {
-        $path = $this->upload_dir . "images/thumbnails/$filename";
+        $thumbnail_dir = $this->resources ? $this->upload_dir . "/thumbnails/" : $this->upload_dir . "images/thumbnails/";
+        if (!is_dir($thumbnail_dir)) mkdir($thumbnail_dir);
+        $path = $thumbnail_dir . $filename;
         $this->image = imagescale($this->image, $this->thumb_width);
         ($this->image_fnc)($this->image, $path);
     }

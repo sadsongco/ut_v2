@@ -9,17 +9,17 @@
     {{#carousel_tiles}}
         <input id="carousel_id{{carousel_id}}" type="hidden" name="carousel_id[]" value="{{carousel_id}}">
         <div class="carouselTilePreview">
-            <div class="tile-element-preview">
+            <div class="grid-2col">
                 <img class="span2" src="{{path}}">
             </div>
-            <div class="tile-element-preview">
+            <div class="grid-2col">
                 <label for="title{{carousel_id}}">Title</label>
                 <input type="text" name="title[]" id="title{{carousel_id}}" value="{{tile_title}}">
             </div>
-            <div class="tile-element-preview">
+            <div class="grid-2col">
                 <textarea class="span2" name="text[]" id="text{{carousel_id}}" cols="30" rows="10">{{tile_text}}</textarea>
             </div>
-            <div class="tile-element-preview">
+            <div class="grid-2col">
                 <label for="tile_order{{carousel_id}}">Position</label>
                 <select name="tile_order[]" id="tile_order{{carousel_id}}">
                     {{#order_options}}

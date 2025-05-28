@@ -1,15 +1,5 @@
 /* general */
 
-body {
-  font-family: var(--std-font);
-}
-
-h1 {
-  font-family: var(--heading-font);
-  font-size: 1.3em;
-  font-weight: 700;
-}
-
 section.resource {
   padding: 2em;
   border-bottom: 1px solid black;
@@ -126,4 +116,16 @@ nav ul.nav {
 .social a:active {
   text-decoration: underline;
   color: #888;
+}
+
+.resource_container {
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.resource_container:nth-child(odd) {
+  background-color: #afafcf;
+}
+.resource_container:nth-child(even) {
+  background-color: #cfafaf;
 }

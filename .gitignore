@@ -19,3 +19,5 @@ resources/resource_dirs/
 
 private/data/mailout/current_mailout.txt
 private/data/mailout/logs/
+
+resources/resource_dirs/temp

@@ -29,8 +29,3 @@
 .carouselTilePreview img {
   height: 300px;
 }
-
-.tile-element-preview {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-}
