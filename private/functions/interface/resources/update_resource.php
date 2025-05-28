@@ -4,6 +4,11 @@ include(__DIR__ . "/../../../../functions/functions.php");
 include_once("includes/resource_includes.php");
 include_once(base_path("private/classes/FileUploader.php"));
 
+if(!isset($_POST['resource_dir'])) {
+    echo $m->render("partials/resourceForm", ["dir"=>$_POST["resource_dir"], "error"=>["message"=>"No resource directory specified. Could be that the file is too big to upload and have to be uploaded manually"]]);
+    exit();
+}
+
 use FileUploader\FileUploader;
 $uploader = new FileUploader(RESOURCE_ASSET_PATH . $_POST['resource_dir'], true);
 if ($_POST['resource_dir'] == "logos") {
