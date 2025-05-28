@@ -1,13 +1,17 @@
 /* general */
 
 section.resource {
+  color: black;
   padding: 2em;
   border-bottom: 1px solid black;
 }
 
 section.resource img {
-  max-width: 40%;
-  padding: 2em;
+  display: block;
+  max-width:300px;
+  max-height:300px;
+  width: auto;
+  height: auto; */
 }
 
 section.resource:nth-last-of-type(odd) {

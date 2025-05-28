@@ -12,6 +12,7 @@ function triggerDownload($filename, $file_path)
     header("Content-Disposition: attachment; filename=".$filename);
     header("Content-Transfer-Encoding: binary");
     header("Content-Length: ".filesize($file_path));
+    header('Last-Modified: '.date(DATE_RFC2822, filemtime($file_path)));
     readfile($file_path);
 }
 catch (Exception $e) {

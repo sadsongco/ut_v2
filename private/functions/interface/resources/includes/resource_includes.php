@@ -49,7 +49,5 @@ $resize_resources = [
     "press_shots"
 ];
 
-$parent_dir = base_path("resources/resource_dirs/");
-
 define("MAX_IMAGE_WIDTH", 900);
 define("IMAGE_THUMBNAIL_WIDTH", 200);

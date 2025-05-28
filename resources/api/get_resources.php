@@ -10,10 +10,10 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader('templates/partials')
 ));
 
-include("get-resource.php");
+include("get_resource.php");
 
 $resource_sections = [];
-$handle = opendir(__DIR__ . "/../resource_dirs");
+$handle = opendir(base_path(RESOURCE_ASSET_PATH));
 while ($sub_dir = readdir($handle)) {
     if (substr($sub_dir, 0, 1) == ".") continue;
     $resource_sections[] = $sub_dir;
@@ -25,7 +25,7 @@ $sections = [];
 $resources = [];
 foreach ($resource_sections AS $resource_section) {
     $sections[] = ["section_id"=>$resource_section, "disp_name"=>ucwords(str_replace("_", " ", $resource_section))];
-    $resources[] = getResource($resource_section);
+    $resources[] = getResource($resource_section, base_path(RESOURCE_ASSET_PATH));
 }
 // p_2($resources);
 echo $m->render('resourcePage',["sections"=>$sections, "resources"=>$resources]);
