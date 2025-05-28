@@ -1,15 +1,15 @@
 <?php
 
 include_once("includes/resource_includes.php");
-$handle = opendir($parent_dir);
+$handle = opendir(base_path(RESOURCE_ASSET_PATH));
 $params = [];
 while (false !== ($resource_dir = readdir($handle))) {
     $this_params = [];
     if (substr($resource_dir, 0, 1) == ".") continue;
-    if (!is_dir($parent_dir . $resource_dir)) continue;
+    if (!is_dir(base_path(RESOURCE_ASSET_PATH . $resource_dir))) continue;
     $this_params["dir"] = $resource_dir;
     $this_params["dir_disp"] = ucwords(str_replace("_", " ", $resource_dir));
-    $subhandle = opendir($parent_dir . $resource_dir);
+    $subhandle = opendir(base_path(RESOURCE_ASSET_PATH . $resource_dir));
     $meta = false;
     $meta_key = "";
     while (false !== ($file = readdir($subhandle))) {
