@@ -13,6 +13,8 @@ class FileUploader
         "png" => "images",
         "gif" => "images",
         "mp3" => "audio",
+        "pdf" => "pdf",
+        "wav" => "audio_fullres"
     ];
     private $uploaded_file;
     private $upload_path;
@@ -28,6 +30,7 @@ class FileUploader
         $this->thumb_width = $thumb_width;
         $this->response = [];
         $this->resources = $resources;
+
         if (!isset($_FILES) || !isset($_FILES["files"]) || sizeof($_FILES) == 0 || sizeof($_FILES["files"]) == 0) {
             $this->response = ["success"=>false, "message"=>"No files uploaded"];
             return $this;
@@ -57,14 +60,15 @@ class FileUploader
 
     public function uploadFiles() {
         if (isset($this->response["success"]) && !$this->response["success"]) return $this;
+        p_2($this->files_to_upload);
         foreach($this->files_to_upload["name"] as $key=>$filename) {
             if (!isset($this->files_to_upload["tmp_name"][$key])) {
-                $this->response[] = ["success"=>false, "message"=>"NO TMP_NAME:<br />.."];
+                $this->response[] = ["success"=>false, "message"=>"NO TMP_NAME:.."];
                 continue;
             }
             $this->uploaded_file = $this->files_to_upload["tmp_name"][$key];
             if ($this->uploaded_file == "") {
-                $this->response[] = ["success"=>false, "message"=>"NO TMP_NAME:<br />.."];
+                $this->response[] = ["success"=>false, "message"=>"NO TMP_NAME:.."];
                 continue;
             }
             $image_file_type = strtolower(pathinfo($filename,PATHINFO_EXTENSION));
@@ -89,6 +93,17 @@ class FileUploader
                 $this->resizeImage($this->max_width);
                 if (($this->image_fnc)($this->image, $this->upload_path)) {
                     $this->makeThumbnail($filename);
+                    $this->response[] = [
+                        "success"=>true,
+                        "message"=>$filename." uploaded",
+                        "filename"=>$filename,
+                        "type"=>$subdir,
+                        "key"=>$key
+                    ];
+                }
+            }
+            else {
+                if (move_uploaded_file($this->uploaded_file, $this->upload_path)) {
                     $this->response[] = [
                         "success"=>true,
                         "message"=>$filename." uploaded",

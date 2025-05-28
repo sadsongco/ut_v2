@@ -3,6 +3,7 @@
 *.htaccess
 *.error_log
 tmp.html
+php.ini
 
 assets/images/article_images/
 assets/articles/
