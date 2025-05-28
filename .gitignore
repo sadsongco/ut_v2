@@ -15,5 +15,7 @@ assets/images/shop/item_images/
 assets/shop/
 tmp/
 
+resources/resource_dirs/
+
 private/data/mailout/current_mailout.txt
 private/data/mailout/logs/
