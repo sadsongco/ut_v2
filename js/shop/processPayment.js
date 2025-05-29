@@ -1,7 +1,9 @@
-const processPayment = async (type, body, order_details) => {
+const processPayment = async (type, body, order_details, paymentTimeout) => {
+  clearTimeout(paymentTimeout);
   const popOver = document.getElementById('sumup-card');
   const target = document.getElementById('paymentResponse');
   const defeat = document.getElementById('processing-order');
+  defeat.style.display = 'flex';
   let res = await updateOrder(body);
   if (res['status'] == 'no_checkout_reference') return;
   if (!res) {
@@ -14,7 +16,6 @@ const processPayment = async (type, body, order_details) => {
       return;
     }
   }
-  defeat.style.display = 'flex';
   if (res.status != 'success') {
     const output = await getResponseScreen(res.status);
     target.innerHTML = output;

@@ -131,10 +131,10 @@ class RoyalMail {
             Items.customs_description,
             Items.customs_code,
             New_Order_items.option_id,
-            " . $this->order_items_table . ".quantity
-            FROM " . $this->order_items_table . "
-            JOIN Items ON " . $this->order_items_table . ".item_id = Items.item_id
-            WHERE " . $this->order_items_table . ".order_id = ?
+            New_Order_items.quantity
+            FROM New_Order_items
+            JOIN Items ON New_Order_items.item_id = Items.item_id
+            WHERE New_Order_items.order_id = ?
             AND order_bundle_id IS NULL
             ";
         $params = [$this->order_id];
@@ -148,17 +148,18 @@ class RoyalMail {
             }
         }
         $query = "SELECT
-                Items.name,
-                Items.price,
-                Items.weight,
-                Items.customs_description,
-                Items.customs_code,
-                Order_bundles.quantity
-            FROM Order_bundles
-            JOIN Bundle_items ON Bundle_items.bundle_id = Order_bundles.bundle_id
-            JOIN Items ON Items.item_id = Bundle_items.item_id
-            WHERE Order_bundles.order_id = ?
-        ";
+            Items.name,
+            Items.price,
+            Items.weight,
+            Items.customs_description,
+            Items.customs_code,
+            New_Order_items.option_id,
+            New_Order_items.quantity
+            FROM New_Order_items
+            JOIN Items ON New_Order_items.item_id = Items.item_id
+            WHERE New_Order_items.order_id = ?
+            AND order_bundle_id IS NOT NULL
+            ";
         $params = [$this->order_id];
         $bundle_items = $this->db->query($query, $params)->fetchAll();
         foreach ($bundle_items as &$item) {
