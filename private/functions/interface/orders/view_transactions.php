@@ -18,8 +18,6 @@ use SUCheckout\SUCheckout;
 $checkout = new SUCheckout();
 $transactions = $checkout->listTransactions($_GET)->getResponse();
 
-p_2($transactions);
-
 foreach($transactions->items as &$transaction) {
     $transaction_order = getOrderByTransactionId($transaction->id, $db);
     if ($transaction_order)$transaction->order = $transaction_order;
