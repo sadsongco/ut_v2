@@ -68,8 +68,10 @@ use SUCheckout\SUCheckout;
 $checkout = new SUCheckout($saved_order);
 
 $response = $checkout->createCheckout()->getResponse();
+if (isset($order_details['items']['bundles']['items'])) $items = array_merge($order_details['items']['items'], $order_details['items']['bundles']['items']);
+else $items = $order_details['items']['items'];
 
-echo $m->render('shop/payment', ["checkout_id"=>$response->id, "name"=>$order_details['name'], "amount"=>$order_details['totals']['total']]);
+echo $m->render('shop/payment', ["checkout_id"=>$response->id, "order_id"=>$saved_order['order_id'], "name"=>$order_details['name'], "items"=>$items, "subtotal"=>$order_details['totals']['subtotal'], "shipping"=>$order_details['totals']['shipping'], "vat"=>$order_details['totals']['vat'], "amount"=>$order_details['totals']['total']]);
 
 function reduceStock($item, $db)
 {

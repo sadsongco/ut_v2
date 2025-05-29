@@ -1,7 +1,7 @@
 const updateOrder = async (body) => {
   // body = spoofResponse;
   // console.log('SPOOFED PAYMENT RESPONSE', body);
-  if (!body.checkout_reference) return false;
+  if (!body.checkout_reference) return { status: 'no_checkout_reference' };
   const postBody = new FormData();
   for (const [key, value] of Object.entries(body)) {
     postBody.append(key, value);

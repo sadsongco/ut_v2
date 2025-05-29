@@ -18,4 +18,4 @@ $items = getItems($db);
 $bundles = getBundles($db);
 $categories = getCategories($db);
 
-echo $this->renderer->render('shop/tmp_index', ["featured"=>$featured, "items"=>$items, "bundles"=>$bundles, "categories"=>$categories, "stylesheets"=>["shop"]]);
+echo $this->renderer->render('shop/index', ["featured"=>$featured, "items"=>$items, "bundles"=>$bundles, "categories"=>$categories, "stylesheets"=>["shop"]]);
