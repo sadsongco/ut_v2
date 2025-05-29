@@ -9,6 +9,7 @@
     {{#items}}
         <div class="view-transaction zebra">
             <p>Transaction Amount</p> <p>&pound;{{amount}}{{#amount_match}} (matches order amount){{/amount_match}}</p>
+            <p>Transaction ID</p> <p>{{transaction_id}}</p>
             <p>Transaction Time</p> <p>{{time}}</p>
             <p>Status</p><p>{{status}}</p>
             {{#order}}
