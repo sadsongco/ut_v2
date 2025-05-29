@@ -11,7 +11,7 @@
             <p>Transaction Amount</p> <p>&pound;{{amount}}{{#amount_match}} (matches order amount){{/amount_match}}</p>
             <p>Transaction ID</p> <p>{{transaction_id}}</p>
             <p>Transaction Time</p> <p>{{time}}</p>
-            <p>Status</p><p>{{status}}</p>
+            <p>Status</p><p>{{status}}{{#refunded}} <span class="error">THIS TRANSACTION HAS BEEN REFUNDED</span>{{/refunded}}</p>
             {{#order}}
                 <p>Order No.</p> <p>{{order_id}}</p>
                 <p>Customer</p><p>{{customer_name}}, {{customer_city}} {{customer_country}} (<a href="mailto:{{customer_email}}">{{customer_email}}</a>)</p>

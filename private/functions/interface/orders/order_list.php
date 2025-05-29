@@ -27,25 +27,20 @@ try {
             ;";
     $result = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result AS &$row) {
-        $sub_query = "SELECT
-                        Items.name,
-                        New_Order_items.quantity,
-                        FORMAT(New_Order_items.order_price, 2) AS price,
-						FORMAT(New_Order_items.order_price * New_Order_items.quantity, 2) AS item_total
-                        FROM New_Order_items
-                        LEFT JOIN Items ON New_Order_items.item_id = Items.item_id
-                        WHERE New_Order_items.order_id = ?
-                        AND New_Order_items.order_bundle_id IS NULL;";
-        $row["items"] = $db->query($sub_query, [$row["order_id"]])->fetchAll();
+        $row["items"] = getItemData($row["order_id"], $db);
         $bundle_query = "SELECT
                             Bundles.bundle_id,
                             Order_bundles.quantity,
+                            Order_bundles.order_bundle_id,
                             FORMAT(Bundles.price, 2) AS price,
                             FORMAT(Bundles.price * Order_bundles.quantity, 2) AS bundle_total
                             FROM Order_bundles
                             LEFT JOIN Bundles ON Order_bundles.bundle_id = Bundles.bundle_id
                             WHERE Order_bundles.order_id = ?;";
         $row["bundles"] = $db->query($bundle_query, [$row["order_id"]])->fetchAll();
+        foreach ($row["bundles"] as &$bundle) {
+            $bundle["items"] = getItemData($row["order_id"], $db, $bundle["order_bundle_id"]);
+        }
     }
     
 }
@@ -59,3 +54,23 @@ catch (PDOException $e) {
 $params["orders"] = $result;
 
 echo $m->render("orderList", $params);
+
+function getItemData($order_id, $db, $bundle_id = null) {
+    $params = [];
+    $cond = "IS NULL";
+    $params[] = $order_id;
+    if ($bundle_id) {
+        $cond = "= ?";
+        $params[] = $bundle_id;
+    }
+    $query = "SELECT
+            Items.name,
+            New_Order_items.quantity,
+            FORMAT(New_Order_items.order_price, 2) AS price,
+            FORMAT(New_Order_items.order_price * New_Order_items.quantity, 2) AS item_total
+            FROM New_Order_items
+            LEFT JOIN Items ON New_Order_items.item_id = Items.item_id
+            WHERE New_Order_items.order_id = ?
+            AND New_Order_items.order_bundle_id $cond;";
+    return $db->query($query, $params)->fetchAll();
+}

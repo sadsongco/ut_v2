@@ -12,7 +12,7 @@
     <div class="orderLine orderTitle">Address</div>
     <div class="orderLine">{{address_1}}, {{#address_2}}{{address_2}}, {{/address_2}}{{city}} {{postcode}}, {{country}}</div>
     {{#items}}{{>item}}{{/items}}
-    {{#bundles}}THERE'S A BUNDLE HERE{{/bundles}}
+    {{#bundles}}{{>bundle}}{{/bundles}}
   </div>
   <div class="orderLinks">
     <div class="orderLine">
