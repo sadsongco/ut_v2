@@ -24,13 +24,7 @@
         </div>
     {{/items}}
     {{#href}}
-            <button hx-get="/private/functions/interface/orders/view_transactions.php?{{href}}" hx-target="#orderResult" hx-trigger="click" onclick="disableButton(event)">Next Transactions</button>
+            <button hx-get="/private/functions/interface/orders/view_transactions.php?{{href}}" hx-target="#orderResult" hx-trigger="click" onclick="disableButton(event)" hx-swap="innerHTML">Next Transactions</button>
     {{/href}}
     </section>
 {{/transactions}}
-
-<script type="text/javascript">
-    document.addEventListener('htmx:afterSettle', (e)=>{
-        e.target.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-    })
-</script>

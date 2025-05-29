@@ -18,9 +18,9 @@ use SUCheckout\SUCheckout;
 $checkout = new SUCheckout();
 $transactions = $checkout->listTransactions($_GET)->getResponse();
 
-p_2($transactions);
-
 foreach($transactions->items as &$transaction) {
+    $transaction_time = new DateTime($transaction->timestamp);
+    $transaction->time = $transaction_time->format("jS M Y H:i");
     $transaction_order = getOrderByTransactionId($transaction->id, $db);
     if ($transaction_order)$transaction->order = $transaction_order;
     else continue;
@@ -28,8 +28,6 @@ foreach($transactions->items as &$transaction) {
     if ($transaction->order['total'] == $transaction->amount) {
         $transaction->amount_match = true;
     }
-    $transaction_time = new DateTime($transaction->timestamp);
-    $transaction->time = $transaction_time->format("jS M Y H:i");
 }
 
 if (isset($transactions->links)) {

@@ -5,7 +5,7 @@
     </section>
     <section class="content-container">
         <h1>Orders</h1>
-        <button hx-get="/private/functions/interface/orders/view_transactions.php" hx-target="#orderResult" hx-trigger="click" onclick="disableButton(event)">View Transactions</button>
+        <button hx-get="/private/functions/interface/orders/view_transactions.php" hx-target="#orderResult" hx-trigger="click" onclick="disableButton(event)" hx-swap="innerHTML">View Transactions</button>
         <div id="orderResult"></div>
         <button hx-get="/private/functions/interface/orders/get_su_orders.php" hx-swap="outerHTML" hx-trigger="click" onclick="disableButton(event)">Get Orders From SumUp</button>
         <button hx-get="/private/functions/interface/orders/submit_rm_orders.php" hx-target="#rmOutcomes" onclick="disableButton(event)">Submit Old Orders to Royal Mail</button>
@@ -39,5 +39,10 @@
         e.target.classList.add('disabled');
       };
     </script>
+    <script type="text/javascript">
+    document.addEventListener('htmx:afterSettle', (e)=>{
+        e.target.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    })
+</script>
 
 {{>html_footer}}
