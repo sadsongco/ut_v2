@@ -24,6 +24,7 @@
     console.log("paymentTimeout: ", paymentTimeout);
   }, 60000);
   document.getElementById('sumup-card').style.display = "block";
+  console.log("paymentmustache");
   SumUpCard.mount({
     id: 'sumup-card',
     checkoutId: '{{checkout_id}}',
@@ -31,22 +32,7 @@
     locale: 'en-GB',
     country: 'GB',
     amount: {{amount}},
-    onResponse: (type, body) => {processPayment(type, body,  {
-    order_id : "{{order_id}}",
-    checkout_id: "{{checkout_id}}",
-    name: "{{name}}",
-    items: {
-      {{#items}}
-        "item_id": {{item_id}},
-        "price": {{price}},
-        "quantity": {{quantity}}
-      {{/items}}
-    },
-    subtotal: {{subtotal}},
-    shipping: {{shipping}},
-    vat: {{vat}},
-    total: {{amount}}
-  }, paymentTimeout)},
+    onResponse: (type, body) => {processPayment(type, body,  {order_id : "{{order_id}}"}, paymentTimeout)},
   });
 
 </script>

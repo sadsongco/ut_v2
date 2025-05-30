@@ -33,7 +33,7 @@ $shipping_options = [
     "service_name" => "Digital Download",
     "service_code" => "E_DEL"
 ];
-$_SESSION['shipping_method'] = 1;
+$_SESSION['shipping_method'] = $shipping_options;
 $_SESSION['shipping'] = $shipping = 0;
 $shipping_disp = "0.00";
 

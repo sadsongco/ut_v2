@@ -46,13 +46,13 @@ function calculateShipping($db, $zone, $method) {
 }
 
 if (isset($_POST['update'])) {
-
     $db = new Database('orders');
-
     $shipping_method = $db->query("SELECT * FROM Shipping_methods WHERE shipping_method_id = ?", [$_SESSION['shipping_method']['shipping_method_id']])->fetch();
-    
-    $shipping = calculateShipping($db, $_SESSION['rm_zone'], $shipping_method);
-    $_SESSION['shipping'] = round($shipping, 2);
+    $shipping = 0;
+    if (!isset($_SESSION['package_specs']['e_delivery'])) {
+        $shipping = calculateShipping($db, $_SESSION['rm_zone'], $shipping_method);
+        $_SESSION['shipping'] = round($shipping, 2);
+    }
 
     header("HX-Trigger: shippingUpdated");
     echo number_format($shipping, 2);

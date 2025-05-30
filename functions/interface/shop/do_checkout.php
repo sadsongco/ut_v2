@@ -21,6 +21,7 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('views/partials'))
 ));
 
+
 // reduce stock by item quantity
 try {
     if (isset($_SESSION['items'])) {
@@ -41,7 +42,6 @@ catch (Exception $e) {
     echo "Error: " . $e->getMessage();
     exit();
 }
-
 $order_details = $_POST;
 $country_code = $db->query("SELECT country_code FROM Countries WHERE country_id = ?", [$_POST['billing-country']])->fetch();
 $order_details['billing-country-code'] = $country_code['country_code'];
@@ -51,7 +51,7 @@ $order_details['totals']['subtotal'] = calculateCartSubtotal($order_details['ite
 $order_details['totals']['shipping'] = 0;
 $order_details['shipping_method'] = 1;
 
-if ($_SESSION['shipping_method'] != 1) {
+if ($_SESSION['shipping_method']['shipping_method_id'] != 1) {
     $order_details['totals']['shipping'] = calculateShipping($db, $_SESSION['rm_zone'], $_SESSION['shipping_method']);
     $order_details['shipping_method'] = $_SESSION['shipping_method']['shipping_method_id'];
 }

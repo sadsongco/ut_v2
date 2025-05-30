@@ -12,7 +12,7 @@ class PACKAGE_FORMATS {
     public const CD_JIFFY = [
         "name" => "CD Jiffy",
         "length_mm" => 200,
-        "height_mm" => 173,
+        "width_mm" => 173,
         "depth_mm" => 25,
         "weight_g" => 8,
         "unit_price_p" => 19          
@@ -20,16 +20,16 @@ class PACKAGE_FORMATS {
     public const LP_MAILER = [
         "name" => "LP Mailer",
         "length_mm" => 350,
-        "height_mm" => 350,
+        "width_mm" => 350,
         "depth_mm" => 50,
         "weight_g" => 195,
         "unit_price_p" => 83
     ];
     public const DEFAULT = [
         "name" => "Default",
-        "length_mm" => 350,
-        "height_mm" => 350,
-        "depth_mm" => 200,
+        "length_mm" => 450,
+        "width_mm" => 350,
+        "depth_mm" => 160,
         "weight_g" => 250,
         "unit_price_p" => 0
     ];
@@ -77,7 +77,7 @@ function getPackageSpecs($cart_contents)
         $all_e_delivery = false;
         $items_weight += getItemWeight($item);
         if ($item['length_mm'] > $length) $length = $item['length_mm'];
-        if ($item['length_mm'] > $width) $width = $item['length_mm'];
+        if ($item['width_mm'] > $width) $width = $item['width_mm'];
         $depth += $item['depth_mm'] * $item['quantity'];
     }
     foreach ($cart_contents['bundles'] as $bundle) {
@@ -87,7 +87,7 @@ function getPackageSpecs($cart_contents)
             $all_e_delivery = false;
             $items_weight += getItemWeight($item);
             if ($item['length_mm'] > $length) $length = $item['length_mm'];
-            if ($item['length_mm'] > $width) $width = $item['length_mm'];
+            if ($item['width_mm'] > $width) $width = $item['width_mm'];
             $depth += $item['depth_mm'] * $bundle['quantity'];
         }
     }
@@ -112,7 +112,7 @@ function getPackageSpecs($cart_contents)
     return [
         "weight"=>$total_weight,
         "length"=>$package_specs["length_mm"],
-        "width"=>$package_specs["length_mm"],
+        "width"=>$package_specs["width_mm"],
         "depth"=>$package_specs["depth_mm"],
         "package_format"=>$package_specs["name"],
         "package_price"=>$package_specs["unit_price_p"] / 100
