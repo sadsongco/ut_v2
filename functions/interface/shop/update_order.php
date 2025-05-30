@@ -1,11 +1,14 @@
 <?php
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-include_once("../../functions.php");
+if (!defined('ENV')) include_once(__DIR__ ."/../../../functions/functions.php");
 require_once(base_path("classes/Database.php"));
 use Database\Database;
-$db = new Database('orders');
+
+if (!isset($db)) $db = new Database('orders');
 
 $order_id = explode("-",$_SESSION['order_id'])[1];
 

@@ -66,6 +66,15 @@ if (!isset($_SESSION['order_id'])) exit($this->renderer->render('shop/success', 
 // get database id from order id
 $order_db_id = explode("-", $_SESSION['order_id'])[1];
 
+// check order is completed and paid
+$query = "SELECT transaction_id FROM New_Orders WHERE order_id = ?";
+$order = $db->query($query, [$order_db_id])->fetch();
+if (!isset($order['transaction_id']) || $order['transaction_id'] == "") {
+    $_POST['status'] = 'FAILED';
+    include(base_path("functions/interface/shop/update_order.php"));
+    exit($this->renderer->render('shop/success', ["stylesheets"=>["shop"]]));
+}
+
 $shipping_items = [];
 $download_items = [];
 $preorder_items = [];
