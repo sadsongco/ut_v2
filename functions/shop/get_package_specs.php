@@ -97,10 +97,13 @@ function getPackageSpecs($cart_contents)
         $arr[] = $key . "_" . $value;
     }
     $packaging_classification = implode("-", $arr);
+    p_2($packaging_classification);
     if (!isset(ITEM_PACKAGES[$packaging_classification])) {
         $packaging_classification = "DEFAULT";
     }
+    p_2($packaging_classification);
     $package_specs = ITEM_PACKAGES[$packaging_classification];
+    p_2($package_specs);
     $total_weight = $items_weight + $package_specs["weight_g"];
 
     if ($all_e_delivery) {
