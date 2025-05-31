@@ -17,7 +17,7 @@ function sendCustomerEmail($order, $template, $db, $m) {
     $filename = createOrderPDF($order_db_id, $db);
     // send email
     require(base_path("../secure/mailauth/ut.php"));
-    $subject = "Unbeleivable Truth - ";
+    $subject = "Unbelievable Truth - ";
     $subject .= $subjects[$template];
     $email = $m->render("emails/customer/$template", ["order"=>$order, "host"=>getHost()]);
 
