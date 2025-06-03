@@ -17,6 +17,7 @@ const updateShippingMethods = (e) => {
 };
 
 const cancelOrder = async () => {
+  clearTimeout(paymentTimeout);
   document.getElementById('sumup-card').style.display = 'none';
   document.getElementById('processing-order').style.display = 'none';
 

@@ -57,6 +57,7 @@ function getPressShotList($path) {
         ];
     }
     foreach ($photos as &$photo) {
+        p_2(base_path(RESOURCE_ASSET_PATH . $path."full_res/".$photo["resource"]));
         $full_res_size = getimagesize(base_path(RESOURCE_ASSET_PATH . $path."full_res/".$photo["resource"]));
         $photo["full_res_width"] = $full_res_size[0];
         $photo["full_res_height"] = $full_res_size[1];
