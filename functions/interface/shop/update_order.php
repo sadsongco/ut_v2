@@ -4,6 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!isset($_SESSION['order_id'])) exit(); // no order id, nothing we can do here
+
 if (!defined('ENV')) include_once(__DIR__ ."/../../../functions/functions.php");
 require_once(base_path("classes/Database.php"));
 use Database\Database;
