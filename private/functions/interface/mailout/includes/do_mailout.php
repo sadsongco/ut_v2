@@ -88,7 +88,7 @@ use PHPMailer\PHPMailer\Exception;
 
 error_reporting(E_ERROR | E_PARSE);
 
-date_default_timezone_set('Etc/UTC');
+date_default_timezone_set('Europe/London');
 
 require base_path('../lib/vendor/autoload.php');
 
