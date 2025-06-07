@@ -2,7 +2,24 @@
 
 require_once(__DIR__."/includes/order_includes.php");
 
-$filter_text = "";
+$filter = $_POST['orderFilter'] ?? null;
+
+$filter_text = "WHERE New_Orders.rm_tracking_number IS NULL";
+
+switch ($filter) {
+    case 'all':
+        $filter_text = "";
+        break;
+    case 'failed':
+        $filter_text = "WHERE New_Orders.transaction_id IS NULL";
+        break;
+    case 'dispatched':
+        $filter_text = "WHERE New_Orders.rm_tracking_number IS NOT NULL";
+        break;
+    
+    default:
+        break;
+}
 
 try {
     $query = "SELECT
@@ -52,6 +69,8 @@ catch (PDOException $e) {
 // p_2($result);
 
 $params["orders"] = $result;
+$params["filter_target"] = ".orderContainer";
+$params["num_orders"] = sizeof($result);
 
 echo $m->render("orderList", $params);
 

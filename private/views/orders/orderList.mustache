@@ -1,5 +1,8 @@
-<div class="orderList">
+<h3>{{num_orders}} order(s):</h3>
+<div id="filteredOrders" class="orderList">
+    {{>filterBox}}
     {{#orders}} {{>order}} {{/orders}}
     {{^orders}} No orders in current filter {{/orders}}
+    <div class="no-results-message">No orders in current filter</div>
 </div>
 

@@ -192,3 +192,7 @@ button:hover,
   border: 1px solid black;
   border-radius: 3px;
 }
+
+.no-results-message {
+  display: none;
+}

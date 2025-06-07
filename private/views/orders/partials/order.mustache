@@ -1,21 +1,21 @@
 <div class="orderContainer">
   <div id="editOrder_{{order_id}}" class="editOrderForm"></div>
   <div class="order" id="order_{{order_id}}">
-    <div class="orderLine orderTitle">Order ID</div>
-    <div class="orderLine">{{disp_order_id}}</div>
-    <div class="orderLine orderTitle">Order Date</div>
-    <div class="orderLine">{{order_date}}</div>
-    <div class="orderLine orderTitle">Transaction ID</div>
-    <div class="orderLine">{{transaction_id}}</div>
-    <div class="orderLine orderTitle">Name</div>
-    <div class="orderLine">{{name}}</div>
-    <div class="orderLine orderTitle">Address</div>
-    <div class="orderLine">{{address_1}}, {{#address_2}}{{address_2}}, {{/address_2}}{{city}} {{postcode}}, {{country}}</div>
+    <div class="orderLine filterValue orderTitle">Order ID</div>
+    <div class="orderLine filterValue">{{disp_order_id}}</div>
+    <div class="orderLine filterValue orderTitle">Order Date</div>
+    <div class="orderLine filterValue">{{order_date}}</div>
+    <div class="orderLine filterValue orderTitle">Transaction ID</div>
+    <div class="orderLine filterValue">{{transaction_id}}</div>
+    <div class="orderLine filterValue orderTitle">Name</div>
+    <div class="orderLine filterValue">{{name}}</div>
+    <div class="orderLine filterValue orderTitle">Address</div>
+    <div class="orderLine filterValue">{{address_1}}, {{#address_2}}{{address_2}}, {{/address_2}}{{city}} {{postcode}}, {{country}}</div>
     {{#items}}{{>item}}{{/items}}
     {{#bundles}}{{>bundle}}{{/bundles}}
   </div>
   <div class="orderLinks">
-    <div class="orderLine">
+    <div class="orderLine filterValue">
     {{#dispatched}}
       Dispatched on {{dispatched}}. Tracking link <a href="https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}" target="_blank">https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}</a>&nbsp;<button onclick="copyLinkToClipboard(event)">Copy Link</button>
     {{/dispatched}}
