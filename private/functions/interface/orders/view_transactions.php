@@ -26,7 +26,7 @@ foreach($transactions->items as &$transaction) {
     $transaction_time = new DateTime($transaction->timestamp);
     $transaction->time = $transaction_time->format("jS M Y H:i");
     $transaction_order = getOrderByTransactionId($transaction->id, $db);
-    if ($transaction_order)$transaction->order = $transaction_order;
+    if ($transaction_order) $transaction->order = $transaction_order;
     else continue;
 
     if ($transaction->order['total'] == $transaction->amount) {
@@ -37,9 +37,33 @@ foreach($transactions->items as &$transaction) {
 if (isset($transactions->links)) {
     $transactions->href = $transactions->links[0]->href;
 }
+$filtered_transactions = array_filter($transactions->items, function($transaction) {
+    $filter = $_POST['transactionFilter'] ?? null;
+    if (isset($transaction->status)) {
+        switch ($filter) {
+            case 'successful':
+                if ($transaction->status === "SUCCESSFUL") return true;
+                break;
+            case 'failed':
+                if ($transaction->status === "FAILED") return true;
+                break;
+            case 'other':
+                if ($transaction->status !== "SUCCESSFUL" && $transaction->status !== "FAILED") return true;
+                break;
+            case 'no_order':
+                if (!isset($transaction->order)) return true;
+                break;
+            default:
+                return true;
+                break;
+        }
+    }
+});
 
-// p_2($transactions);
-echo $m->render("transactionList", ["transactions"=>$transactions]);
+$transactions->items = $filtered_transactions;
+
+
+echo $m->render("transactionList", ["transactions"=>$transactions, "filter_target"=>".view-transaction", "num_transactions"=>sizeof($transactions->items)]);
 
 
 function getOrderByTransactionId($transactionId, $db) {
