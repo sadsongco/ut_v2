@@ -9,5 +9,6 @@
     {{/dispatched}}
     {{/implemented}}
     <a hx-get="/private/functions/interface/orders/edit_order.php?order_id={{order_id}}" hx-target="#editOrder_{{order_id}}" class="button">Edit Order</a>
+    <a hx-get="/private/functions/interface/orders/send_confirmation.php?order_id={{order_id}}" hx-target="#editOrder_{{order_id}}" class="button">Resend Confirmation Email</a>
     <a hx-get="/private/functions/interface/orders/delete_order.php?order_id={{order_id}}" hx-confirm="Definitely delete order # {{sumup_id}}?" class="button">Delete Order</a>
 </div>
