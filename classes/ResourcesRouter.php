@@ -20,7 +20,7 @@ class ResourcesRouter extends Router
     function __construct($renderer)
     {
         $this->renderer = $renderer;
-        $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = str_replace('/resources', '', $uri);
         if (array_key_exists($uri, $this->routes)) {
             $this->routes[$uri]['active'] = true;
