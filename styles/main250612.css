@@ -49,14 +49,14 @@ nav ul {
   list-style-type: none;
   display: flex;
   flex-direction: row;
-  background-color: #999;
+  /* background-color: #999; */
 }
 
 nav ul li {
   display: flex;
   justify-content: center;
-  background-color: #999;
-  color: black;
+  /* background-color: #999; */
+  /* color: black; */
   border-right: 1px solid #aaa;
   padding: 0.5em;
   transition: background-color 0.5s ease;
@@ -73,7 +73,7 @@ nav ul li:hover {
 }
 
 nav ul a {
-  color: black;
+  color: var(--stdColour);
   text-decoration: none;
 }
 
@@ -87,7 +87,25 @@ nav ul li.active-link:hover {
 }
 
 header {
-  background-color: #999;
+  /* background-color: #999; */
+  padding: 0.2rem;
+  --border-width: 2px;
+  border-radius: 0.4rem;
+  position: relative;
+  background: rgba(50, 50, 50, 0.2);
+  backdrop-filter: blur(15px);
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  border: var(--border-width) solid transparent;
+  background: linear-gradient(var(--headerBlockBackground2), var(--headerBlockBackground)) border-box;
+  mask: linear-gradient(black 0 0) border-box, linear-gradient(black 0 0) padding-box;
+  mask-composite: subtract;
 }
 
 footer {
@@ -107,7 +125,7 @@ video {
   left: 0;
   height: 100%;
   width: 100%;
-  opacity: 0.3;
+  opacity: 0.5;
   z-index: -1;
 }
 
@@ -223,6 +241,20 @@ ul li::marker {
   justify-content: center;
   align-items: center;
 }
+/* 
+.accordion header {
+  width: 100%;
+  display: flex;
+  padding: var(--stdPaddingSmall);
+  margin: var(--stdMarginSmall) 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--headerBlockBackground);
+  border-radius: 0.4rem;
+  border: transparent 1px solid;
+  background: radial-gradient(circle at 50% 250%, var(--headerBlockBackground), var(--headerBlockBackground2)) padding-box, linear-gradient(var(--headerBlockBackground2), var(--headerBlockBackground)) border-box;
+} */
 
 .accordion header {
   width: 100%;
@@ -232,6 +264,7 @@ ul li::marker {
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 .accordion-content {
@@ -246,8 +279,8 @@ ul li::marker {
 .show,
 .callout {
   /* background-color: var(--AHlilac); */
-  background-image: linear-gradient(to right, var(--transparent), var(--tabBackground), var(--tabBackground), var(--tabBackground), var(--transparent));
-  color: var(--stdBackground);
+  /* background-image: linear-gradient(to right, var(--transparent), var(--tabBackground), var(--tabBackground), var(--tabBackground), var(--transparent)); */
+  color: var(--stdColour);
   font-family: var(--stdFont);
   min-height: 3em;
 }
