@@ -1,7 +1,7 @@
     {{#cart_items}}
         {{#items}}
         <div class="cart-item">
-            <div class='item-img'>{{#image}}<img src="/assets/shop/images/{{image}}" width="100px" />{{/image}}</div>
+            <div class='item-img'>{{#image}}<img src="{{image_path}}" width="100px" />{{/image}}</div>
             <div class='item-name'>{{name}}{{#option_name}} {{option_name}}{{/option_name}}</div>
             <div class='item-quantity'>{{quantity}} @</div>
             <div class='item-price'>&pound;<span class="price">{{price}}</span></div><div class="col-space"></div>
@@ -18,7 +18,7 @@
         {{#bundles}}
         <div class="cart-item">
             {{#items}}
-                <div class='item-img'>{{#image}}<img src="/assets/shop/images/{{image}}" width="100px" />{{/image}}</div>
+                <div class='item-img'>{{#image}}<img src="{{image_path}}" width="100px" />{{/image}}</div>
                 <div class='item-name span4'>{{name}}{{#option_name}} ({{option_name}}){{/option_name}}</div>
             {{/items}}
             <div class="span2"><h3>Bundle price</h3></div>

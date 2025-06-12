@@ -38,6 +38,9 @@ function getBundles($db, $category=null)
             $bundle['raw_price'] += $item['price'];
             $item_options = $db->query("SELECT * FROM Item_options WHERE item_id = ? AND option_stock > 0", [$item['item_id']])->fetchAll();
             $item['option'] = sizeof($item_options) > 0 ? ['options'=>$item_options] : false;
+            if (isset($item['image']) && $item['image'])
+                $item['image_path'] = "/serve/" . SHOP_ASSET_PATH . "images/" . str_replace(".", "/", $item['image']);
+
         }
         $bundle['saving'] = $bundle['raw_price'] - $bundle['price'];
         $bundle['disp_price'] = number_format($bundle['price'], 2);

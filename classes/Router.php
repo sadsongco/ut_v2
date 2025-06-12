@@ -20,6 +20,11 @@ class Router
             'controller' => 'shows',
             'name' => 'Shows',
         ],
+        'serve' => [
+            'path' => '/serve',
+            'name' => 'Serve',
+            'controller' => 'serve'
+        ]
     ];
     private $renderer;
     public $nav = [];

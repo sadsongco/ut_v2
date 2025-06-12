@@ -23,6 +23,7 @@ function getFeatured($db, $category=null)
     foreach ($items as &$item) {
         $item_options = $db->query("SELECT * FROM Item_options WHERE item_id = ? AND option_stock > 0", [$item['item_id']])->fetchAll();
         $item['option'] = sizeof($item_options) > 0 ? ['options'=>$item_options] : false;
+        $item['image_path'] = "/serve/" . SHOP_ASSET_PATH . "images/" . str_replace(".", "/", $item['image']);
     }
     return $items;
 }

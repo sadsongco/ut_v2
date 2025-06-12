@@ -30,7 +30,7 @@
                 <p>{{name}}</p>
                 <p id="item{{item_id}}-price">&pound;{{price}}</p>
                 {{#image}}
-                <img src="/assets/shop/images/{{image}}" alt="image" width="100">
+                <img src="{{image_path}}" alt="image" width="100">
                 {{/image}}
             </div>
             </a>
@@ -47,7 +47,7 @@
                     <div class="bundle-item">
                         <p>{{name}}</p>
                         {{#image}}
-                            <img src="/assets/shop/images/{{image}}" alt="image" height="50px">
+                            <img src="{{image_path}}" alt="image" height="50px">
                         {{/image}}
                         {{>item_interact}}
                     </div>
@@ -66,7 +66,7 @@
                 <p>{{name}}</p>
                 <p id="item{{item_id}}-price">&pound;{{price}}</p>
                 {{#image}}
-                <img src="/assets/shop/images/{{image}}" alt="image" width="100">
+                <img src="{{image_path}}" alt="image" width="100">
                 {{/image}}
             </div>
             </a>
