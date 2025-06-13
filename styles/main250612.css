@@ -96,6 +96,12 @@ header {
   backdrop-filter: blur(15px);
 }
 
+@property --a {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
 header::before {
   content: '';
   position: absolute;
@@ -103,9 +109,19 @@ header::before {
   inset: 0;
   border-radius: inherit;
   border: var(--border-width) solid transparent;
-  background: linear-gradient(var(--compColBrt1), var(--compColBrt2)) border-box;
+  background: conic-gradient(from var(--a), var(--compColBrt1), var(--compColBrt2), var(--compColBrt3), var(--compColBrt1)) border-box;
   mask: linear-gradient(black 0 0) border-box, linear-gradient(black 0 0) padding-box;
   mask-composite: subtract;
+  animation: animatedBorder 12s linear infinite;
+}
+
+@keyframes animatedBorder {
+  0% {
+    --a: 0deg;
+  }
+  100% {
+    --a: 360deg;
+  }
 }
 
 footer {
