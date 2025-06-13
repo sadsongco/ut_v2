@@ -17,7 +17,7 @@ $m = new Mustache_Engine(array(
 ));
 
 use FileUploader\FileUploader;
-$uploader = new FileUploader(WEB_ASSET_PATH . ARTICLE_ASSET_PATH, ARTICLE_MAX_IMAGE_WIDTH, ARTICLE_THUMBNAIL_WIDTH);
+$uploader = new FileUploader(WEB_ASSET_PATH . ARTICLE_ASSET_PATH, false, ARTICLE_MAX_IMAGE_WIDTH, ARTICLE_THUMBNAIL_WIDTH);
 $uploaded_files = $uploader->checkFileSizes()->uploadFiles()->getResponse();
 
 foreach ($uploaded_files as &$uploaded_file) {

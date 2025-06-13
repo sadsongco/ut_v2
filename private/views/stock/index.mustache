@@ -14,7 +14,7 @@
                 <div class="update-stock-item">
                     <input type="hidden" name="item_id" value="{{item_id}}">
                     <label for="item{{item_id}}_name" >Name</label>
-                    <input type="text" name="name" id="item{{item_id}}_name" value="{{name}}">
+                    <input type="text" name="name" id="item{{item_id}}_name" value="{{name}}" autocomplete="off">
                     <label for="item{{item_id}}_price">Price</label>
                     <input type="number" name="price" id="item{{item_id}}_price" step="0.50" value="{{price}}">
                     <label for="item{{item_id}}_description">Description</label>
@@ -64,9 +64,9 @@
                 <div class="update-stock-item">
                     <input type="hidden" name="item_option_id" value="{{item_option_id}}">
                     <label for="item{{item_id}}_option{{option_id}}_stock">Stock</label>
-                    <input type="number" id="option{{option_id}}_stock" name="option_stock" value="{{option_stock}}">
+                    <input type="number" id="item{{item_id}}_option{{option_id}}_stock" name="option_stock" value="{{option_stock}}">
                     <label for="item{{item_id}}_option{{option_id}}_weight">Weight (g)</label>
-                    <input type="number" id="option{{option_id}}_weight" name="option_weight" value="{{option_weight}}">
+                    <input type="number" id="item{{item_id}}_option{{option_id}}_weight" name="option_weight" value="{{option_weight}}">
                     <input type="submit" value="Update Option Stock" name="update_option">
                 </div>
             </form>
@@ -107,11 +107,11 @@
         <form hx-post="/private/functions/interface/stock/create_item.php" enctype="multipart/form-data" hx-target="#createResult">
             <div class="update-stock-item">
                 <label for="item_name">Item Name</label>
-                <input type="text" name="name" id="item_name" required>
+                <input type="text" name="name" id="item_name" autocomplete="off" required>
                 <label for="item_price">Item Price</label>
                 <input type="number" name="price" id="item_price" step="0.1" required>
                 <label for="item_description">Item Description</label>
-                <textarea name="description" cols="15" rows="8" required></textarea>
+                <textarea id="item_description" name="description" cols="15" rows="8" required></textarea>
                 <label for="item_category">Category</label>
                 <select name="category" id="item_category">
                     {{#categories}}
@@ -181,7 +181,7 @@
                     <label for="bundlePrice{{bundle_id}}">Price &pound;</label>
                     <input type="number" step="0.5" id="bundlePrice{{bundle_id}}" name="price" value="{{price}}" />
                     <label for="bundleActive{{bundle_id}}">Active</label>
-                    <input type="checkbox" name="active" {{active}} />
+                    <input id="bundleActive{{bundle_id}}" type="checkbox" name="active" {{active}} />
                     <input type="submit" value="Update Bundle" /> 
                 </div>
             </form>

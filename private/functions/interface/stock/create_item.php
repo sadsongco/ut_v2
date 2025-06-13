@@ -8,7 +8,7 @@ use Database\Database;
 $db = new Database('orders');
 
 use FileUploader\FileUploader;
-$uploader = new FileUploader(WEB_ASSET_PATH . SHOP_ASSET_PATH, SHOP_MAX_IMAGE_WIDTH, SHOP_THUMBNAIL_WIDTH);
+$uploader = new FileUploader(WEB_ASSET_PATH . SHOP_ASSET_PATH, false, SHOP_MAX_IMAGE_WIDTH, SHOP_THUMBNAIL_WIDTH);
 $uploaded_files = $uploader->checkFileSizes()->uploadFiles()->getResponse();
 $_POST['image'] = $uploaded_files[0]['filename'];
 

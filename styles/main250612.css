@@ -68,7 +68,7 @@ nav ul li:first-child {
 }
 
 nav ul li:hover {
-  background-color: var(--AHlilac);
+  background-color: var(--headerBlockBackground);
   cursor: pointer;
 }
 
@@ -103,7 +103,7 @@ header::before {
   inset: 0;
   border-radius: inherit;
   border: var(--border-width) solid transparent;
-  background: linear-gradient(var(--headerBlockBackground2), var(--headerBlockBackground)) border-box;
+  background: linear-gradient(var(--compColBrt1), var(--compColBrt2)) border-box;
   mask: linear-gradient(black 0 0) border-box, linear-gradient(black 0 0) padding-box;
   mask-composite: subtract;
 }
@@ -241,20 +241,6 @@ ul li::marker {
   justify-content: center;
   align-items: center;
 }
-/* 
-.accordion header {
-  width: 100%;
-  display: flex;
-  padding: var(--stdPaddingSmall);
-  margin: var(--stdMarginSmall) 0;
-  cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--headerBlockBackground);
-  border-radius: 0.4rem;
-  border: transparent 1px solid;
-  background: radial-gradient(circle at 50% 250%, var(--headerBlockBackground), var(--headerBlockBackground2)) padding-box, linear-gradient(var(--headerBlockBackground2), var(--headerBlockBackground)) border-box;
-} */
 
 .accordion header {
   width: 100%;
@@ -270,6 +256,7 @@ ul li::marker {
 .accordion-content {
   width: 80%;
   background-color: var(--tabBackground);
+  color: var(--tabColour);
   max-height: 0;
   overflow: hidden;
   height: fit-content;

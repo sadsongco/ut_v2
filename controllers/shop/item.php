@@ -15,6 +15,7 @@ $query = "SELECT *
 $item = $db->query($query, [$paths[2]])->fetch();
 
 if ($item['image'] == "") unset($item['image']);
+else $item['image_path'] = "/serve/" . SHOP_ASSET_PATH . "images/" . str_replace(".", "/", $item['image']);
 
 $item_options = $db->query("SELECT * FROM Item_options WHERE item_id = ? AND Item_options.option_stock > 0", [$paths[2]])->fetchAll();
 

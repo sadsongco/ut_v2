@@ -21,8 +21,7 @@
   --AHlilac: #fff;
   --transparent: #00000000;
 
-  --headerBlockBackground: #3f35c7;
-  --headerBlockBackground2: #5660a6;
+  --headerBlockBackground: #939393b1;
   --headerBlockColour: #222;
 
   --alertBackground: #222;
@@ -51,8 +50,8 @@
 
   --commentBoxOutline: 1px solid #b1b1b1;
 
-  --compColBrt1: #590965;
-  --compColBrt2: #650944;
+  --compColBrt1: #ae5fbb;
+  --compColBrt2: #704862;
   --compColBrt3: #652b09;
   --compColBrt4: #446509;
   --compColBrt5: #156509;
