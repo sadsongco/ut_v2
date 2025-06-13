@@ -17,6 +17,6 @@ $query = "SELECT * FROM carousel ORDER BY tile_order ASC";
 $carousel_tiles = $db->query($query)->fetchAll();
 
 foreach ($carousel_tiles as &$tile) {
-    $tile['path'] = CAROUSEL_ASSET_PATH . "images/" . $tile['img_url'];
+    $tile['path'] = "serve/" . CAROUSEL_ASSET_PATH . "images/" . str_replace(".", "/", $tile['img_url']);
 }
 echo $m->render('carousel', ['carousel_tiles'=>$carousel_tiles]);

@@ -17,7 +17,7 @@ $db = new Database('admin');
 use FileUploader\FileUploader;
 
 if (isset($_POST['create'])) {
-    $uploader = new FileUploader(CAROUSEL_ASSET_PATH, CAROUSEL_MAX_IMAGE_WIDTH, CAROUSEL_THUMBNAIL_WIDTH);
+    $uploader = new FileUploader(WEB_ASSET_PATH . CAROUSEL_ASSET_PATH, false, CAROUSEL_MAX_IMAGE_WIDTH, CAROUSEL_THUMBNAIL_WIDTH);
     $uploaded_files = $uploader->checkFileSizes()->uploadFiles()->getResponse();
     $uploaded_file = $uploaded_files[0];
     
@@ -92,7 +92,7 @@ function getCarouselTiles($db) {
     foreach ($carousel_tiles as &$tile) {
         $tile['order_options'] = $order_options;
         $tile['order_options'][$tile['tile_order']-1] = ["order"=>$tile['tile_order'], "selected"=>"selected"];
-        $tile['path'] = "/" . CAROUSEL_ASSET_PATH . "images/" . $tile['img_url'];
+        $tile['path'] = "/serve/" . CAROUSEL_ASSET_PATH . "images/" . str_replace(".", "/", $tile['img_url']);
     }
 
     return $carousel_tiles;

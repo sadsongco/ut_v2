@@ -36,7 +36,7 @@ function getAudio($audio_id, $db, $auth) {
 function getImage($image_id, $image_float, $db) {
     $image = getMediaArr("images", $image_id, $db);
     $image["path"] = ARTICLE_ASSET_PATH . "images/" . $image["filename"];
-    $image["thumbpath"] = "/serve/" . ARTICLE_ASSET_PATH . "images/thumbnails/" . str_replace(".", "/", $image["filename"]);
+    $image["thumbpath"] = "/serve/" . ARTICLE_ASSET_PATH . "images/thumbnail/" . str_replace(".", "/", $image["filename"]);
     $image["url"] = "/serve/" . ARTICLE_ASSET_PATH . "images/" . str_replace(".", "/", $image["filename"]);
     $image_metadata = getimagesize(base_path(WEB_ASSET_PATH . $image["path"]));
     $image["size_string"] = $image_metadata[3];
