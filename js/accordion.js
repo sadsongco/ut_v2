@@ -54,6 +54,6 @@ accordionContent.forEach((item) => {
 document.body.addEventListener('htmx:afterSettle', resizeHTMX);
 window.onload = () => {
   if (accordionContent.length === 0) return;
-  resizeAccordion(accordionContent[0]);
   startCarousel();
+  resizeAccordion(accordionContent[0]);
 };
