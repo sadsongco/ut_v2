@@ -88,12 +88,19 @@ nav ul li.active-link:hover {
 
 header {
   /* background-color: #999; */
-  padding: 0.2rem;
+  padding: var(--stdPaddingSmall);
+  margin: var(--stdMarginMedium);
   --border-width: 2px;
   border-radius: 0.4rem;
   position: relative;
-  background: rgba(50, 50, 50, 0.2);
+  background: var(--transBlack);
   backdrop-filter: blur(15px);
+}
+
+@media screen and (max-width: 900px) {
+  header {
+    margin: var(--stdMarginSmall) 0;
+  }
 }
 
 @property --a {
@@ -109,10 +116,10 @@ header::before {
   inset: 0;
   border-radius: inherit;
   border: var(--border-width) solid transparent;
-  background: conic-gradient(from var(--a), var(--compColBrt1), var(--compColBrt2), var(--compColBrt3), var(--compColBrt1)) border-box;
+  background: conic-gradient(from var(--a) at 10% 50%, var(--compColBrt1), var(--compColBrt2), var(--compColBrt3), var(--compColBrt1)) border-box;
   mask: linear-gradient(black 0 0) border-box, linear-gradient(black 0 0) padding-box;
   mask-composite: subtract;
-  animation: animatedBorder 12s linear infinite;
+  animation: animatedBorder 24s linear infinite;
 }
 
 @keyframes animatedBorder {
@@ -128,7 +135,9 @@ footer {
   height: 15vh;
   padding: 1em;
   background-color: var(--transBlack);
-  background-image: linear-gradient(to right, var(--transparent), var(--transBlack), var(--transBlack), var(--transBlack), var(--transparent));
+  /* background-image: linear-gradient(to right, var(--transparent), var(--transBlack), var(--transBlack), var(--transBlack), var(--transparent)); */
+  backdrop-filter: blur(15px);
+
   display: grid;
   grid-template-columns: 15em 1fr;
   z-index: 10;
@@ -212,6 +221,7 @@ ul li::marker {
   justify-content: center;
   align-items: center;
   background-color: var(--transBlack);
+  backdrop-filter: blur(15px);
   padding: 1em;
 }
 
@@ -262,7 +272,7 @@ ul li::marker {
   width: 100%;
   display: flex;
   padding: var(--stdPaddingSmall);
-  margin: var(--stdMarginSmall) 0;
+  /* margin: var(--stdMarginSmall) 0; */
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
