@@ -24,7 +24,7 @@ function getCompletedEmails($db, $table, $current_mailout) {
 }
 
 
-$current_mailout_contents = file_get_contents(base_path(CURRENT_MAILOUT_PATH));
+$current_mailout_contents = file_get_contents(base_path(WEB_ASSET_PATH . CURRENT_MAILOUT_PATH));
 
 $sent = null;
 $dd_sent = null;

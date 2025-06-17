@@ -58,9 +58,10 @@ function getImageData($db, $img_id, $img_align=null) {
     try {
         $query = "SELECT * FROM MailoutImages WHERE img_id = ?;";
         $result = $db->query($query, [$img_id])->fetch();
+        $result['url'] = str_replace(".", "/", $result['url']);
         $result['caption'] = htmlentities($result['caption']);
         $result['host'] =  getHost();
-        $result['path'] = MAILOUT_ASSET_PATH . "images/";
+        $result['path'] = "serve/" . MAILOUT_ASSET_PATH . "images/";
     }
     catch (PDOException $e) {
         throw new Exception($e);

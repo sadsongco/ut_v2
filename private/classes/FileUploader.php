@@ -82,7 +82,6 @@ class FileUploader
             if (!is_dir($target_dir)) mkdir($target_dir);
             $this->upload_path = $target_dir . $filename;
             if ($this->resources) {
-                echo "RESOURCES";
                 if (!$this->thumb_width) {
                     $upload_dir = $target_dir;
                     $this->web_path = false;

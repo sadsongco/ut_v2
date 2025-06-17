@@ -1,7 +1,7 @@
 <?php
 
 require_once('includes/mailout_includes.php');
-require(base_path("../secure/env/config.php"));
+// require(base_path("../secure/env/config.php"));
 require_once('includes/mailout_create.php');
 
 try {
@@ -13,6 +13,6 @@ catch (PDOException $e) {
 }
 
 $result[0]['tag'] = "<!--{{i::".$result[0]['img_id']."}}-->";
-$result[0]['path'] = getHost()."/".MAILOUT_IMAGE_PATH.$result[0]['url'];
+$result[0]['path'] = getHost()."/serve/".MAILOUT_IMAGE_PATH . str_replace(".", "/", $result[0]['url']);
 
 echo $m->render('existingImage', $result[0]);
