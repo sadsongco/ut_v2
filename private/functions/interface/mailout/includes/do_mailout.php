@@ -28,6 +28,7 @@ function email_admin($mail, $msg) {
 }
 
 function get_email_addresses($db, $mailout_id, $mailing_list_table, $log_fp) {
+    p_2($mailout_id);
     if (ENV !== "production") $cond = ' AND email LIKE "%sadsongco%" ';
     try {
         if ($mailout_id == 'test') $mailout_id = 1;
@@ -123,6 +124,8 @@ catch (Exception $e) {
 }
 
 $result = get_email_addresses($db, $current_mailout, $mailing_list_table, $log_fp);
+
+dd($result);
 
 if (sizeof($result) == 0) {
     write_to_log($log_fp, "\n\n--------COMPLETE--------");
