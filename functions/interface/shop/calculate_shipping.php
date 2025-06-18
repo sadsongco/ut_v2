@@ -54,7 +54,7 @@ function calculateShipping($db, $zone, $method) {
         return $shipping_price['shipping_price'] + $_SESSION['package_specs']['package_price'] + PackagingCosts::LABOUR;
     } catch (Exception $e) {
         error_log($query);
-        error_log($params);
+        error_log(print_r($params, true));
         throw new Exception($e);
     }
     return 0;
