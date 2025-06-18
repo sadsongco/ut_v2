@@ -34,8 +34,21 @@ function calculateShipping($db, $zone, $method) {
         $package_specs = $db->query($query, $params)->fetch();
         $_SESSION['package_specs']['package_id'] = $package_specs['package_id'];
         $_SESSION['package_specs']['package_name'] = $package_specs['name'];
-        $query = "SELECT shipping_price FROM Shipping_prices WHERE package_id = ? AND shipping_method_id = ? AND rm_zone = ?";
-        $params = [$package_specs['package_id'], $method['shipping_method_id'], $zone];
+        $query = "SELECT
+            shipping_price
+        FROM Shipping_prices
+        WHERE package_id = ?
+        AND shipping_method_id = ?
+        AND rm_zone = ?
+        AND min_weight_g <= ?
+        AND max_weight_g >= ?";
+        $params = [
+            $package_specs['package_id'],
+            $method['shipping_method_id'],
+            $zone,
+            $_SESSION['package_specs']['weight'],
+            $_SESSION['package_specs']['weight']
+        ];
         $shipping_price = $db->query($query, $params)->fetch();
         if (!$shipping_price) throw new Exception("No applicable shipping price found");
         return $shipping_price['shipping_price'] + $_SESSION['package_specs']['package_price'] + PackagingCosts::LABOUR;

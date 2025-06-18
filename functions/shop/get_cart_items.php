@@ -14,6 +14,7 @@ function getCartItems($items, $db, $details=true)
     $item_details = $details ? "Items.*" : "Items.item_id, Items.image, Items.price";
     $cart_items = [];
     foreach ($items AS $item) {
+        // p_2($item);
         $cart_items[] = getItemData($item, $item_details, $db);
     }
     return $cart_items;
