@@ -27,9 +27,17 @@ const resize = async (e) => {
  * @returns {Promise<void>}
  */
 const resizeHTMX = async (e) => {
+  if (e.target.classList.contains('blog') || e.target.classList.contains('audioPlayer')) {
+    const item = document.getElementById('blog-content');
+    item.style.maxHeight = `${item.scrollHeight}px`;
+    return;
+  }
   const item = e.detail.target;
-  if (item.id !== 'blog-content') return;
-  item.style.maxHeight = `${item.scrollHeight}px`;
+  if (item.id === 'blog-content') {
+    console.log('resize box outer div');
+    item.style.maxHeight = `${item.scrollHeight}px`;
+    return;
+  }
 };
 
 /**
@@ -107,6 +115,7 @@ accordionNodeList.forEach((item) => {
 });
 
 document.body.addEventListener('htmx:afterSettle', resizeHTMX);
+// document.body.addEventListener('htmx:load', resizeHTMX);
 window.onload = () => {
   if (!accordionContent['hero']) return;
   let showContent = 'hero';
