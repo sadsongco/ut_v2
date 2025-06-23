@@ -12,6 +12,7 @@ const resize = async (e) => {
     window.history.pushState({}, '', '/');
   }
   if (item.id === 'blog') {
+    updateURL();
   }
   if (item.id === 'hero') {
     if (item.classList.contains('is-open')) setTimeout(stopCarousel, 500);
