@@ -27,6 +27,8 @@ const resize = async (e) => {
  * @returns {Promise<void>}
  */
 const resizeHTMX = async (e) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (!urlParams.has('article_id')) return;
   if (e.target.classList.contains('blog') || e.target.classList.contains('audioPlayer')) {
     const item = document.getElementById('blog-content');
     item.style.maxHeight = `${item.scrollHeight}px`;
@@ -121,6 +123,6 @@ window.onload = () => {
   let showContent = 'hero';
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has('article_id')) showContent = 'blog';
-  startCarousel();
+  if (showContent === 'hero') startCarousel();
   resizeAccordion(accordionContent[showContent]);
 };
