@@ -6,9 +6,9 @@
 </section>
 <section class="articleLinks">
     {{#next_article}}
-        <button hx-get="/content?article_id={{next_article}}" hx-target="#blog-content" hx-replace="innerHTML">Next Blog</button>
+        <button hx-get="/content?article_id={{next_article}}" data-article_id="{{next_article}}" hx-target="#blog-content" hx-replace="innerHTML" hx-on:click="updateURL(event)">Next Blog</button>
     {{/next_article}}
     {{#prev_article}}
-        <button hx-get="/content?article_id={{prev_article}}" hx-target="#blog-content" hx-replace="innerHTML">Previous Blog</button>
+        <button hx-get="/content?article_id={{prev_article}}" data-article_id="{{prev_article}}" hx-target="#blog-content" hx-replace="innerHTML" hx-on:click="updateURL(event)">Previous Blog</button>
     {{/prev_article}}
 </section>

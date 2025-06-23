@@ -1,9 +1,17 @@
+/**
+ * Resize accordion item based on click event target
+ * @param {Event} e event from click handler
+ * @returns {Promise<void>}
+ */
 const resize = async (e) => {
   const item = document.getElementById(e.target.dataset.targetid);
+  closeOpenAccordion(item.id);
   if (item.id !== 'blog') {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.delete('article_id');
-    window.location.search = urlParams.toString();
+    window.history.pushState({}, '', '/');
+  }
+  if (item.id === 'blog') {
   }
   if (item.id === 'hero') {
     if (item.classList.contains('is-open')) setTimeout(stopCarousel, 500);
@@ -12,14 +20,28 @@ const resize = async (e) => {
   await resizeAccordion(item);
 };
 
+/**
+ * Handle accordion content height resize after Htmx event
+ * @param {CustomEvent} e event from Htmx
+ * @returns {Promise<void>}
+ */
 const resizeHTMX = async (e) => {
   const item = e.detail.target;
   if (item.id !== 'blog-content') return;
   item.style.maxHeight = `${item.scrollHeight}px`;
 };
 
+/**
+ * Toggles the visibility of the accordion content associated with the given item.
+ * Expands the accordion to show its content if it is currently collapsed, and collapses it otherwise.
+ * Adjusts the CSS transition and padding styles to animate the expansion or collapse.
+ * Updates the icon within the item's header to reflect the current state.
+ *
+ * @param {HTMLElement} item - The accordion item to be resized.
+ * @returns {Promise<void>}
+ */
+
 const resizeAccordion = async (item) => {
-  closeOpenAccordion(item.id);
   const target = document.getElementById(`${item.id}-content`);
   item.classList.toggle('is-open');
   if (item.classList.contains('is-open')) {
@@ -37,8 +59,13 @@ const resizeAccordion = async (item) => {
   }
 };
 
+/**
+ * Closes all open accordion items except the one with the given id.
+ * @param {string} id - The id of the accordion item to be left open.
+ * @returns {void}
+ */
 const closeOpenAccordion = (id) => {
-  accordionContent.forEach((item) => {
+  accordionNodeList.forEach((item) => {
     if (item.id === id) return;
     const target = document.getElementById(`${item.id}-content`);
     item.classList.remove('is-open');
@@ -47,6 +74,27 @@ const closeOpenAccordion = (id) => {
     target.style.maxHeight = '0px';
     target.style.padding = '0px';
   });
+};
+
+/**
+ * Updates the browser's URL to reflect the current article being viewed.
+ * If an event is provided, it uses the article ID from the event's target dataset.
+ * Otherwise, it defaults to the article ID from the 'blog-content' element.
+ * This change is made without reloading the page by using the History API.
+ *
+ * @param {Event|boolean} e - The event from the click handler or false if no event.
+ */
+
+const updateURL = (e = false) => {
+  let article_id;
+  if (!e) {
+    article_id = parseInt(document.getElementById('blog-content').dataset.article_id);
+  } else {
+    article_id = parseInt(e.target.dataset.article_id);
+  }
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.set('article_id', article_id);
+  window.history.pushState({}, '', `?${urlParams.toString()}`);
 };
 
 const accordionNodeList = document.querySelectorAll('.accordion');

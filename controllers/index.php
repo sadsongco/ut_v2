@@ -12,8 +12,9 @@ foreach ($carousel_tiles as &$tile) {
     $tile['tile_text'] = nl2p($tile['tile_text']);
 }
 
-$article_id = false;
-if (isset($_GET['article_id'])) {
+if (!isset($_GET['article_id'])) {
+    $article_id = $db->query("SELECT MAX(article_id) as latest_article_id FROM articles;")->fetch()['latest_article_id'];
+} else {
     $article_id = $_GET['article_id'];
 }
 
