@@ -1,5 +1,10 @@
 const resize = async (e) => {
   const item = document.getElementById(e.target.dataset.targetid);
+  if (item.id !== 'blog') {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.delete('article_id');
+    window.location.search = urlParams.toString();
+  }
   if (item.id === 'hero') {
     if (item.classList.contains('is-open')) setTimeout(stopCarousel, 500);
     else startCarousel();
@@ -44,16 +49,20 @@ const closeOpenAccordion = (id) => {
   });
 };
 
-const accordionContent = document.querySelectorAll('.accordion');
-
-accordionContent.forEach((item) => {
+const accordionNodeList = document.querySelectorAll('.accordion');
+const accordionContent = [];
+accordionNodeList.forEach((item) => {
+  accordionContent[item.id] = item;
   let header = item.querySelector('header');
   header.addEventListener('click', resize);
 });
 
 document.body.addEventListener('htmx:afterSettle', resizeHTMX);
 window.onload = () => {
-  if (accordionContent.length === 0) return;
+  if (!accordionContent['hero']) return;
+  let showContent = 'hero';
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('article_id')) showContent = 'blog';
   startCarousel();
-  resizeAccordion(accordionContent[0]);
+  resizeAccordion(accordionContent[showContent]);
 };

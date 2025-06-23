@@ -12,5 +12,10 @@ foreach ($carousel_tiles as &$tile) {
     $tile['tile_text'] = nl2p($tile['tile_text']);
 }
 
-echo $this->renderer->render('index', ['carousel_tiles'=>$carousel_tiles, "nav"=>$this->nav]);
+$article_id = false;
+if (isset($_GET['article_id'])) {
+    $article_id = $_GET['article_id'];
+}
+
+echo $this->renderer->render('index', ['carousel_tiles'=>$carousel_tiles, "article_id"=>$article_id,"nav"=>$this->nav]);
 

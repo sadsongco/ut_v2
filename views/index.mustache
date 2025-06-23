@@ -36,7 +36,7 @@
             <i class="fa-solid fa-plus"></i>
         </header>
         <div class="accordion-content" id="blog-content">
-            <section class="blog" hx-get="/content" hx-trigger="load">
+            <section class="blog" hx-get="/content{{#article_id}}?article_id={{article_id}}{{/article_id}}" hx-trigger="load">
             </section>
         </div>
     </section>
