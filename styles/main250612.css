@@ -307,3 +307,20 @@ ul li::marker {
     width: 100%;
   }
 }
+
+.htmx-indicator {
+  opacity: 0;
+  height: 0px;
+  max-height: 0px;
+  transition: height opacity max-height 1500ms ease-in;
+}
+.htmx-request .htmx-indicator {
+  opacity: 1;
+  height: 50px;
+  max-height: 50px;
+}
+.htmx-request.htmx-indicator {
+  opacity: 1;
+  height: 50px;
+  max-height: 50px;
+}
