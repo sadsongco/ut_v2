@@ -29,7 +29,7 @@ const resize = async (e) => {
 const resizeHTMX = async (e) => {
   const urlParams = new URLSearchParams(window.location.search);
   if (!urlParams.has('article_id')) return;
-  if (e.target.classList.contains('blog') || e.target.classList.contains('audioPlayer')) {
+  if (e.target.classList.contains('blog') || e.target.classList.contains('audioPlayer') || e.target.classList.contains('comments-container')) {
     const item = document.getElementById('blog-content');
     item.style.maxHeight = `${item.scrollHeight}px`;
     return;

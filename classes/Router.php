@@ -24,6 +24,11 @@ class Router
             'path' => '/serve',
             'name' => 'Serve',
             'controller' => 'serve'
+        ],
+        'comments'=> [
+            'path' => '/comments',
+            'name' => 'Comments',
+            'controller' => 'comments'
         ]
     ];
     private $renderer;

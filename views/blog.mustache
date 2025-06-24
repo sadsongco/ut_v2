@@ -4,6 +4,9 @@
         {{>article}}
     {{/article}}
 </section>
+<section class="comments">
+    {{>comments}}
+</section>
 <section class="articleLinks">
     {{#next_article}}
         <button hx-get="/content?article_id={{next_article}}" data-article_id="{{next_article}}" hx-target="#blog-content" hx-replace="innerHTML" hx-on:click="updateURL(event)">Next Blog</button>

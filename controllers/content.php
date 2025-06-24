@@ -74,4 +74,4 @@ catch (Exception $e) {
 
 $blog_stylesheets = ['articles'];
 
-echo $this->renderer->render('blog', ['article'=>$article, 'next_article'=>$next_article, 'prev_article'=>$prev_article]);
+echo $this->renderer->render('blog', ['article'=>$article, 'article_id'=>$show_article,'next_article'=>$next_article, 'prev_article'=>$prev_article]);
