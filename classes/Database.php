@@ -15,7 +15,8 @@ class Database
     function __construct($table='content')
     {
         if (!$table || !in_array($table, array_keys(self::TABLE))) die("No Database table specified");
-        include_once(base_path("../secure/scripts/" . self::TABLE[$table]));
+        require(base_path("../secure/scripts/" . self::TABLE[$table]));
+
         $this->conn = $db;
     }
 
@@ -34,6 +35,11 @@ class Database
     public function fetch($stmt)
     {
         return $stmt->fetch();
+    }
+
+    public function fetchColumn($stmt)
+    {
+        return $stmt->fetchColumn();
     }
 
     public function lastInsertId()
