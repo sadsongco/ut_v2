@@ -13,7 +13,7 @@ try {
     $auth->login($_POST['email'], $_POST['password'], $rememberDuration);
     $protocol = 'http';
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') $protocol .= 's';    $host = "$protocol://".$_SERVER['HTTP_HOST'];
-    echo $m->render('comment_form_solo', ["username"=>$auth->getUsername(), "base_dir"=>$host]);
+    echo $m->render('login_form', ["username"=>$auth->getUsername(), "base_dir"=>$host, "logged_in"=>$auth->isLoggedIn()]);
 }
 catch (\Delight\Auth\InvalidEmailException $e) {
     die('Wrong email address');

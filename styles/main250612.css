@@ -223,6 +223,8 @@ ul li::marker {
 
 .error {
   color: var(--errorColour);
+  background-color: #eee;
+  padding: 0.2em;
 }
 
 .callout {
