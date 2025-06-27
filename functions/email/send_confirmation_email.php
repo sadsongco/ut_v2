@@ -13,8 +13,14 @@ use PHPMailer\PHPMailer\Exception;
 require base_path('../lib/mustache.php-main/src/Mustache/Autoloader.php');
 Mustache_Autoloader::register();
 
+date_default_timezone_set('Europe/London');
 
-function sendConfirmationEmail($row) {
+function sendConfirmationEmail($row, $option=null) {
+    if (ENV !== 'production') {
+        $row['email'] = 'nigel@thesadsongco.com';
+        $row['name'] = 'Nigel Powell';
+        $row['email_id'] = 999;
+    };
     $mail = new PHPMailer(true);
     $m = new Mustache_Engine(array(
         'loader' => new Mustache_Loader_FilesystemLoader(base_path('views/emails/customer/')),
@@ -23,8 +29,9 @@ function sendConfirmationEmail($row) {
     try {
         $row['host'] = getHost();
         $row['secure_id'] = generateSecureId($row['email'], $row['email_id']);
-        $body = $m->render('confirmationEmailHtml', $row);
-        $text_body = $m->render('confirmationEmailText', $row);
+        $params = [...$row, "$option"=>true];
+        $body = $m->render('confirmationEmailHtml', $params);
+        $text_body = $m->render('confirmationEmailText', $params);
         $subject = 'Unbelievable Truth - confirm your email';
         require_once(base_path("../secure/mailauth/ut.php"));
 

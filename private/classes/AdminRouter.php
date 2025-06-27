@@ -31,6 +31,10 @@ class AdminRouter extends Router
         'resources' => [
             'name' => 'Resources Management',
             'controller' => 'resources/index'
+        ],
+        'utility' => [
+            'name' => 'Utilities',
+            'controller' => 'utility/index'
         ]
     ];
     function __construct($renderer)
