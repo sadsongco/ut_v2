@@ -36,7 +36,6 @@ const resizeHTMX = async (e) => {
   }
   const item = e.detail.target;
   if (item.id === 'blog-content') {
-    console.log('resize box outer div');
     item.style.maxHeight = `${item.scrollHeight}px`;
     return;
   }
