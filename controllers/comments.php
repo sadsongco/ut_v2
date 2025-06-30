@@ -7,6 +7,7 @@ use Database\Database;
 $db = new Database('content');
 
 function getReplies ($db, $article_id, $comment_id=null) {
+    $order = $comment_id ? "ASC" : "DESC";
     try {
         $no_reply_comments = "AND top_comment.reply IS NULL";
         $params = [$article_id, $article_id];
@@ -30,7 +31,7 @@ function getReplies ($db, $article_id, $comment_id=null) {
         WHERE top_comment.article_id = ?
         $no_reply_comments
         AND top_comment.reply_to IS NULL
-        ORDER BY comment_date ASC;
+        ORDER BY comment_date $order;
         ";
         $result = $db->query($query, $params)->fetchAll();
         foreach ($result as &$comment_field) {
