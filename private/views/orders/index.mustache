@@ -4,6 +4,11 @@
       <h1>Order Management Page</h1>
     </section>
     <section class="content-container">
+      <section class="importCSV">
+        <h1>Import Music Glue Orders</h1>
+        <p>Import orders from csv. Manually upload the csv to /private/data/orders/</p>
+        <button class="button" hx-get="/private/functions/interface/orders/import_mg_csv.php" hx-swap="outerHTML" onclick="disableButton(event)">Import Now</button>
+      </section>
         <h1>Transactions</h1>
         <button hx-get="/private/functions/interface/orders/view_transactions.php" hx-target="#transactionResult" hx-trigger="click" onclick="disableButton(event)" hx-swap="innerHTML">View Transactions</button>
         <div id="transactionResult"></div>
@@ -31,10 +36,6 @@
     <script>
       const copyLinkToClipboard = (e) => {
         navigator.clipboard.writeText(e.target.previousElementSibling.innerText);
-      };
-      const disableButton = (e) => {
-        e.target.disabled = true;
-        e.target.classList.add('disabled');
       };
     </script>
     <script type="text/javascript">

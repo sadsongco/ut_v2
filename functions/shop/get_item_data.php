@@ -2,7 +2,7 @@
 
 function getItemData($item, $item_details, $db)
 {
-        if ($item['option_id']) {
+        if (isset($item['option_id']) && $item['option_id']) {
             $query = "SELECT
                 $item_details,
                 Item_options.option_stock as stock,
