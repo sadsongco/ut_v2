@@ -52,12 +52,12 @@
 .commentContainer,
 .commentForm {
   width: 80%;
-  border: var(--commentBoxOutline);
-  padding: 1em;
-  margin: 3px 0;
+  padding: var(--stdPaddingSmall);
+  margin: var(--stdMarginSmall) 0;
 }
 
 .commentContainer {
+  border: var(--commentBoxOutline);
   --indent: 0;
   /* margin-left: var(--indent); */
 }

@@ -1,4 +1,4 @@
-<form hx-post="/functions/interface/blog/post_comment.php" hx-swap="outerHTML" hx-target="#commentForm_{{article_id}}">
+<form class="commentForm" hx-post="/functions/interface/blog/post_comment.php" hx-swap="outerHTML" hx-target="#commentForm_{{article_id}}">
 {{^comment_reply_id}}
     <textarea class="comment-input" name="comment" placeholder="comment as {{username}}" autofocus></textarea>
 {{/comment_reply_id}}

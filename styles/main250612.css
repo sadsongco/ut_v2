@@ -225,6 +225,12 @@ ul li::marker {
   color: var(--compColBrt1);
 }
 
+textarea {
+  border: 3px solid var(--commentBorder);
+  padding: var(--stdPaddingMedium);
+  font-family: var(--stdFont);
+}
+
 .grid-2col {
   display: grid;
   grid-template-columns: 1fr 2fr;
