@@ -1,6 +1,5 @@
 const disableButton = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+  console.log(e.target);
   e.target.disabled = true;
   e.target.classList.add('disabled');
 };

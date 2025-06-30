@@ -12,7 +12,6 @@ use PHPMailer\PHPMailer\Exception;
 use Database\Database;
 $content_db = new Database('content');
 
-
 function getCommentNotify($content_db, $reply) {
     try {
         $query = "SELECT notify, user_id FROM comments WHERE comment_id = ?;";
@@ -115,4 +114,4 @@ catch (Exception $e) {
 }
 
 header ('HX-Trigger:refreshComments');
-echo $m->render("comment_form_solo", ["article_id"=>$params['article_id']]);
+echo $m->render("comment_form_solo", ["article_id"=>$params['article_id'], "logged_in"=>$auth->isLoggedIn()]);
