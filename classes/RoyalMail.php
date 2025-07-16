@@ -348,6 +348,7 @@ class RoyalMail {
     }
 
     public function getOrderOutcomes() {
+        p_2("WHUT");
         return $this->order_outcomes;
     }
 

@@ -80,15 +80,17 @@ function getPackageSpecs($cart_contents)
         if ($item['width_mm'] > $width) $width = $item['width_mm'];
         $depth += $item['depth_mm'] * $item['quantity'];
     }
-    foreach ($cart_contents['bundles'] as $bundle) {
-        foreach ($bundle['items'] as $item) {
-            if ($item['e_delivery'] == 1) continue;
-            addPackagingClassification($item, $packaging_classifications);
-            $all_e_delivery = false;
-            $items_weight += getItemWeight($item);
-            if ($item['length_mm'] > $length) $length = $item['length_mm'];
-            if ($item['width_mm'] > $width) $width = $item['width_mm'];
-            $depth += $item['depth_mm'] * $bundle['quantity'];
+    if (isset($cart_contents['bundles']) && sizeof($cart_contents['bundles']) > 0) {
+        foreach ($cart_contents['bundles'] as $bundle) {
+            foreach ($bundle['items'] as $item) {
+                if ($item['e_delivery'] == 1) continue;
+                addPackagingClassification($item, $packaging_classifications);
+                $all_e_delivery = false;
+                $items_weight += getItemWeight($item);
+                if ($item['length_mm'] > $length) $length = $item['length_mm'];
+                if ($item['width_mm'] > $width) $width = $item['width_mm'];
+                $depth += $item['depth_mm'] * $bundle['quantity'];
+            }
         }
     }
     ksort($packaging_classifications);
