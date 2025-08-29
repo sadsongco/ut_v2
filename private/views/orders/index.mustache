@@ -4,7 +4,7 @@
       <h1>Order Management Page</h1>
     </section>
     <section class="content-container">
-      <form class="grid-2col" hx-post="/private/functions/interface/orders/submit_new_rm_orders.php" hx-target="#rmTarget">
+      <form class="grid-2col" hx-post="/private/functions/interface/orders/submit_new_rm_orders.php" hx-target="#rmTarget" hx-confirm="Do you want to send the orders for the chosen area to Royal Mail for processing?">
         <label for="orderZone">Orders to Submit</label>
         <select id="orderZone" name="order_zone" style="width:fit-content">
           <option value="0">UK</option>

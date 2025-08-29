@@ -14,7 +14,7 @@
 .carousel-preview {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 1em;
@@ -28,4 +28,12 @@
 
 .carouselTilePreview img {
   height: 300px;
+}
+
+.carousel-image-preview {
+  display: block;
+  max-width: 230px;
+  max-height: 95px;
+  width: auto;
+  height: auto;
 }

@@ -130,6 +130,7 @@ class RoyalMail {
             Items.weight,
             Items.customs_description,
             Items.customs_code,
+            Items.sku,
             New_Order_items.option_id,
             New_Order_items.quantity
             FROM New_Order_items
@@ -203,9 +204,14 @@ class RoyalMail {
                 }
             }
         } else {
+            if (isset($this->order_data['package_specs']['e_delivery'])) return false;
+            if (!isset($this->order_data['package_specs']['package_name'])) {
+                return false;
+            }
             $weight = $this->order_data['package_specs']['weight'];
             $package_format = strtolower($this->order_data['package_specs']['package_name']);
         }
+        $emailNotification = $this->order_data['country_code'] == "GB" ? true : false;
         $this->rm_order = [
             "orderReference"=>$this->order_data['order_id'],
             "recipient"=>[
@@ -247,7 +253,7 @@ class RoyalMail {
                 "sendNotificationsTo"=>"recipient",
                 "serviceCode"=>$this->order_data['rm_shipping_method']['service_code'],
                 "serviceRegisterCode"=>"",
-                "receiveEmailNotification"=>false,
+                "receiveEmailNotification"=>$emailNotification,
                 "receiveSmsNotification"=>false,
                 "guaranteedSaturdayDelivery"=>false,
                 "requestSignatureUponDelivery"=>false,
@@ -268,8 +274,10 @@ class RoyalMail {
     }
 
     private function createRMItem($item) {
+        if (!isset($item['sku'])) $item['sku'] = "";
         $rm_item = [
             "name"=>$item['name'],
+            "SKU"=>$item['sku'],
             "quantity"=>$item['quantity'],
             "unitValue"=>$item['price'],
             "unitWeightInGrams"=>(int)$item['weight'],
@@ -348,7 +356,6 @@ class RoyalMail {
     }
 
     public function getOrderOutcomes() {
-        p_2("WHUT");
         return $this->order_outcomes;
     }
 

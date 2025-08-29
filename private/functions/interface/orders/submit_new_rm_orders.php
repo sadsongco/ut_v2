@@ -65,10 +65,9 @@ foreach ($orders as &$order) {
     // $shipping = calculateShipping($db, $order['rm_zone'], ["shipping_method_id"=>$order['shipping_method']]);
     $rm = new RoyalMail($order['order_id'], $db);
     $rm->createRMOrder();
-    // $rm->submitRMOrder();
+    $rm->submitRMOrder();
     $order_outcomes[] = $rm->getOrderOutcomes();
 }
-dd($order_outcomes);
 echo $m->render("orderOutcomes", ["outcomes"=>$order_outcomes]);
 
 
