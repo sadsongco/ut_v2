@@ -50,6 +50,7 @@ try {
         $country
     JOIN Countries ON Customers.country = Countries.country_id
     WHERE `rm_order_identifier` IS NULL
+    AND `transaction_id` IS NOT NULL
     ORDER BY New_Orders.order_date ASC
     LIMIT 2000";
     $orders = $db->query($query)->fetchAll();
