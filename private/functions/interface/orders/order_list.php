@@ -5,6 +5,7 @@ require_once(__DIR__."/includes/order_includes.php");
 $filter = $_POST['orderFilter'] ?? null;
 
 $filter_text = "WHERE New_Orders.rm_tracking_number IS NULL";
+$area_filter = "";
 
 switch ($filter) {
     case 'all':
@@ -16,7 +17,18 @@ switch ($filter) {
     case 'dispatched':
         $filter_text = "WHERE New_Orders.rm_tracking_number IS NOT NULL";
         break;
-    
+    case 'new_uk':
+        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL";
+        $area_filter = "AND Customers.country = 31";
+        break;
+    case 'new_usa':
+        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL";
+        $area_filter = "AND Customers.country = 1";
+        break;
+    case 'new_row':
+        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL";
+        $area_filter = "AND Customers.country != 1 AND Customers.country != 31";
+        break;
     default:
         break;
 }
@@ -37,6 +49,7 @@ try {
                     Countries.name as country
                 FROM New_Orders
                 JOIN Customers ON New_Orders.customer_id = Customers.customer_id
+                $area_filter
                 JOIN Countries ON Customers.country = Countries.country_id
                 $filter_text
                 ORDER BY New_Orders.order_date DESC
