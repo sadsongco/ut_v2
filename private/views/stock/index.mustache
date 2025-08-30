@@ -15,6 +15,8 @@
                     <input type="hidden" name="item_id" value="{{item_id}}">
                     <label for="item{{item_id}}_name" >Name</label>
                     <input type="text" name="name" id="item{{item_id}}_name" value="{{name}}" autocomplete="off">
+                    <label for="item{{item_id}}_sku" >SKU</label>
+                    <input type="text" name="sku" id="item{{item_id}}_sku" value="{{sku}}">
                     <label for="item{{item_id}}_price">Price</label>
                     <input type="number" name="price" id="item{{item_id}}_price" step="0.50" value="{{price}}">
                     <label for="item{{item_id}}_description">Description</label>
@@ -25,7 +27,7 @@
                             <option value="{{category}}" {{selected}}>{{category}}</option>
                         {{/categories}}
                     </select>
-                    <label for="item{{item_id}}_image" >Name</label>
+                    <label for="item{{item_id}}_image" >Image</label>
                     <input type="text" name="image" id="item{{item_id}}_image" value="{{image}}">
                     <label for="item{{item_id}}_weight">Weight kg</label>
                     <input type="number" name="weight" id="item{{item_id}}_weight" step="0.001" value="{{weight}}">
@@ -108,6 +110,8 @@
             <div class="update-stock-item">
                 <label for="item_name">Item Name</label>
                 <input type="text" name="name" id="item_name" autocomplete="off" required>
+                <label for="item_sku">Item SKU</label>
+                <input type="text" name="sku" id="item_sku" autocomplete="off">
                 <label for="item_price">Item Price</label>
                 <input type="number" name="price" id="item_price" step="0.1" required>
                 <label for="item_description">Item Description</label>
