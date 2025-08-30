@@ -45,7 +45,7 @@ if (!isset($_SESSION['package_specs']['e_delivery'])) {
     $default_method = $shipping_options[0];
     $_SESSION['shipping_method'] = $default_method;
     
-    $shipping = calculateShipping($db, $default_zone, $default_method);
+    [$shipping, $package_id, $package_name] = calculateShipping($db, $default_zone, $default_method);
     $_SESSION['shipping'] = round($shipping, 2);
     $shipping_disp = number_format($shipping, 2);
 }

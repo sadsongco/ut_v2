@@ -101,7 +101,7 @@ foreach ($mg_orders as &$mg_order) {
     $mg_order['shipping_method'] = $default_method;
     $_SESSION = $mg_order;
     
-    $mg_order['totals']['shipping'] = calculateShipping($db, $mg_order['rm_zone'], $mg_order['shipping_method']);
+    [$mg_order['totals']['shipping'], $mg_order['package_specs']['package_id'], $mg_order['package_specs']['package_name']] = calculateShipping($db, $mg_order['rm_zone'], $mg_order['shipping_method']);
     $mg_order['totals']['total'] = $mg_order['totals']['subtotal'] + $mg_order['totals']['shipping'];
     $mg_order['totals']['vat'] = $mg_order['totals']['total'] - ($mg_order['totals']['total'] / 1.2);
 

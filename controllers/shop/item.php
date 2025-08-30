@@ -13,6 +13,7 @@ $query = "SELECT *
     WHERE item_id = ?";
 
 $item = $db->query($query, [$paths[2]])->fetch();
+var_dump($item);
 
 if ($item['image'] == "") unset($item['image']);
 else $item['image_path'] = "/serve/" . SHOP_ASSET_PATH . "images/" . str_replace(".", "/", $item['image']);

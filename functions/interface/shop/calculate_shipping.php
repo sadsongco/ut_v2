@@ -51,7 +51,11 @@ function calculateShipping($db, $zone, $method) {
         ];
         $shipping_price = $db->query($query, $params)->fetch();
         if (!$shipping_price) throw new Exception("No applicable shipping price found");
-        return $shipping_price['shipping_price'] + $_SESSION['package_specs']['package_price'] + PackagingCosts::LABOUR;
+        return [
+            $shipping_price['shipping_price'] + $_SESSION['package_specs']['package_price'] + PackagingCosts::LABOUR,
+            $package_specs['package_id'],
+            $package_specs['name']
+        ];
     } catch (Exception $e) {
         error_log($query);
         error_log(print_r($params, true));
@@ -65,7 +69,7 @@ if (isset($_POST['update'])) {
     $shipping_method = $db->query("SELECT * FROM Shipping_methods WHERE shipping_method_id = ?", [$_SESSION['shipping_method']['shipping_method_id']])->fetch();
     $shipping = 0;
     if (!isset($_SESSION['package_specs']['e_delivery'])) {
-        $shipping = calculateShipping($db, $_SESSION['rm_zone'], $shipping_method);
+        [$shipping, $package_id, $package_name] = calculateShipping($db, $_SESSION['rm_zone'], $shipping_method);
         $_SESSION['shipping'] = round($shipping, 2);
     }
 
