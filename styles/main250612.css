@@ -209,7 +209,8 @@ a.button:hover {
   cursor: pointer;
 }
 
-a.button.disabled {
+a.button.disabled,
+input.button.disabled {
   padding: var(--stdPaddingSmall) var(--stdPaddingMedium);
   pointer-events: none;
   opacity: 0.5;
@@ -305,6 +306,10 @@ textarea {
   align-items: center;
   justify-content: space-between;
   position: relative;
+}
+
+img.hidden {
+  display: none;
 }
 
 .accordion-content {

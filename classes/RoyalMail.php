@@ -327,6 +327,7 @@ class RoyalMail {
 
         if (isset($responseObj->createdOrders)) {
             foreach($responseObj->createdOrders as $successful_order) {
+                $created_on = str_replace(["T", "Z"], [" ", ""], $successful_order->createdOn);
                 $query = "UPDATE `" . $this->orders_table . "`
                 SET 
                 `rm_order_identifier` = ?,
@@ -334,21 +335,21 @@ class RoyalMail {
                 WHERE `order_id` = ?";
                 $params = [
                     (int)$successful_order->orderIdentifier,
-                    $successful_order->createdOn,
+                    $created_on,
                     (int)$successful_order->orderReference,
                 ];
                 $stmt = $this->db->query($query, $params);
                 if ($this->db->rowCount($stmt) == 0) {
-                    $order_outcomes[] = "FAILED to update database for " . $successful_order->orderReference . " : " . $this->db->error;
+                    array_push($order_outcomes, ['status'=>"FAILED to update database for " . $successful_order->orderReference . " : " . $this->db->error, 'data'=>$successful_order]);
                     continue;
                 }
-                $order_outcomes[] = "Order id " . $successful_order->orderReference . " submitted to Royal Mail";
+                array_push($order_outcomes, ['status'=>"Order id " . $successful_order->orderReference . " submitted to Royal Mail", 'data'=>$successful_order]);
             }
         }
 
         if (isset($responseObj->failedOrders)) {
             foreach($responseObj->failedOrders as $failed_order) {
-                $order_outcomes[] = "FAILED TO CREATE ORDER: " . $failed_order->errors[0]->errorMessage;
+                array_push($order_outcomes, ['status'=>"FAILED TO CREATE ORDER: " . $failed_order->errors[0]->errorMessage, 'data'=>$failed_order]);
             };
         }
         $this->order_outcomes = $order_outcomes;

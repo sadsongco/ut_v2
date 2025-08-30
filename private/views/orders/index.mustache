@@ -4,16 +4,21 @@
       <h1>Order Management Page</h1>
     </section>
     <section class="content-container">
-      <form class="grid-2col" hx-post="/private/functions/interface/orders/submit_new_rm_orders.php" hx-target="#rmTarget" hx-confirm="Do you want to send the orders for the chosen area to Royal Mail for processing?">
+      <form class="grid-2col" hx-post="/private/functions/interface/orders/submit_new_rm_orders.php" hx-target="#rmTarget" hx-confirm="Do you want to send the orders for the chosen area to Royal Mail for processing?" onsubmit="document.getElementById('submitOrders').classList.add('disabled'); document.getElementById('submitOrdersSpinner').classList.remove('hidden')">
         <label for="orderZone">Orders to Submit</label>
         <select id="orderZone" name="order_zone" style="width:fit-content">
           <option value="0">UK</option>
+          <option value="2">USA</option>
           <option value="1">ROW</option>
           <option value="3">ALL</option>
         </select>
-        <input class="button" type="submit" value="Generate Royal Mail Labels" />
+        <input id="submitOrders" class="button" type="submit" value="Generate Royal Mail Labels" />
       </form>
-      <div id="rmTarget"></div>
+      <div id="rmTarget">
+        <div class="submitOrderSpinnerContainer">
+          <img id="submitOrdersSpinner" class="hidden" src="/assets/images/graphics/loading.gif" />
+        </div>
+      </div>
     </section>
     <section class="content-container">
       <p>Go to <a class="stdLink" href="https://business.parcel.royalmail.com/orders/" target="_blank">Royal Mail Orders</a> to pay and download labels</p>
