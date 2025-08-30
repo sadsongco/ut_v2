@@ -1,6 +1,5 @@
 *.log
 *.DS_Store
-*.htaccess
 *.error_log
 tmp.html
 php.ini
