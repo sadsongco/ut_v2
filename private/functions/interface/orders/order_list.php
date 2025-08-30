@@ -25,7 +25,6 @@ try {
     $query = "SELECT
                     New_Orders.order_id,
                     CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS disp_order_id,
-                    New_Orders.sumup_id,
                     New_Orders.transaction_id,
                     DATE_FORMAT(New_Orders.dispatched, '%e/%c/%y %k:%i') AS dispatched,
                     DATE_FORMAT(New_Orders.order_date, '%D %M %Y') AS order_date,

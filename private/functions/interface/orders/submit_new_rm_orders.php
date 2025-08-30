@@ -28,7 +28,6 @@ switch ($_POST['order_zone']) {
 try {
     $query = "SELECT
         New_Orders.order_id,
-        New_Orders.sumup_id,
         TRIM(New_Orders.shipping_method) AS shipping_method,
         New_Orders.shipping,
         New_Orders.subtotal,

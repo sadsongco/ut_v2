@@ -150,7 +150,7 @@ function sendCustomerShippedEmail($order_id, $tracking_number, $db, $m) {
 
 function createOrderPDF($order_id, $db) {
     try {
-        $query = "SELECT New_Orders.order_id, New_Orders.sumup_id, New_Orders.subtotal, New_Orders.vat, New_Orders.total,
+        $query = "SELECT New_Orders.order_id, New_Orders.subtotal, New_Orders.vat, New_Orders.total,
                         Customers.name, Customers.address_1, Customers.address_2, Customers.city, Customers.postcode, Customers.country,
                         DATE_FORMAT(New_Orders.order_date, '%D %M %Y') AS order_date,
                         New_Orders.shipping, New_Orders.shipping_method

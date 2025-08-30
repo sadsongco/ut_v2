@@ -9,7 +9,6 @@ use RoyalMail\RoyalMail;
 try {
     $query = "SELECT
         Orders.order_id,
-        Orders.sumup_id,
         TRIM(Orders.shipping_method) AS shipping_method,
         Orders.shipping,
         Orders.subtotal,
