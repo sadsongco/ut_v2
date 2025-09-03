@@ -1,0 +1,18 @@
+{{>email/emailHTMLHeader}}
+{{#order}}
+    <p>Dear {{name}},</p>
+    {{^mg}}
+        <p>Thank you for your order #{{order_id}}</p>
+    {{/mg}}
+    {{#mg}}
+        <p>Thank you for placing your order #{{mg}} through Music Glue.</p>
+    {{/mg}}
+    <p>Your package has been shipped on {{shipped_on}}. You can track it via Royal Mail <a href="https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}" target="_blank">https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}</a></p>
+    {{#download_items}}
+        <div>You can download your digital copy of {{name}} <a href="{{host}}/shop/download/{{download_token}}" target="_blank">here</a> (note this link will only work once). If you have any issues please contact us on <a href="mailto:info@unbelievabletruth.co.uk">info@unbelievabletruth.co.uk</a>.</div>
+    {{/download_items}}
+    <p>We really appreciate you ordering direct from us, it helps us to keep making more music!</p>
+    <p>Sincerely,<br><br>
+    Andy, Jason and Nigel<br>Unbelievable Truth</p>
+{{/order}}
+{{>email/emailHTMLFooter}}

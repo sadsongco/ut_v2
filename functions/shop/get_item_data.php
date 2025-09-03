@@ -28,3 +28,46 @@ function getItemData($item, $item_details, $db)
 
         return [...$cart_item, "quantity"=>$item['quantity']]; // add quantity to $cart_item;
 }
+
+function classifyItem(&$item, $order_db_id, $db, &$shipping_items, &$download_items, &$preorder_items)
+{
+    if (isset($item['release_date']) && $item['release_date'] > date("Y-m-d")) {
+        if (isset($item['download']) && $item['download'] != "") $item["download_token"] = createUniqueToken($db->lastInsertId());
+        if ($item['e_delivery']) $preorder_items["e_delivery"][] = $item;
+        else $preorder_items['shipping'][] = $item;
+        return;
+    }
+    if (!$item['e_delivery']) {
+        $shipping_items[] = $item;
+    }
+    if ($item['download']) {
+        $query = "SELECT download_token_id FROM Download_tokens WHERE order_id = ? AND item_id = ?";
+        $res = $db->query($query, [$order_db_id, $item['item_id']])->fetch();
+        if (isset($res['download_token_id'])) {
+            $download_token = createUniqueToken($res['download_token_id']);
+        }
+        else {
+            $query = "INSERT INTO Download_tokens (order_id, item_id) VALUES (?, ?)";
+            $db->query($query, [$order_db_id, $item['item_id']]);
+            $download_token = createUniqueToken($db->lastInsertId());
+        }
+        $item["download_token"] = $download_token;
+        $download_items[] = $item;
+    }
+}
+
+function updateItemData(&$item, $db)
+{
+    $query = "SELECT name, e_delivery, download, release_date, DATE_FORMAT(release_date, '%D %M %Y') AS disp_release_date FROM Items WHERE item_id = ?";
+    $res = $db->query($query, [$item['item_id']])->fetch();
+    $item['name'] = $res['name'];
+    $item['e_delivery'] = $res['e_delivery'];
+    $item['download'] = $res['download'];
+    $item['release_date'] = $res['release_date'];
+    $item['disp_release_date'] = $res['disp_release_date'];
+    if ($item['option_id']) {
+        $query = "SELECT option_name FROM Item_options WHERE item_option_id = ?";
+        $res = $db->query($query, [$item['option_id']])->fetch();
+        $item['option_name'] = $res['option_name'];
+    }
+}

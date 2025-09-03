@@ -13,8 +13,13 @@ function sendCustomerEmail($order, $template, $db, $m) {
         "shipped" => "your order #" . $order['order_id'] . " has shipped"
     ];
     // create pdf for order
-    $order_db_id = explode("-", $order['order_id'])[1];
-    $filename = createOrderPDF($order_db_id, $db);
+    if ($template == "success") {
+        $order_db_id = explode("-", $order['order_id'])[1];
+        $filename = createOrderPDF($order_db_id, $db);
+    } else {
+        $order_db_id = $order['order_id'];
+    }
+
     // send email
     require(base_path("../secure/mailauth/ut.php"));
     $subject = "Unbelievable Truth - ";
@@ -41,7 +46,7 @@ function sendCustomerEmail($order, $template, $db, $m) {
     $mail->addAddress($send_to, $order['name']);
     // $mail->addAddress("nigel@thesadsongco.com", "Nigel");
     $mail->addBCC("info@unbelievabletruth.co.uk");
-    $mail->addAttachment(base_path(ORDER_PDF_PATH) . $filename, $filename);
+    if ($template == "success") $mail->addAttachment(base_path(ORDER_PDF_PATH) . $filename, $filename);
     $mail->send();
-    unlink(base_path(ORDER_PDF_PATH) . $filename);
+    if ($template == "success") unlink(base_path(ORDER_PDF_PATH) . $filename);
 }

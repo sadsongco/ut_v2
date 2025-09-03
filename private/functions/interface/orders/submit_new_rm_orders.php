@@ -68,34 +68,21 @@ foreach ($orders as &$order) {
     $order['country_code'] = $order['country'];
     $order['items'] = getOrderItems($order, $db); // gets all items in an order whether bundled or not
     $order['weight'] = 0;
+    $non_bundle_price = 0;
     foreach ($order['items'] as &$item) {
         $item['weight'] = (int)$item['weight'];
         $item['weight'] *= 1000; // convert to grams from kg
         $order['weight'] += $item['weight'] * $item['quantity']; // total package weight
+        $non_bundle_price += $item['quantity'] * $item['order_price'];
     }
+    $order['bundle_discount'] = $non_bundle_price - $order['subtotal'];
     $rm = new RoyalMail($order['order_id'], $db);
     $rm->createRMOrder();
     $rm->submitRMOrder();
     $order_outcomes[] = $rm->getOrderOutcomes();
 }
+
 echo $m->render("orderOutcomes", ["outcomes"=>$order_outcomes]);
-
-
-function getOrderItems($order, $db) {
-    try {
-        $query = "SELECT
-            New_Order_items.order_price,
-            New_Order_items.quantity,
-            Items.*
-        FROM New_Order_items
-        JOIN Items ON New_Order_items.item_id = Items.item_id
-        WHERE New_Order_items.order_id = ?";
-        $params = [$order["order_id"]];
-        return $db->query($query, $params)->fetchAll();
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-}
 
 function getCountryCode($country, $db) {
     $query = "SELECT country_code FROM Countries WHERE name = ?";

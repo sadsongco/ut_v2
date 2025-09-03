@@ -21,7 +21,10 @@
       </div>
     </section>
     <section class="content-container">
+      <button class="button" hx-get="/private/functions/interface/orders/get_rm_orders.php" hx-target="#rmUpdateResult">Update Dispatched Orders</button>
+      <p>This will send confirmation emails to the customers including download links for any e-delivery items. It will only update 100 orders at a time, if there are more than that outstanding this should be run until no more orders remain.</p>
       <p>Go to <a class="stdLink" href="https://business.parcel.royalmail.com/orders/" target="_blank">Royal Mail Orders</a> to pay and download labels</p>
+      <div id="rmUpdateResult"></div>
       <h1>Current Picking List</h1>
       <div id="pickingList" class="pickingList" hx-get="/private/functions/interface/orders/picking.php" hx-trigger="load, updateOrderList from:body"></div>
       <h1>Orders</h1>
@@ -40,12 +43,12 @@
       </div>
       <div id="orderList" hx-post="/private/functions/interface/orders/order_list.php" hx-trigger="load, updateOrderList from:body" hx-include="#orderFilterForm"></div>
     </section>
-        <section class="content-container">
+    <section class="content-container">
       <h1>Transactions</h1>
       <button hx-get="/private/functions/interface/orders/view_transactions.php" hx-target="#transactionResult" hx-trigger="click" onclick="disableButton(event)" hx-swap="innerHTML">View Transactions</button>
       <div id="transactionResult"></div>
     </section>
-        <section class="content-container">
+    <section class="content-container">
       <section class="importCSV">
         <h1>Import Music Glue Orders</h1>
         <p>Import orders from csv. Manually upload the csv to /private/data/orders/ with filename 'mg_orders.csv'</p>

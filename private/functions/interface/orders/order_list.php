@@ -56,7 +56,7 @@ try {
             ;";
     $result = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result AS &$row) {
-        $row["items"] = getItemData($row["order_id"], $db);
+        $row["items"] = getOrderItemData($row["order_id"], $db);
         $bundle_query = "SELECT
                             Bundles.bundle_id,
                             Order_bundles.quantity,
@@ -68,7 +68,7 @@ try {
                             WHERE Order_bundles.order_id = ?;";
         $row["bundles"] = $db->query($bundle_query, [$row["order_id"]])->fetchAll();
         foreach ($row["bundles"] as &$bundle) {
-            $bundle["items"] = getItemData($row["order_id"], $db, $bundle["order_bundle_id"]);
+            $bundle["items"] = getOrderItemData($row["order_id"], $db, $bundle["order_bundle_id"]);
         }
     }
     
@@ -86,7 +86,7 @@ $params["num_orders"] = sizeof($result);
 
 echo $m->render("orderList", $params);
 
-function getItemData($order_id, $db, $bundle_id = null) {
+function getOrderItemData($order_id, $db, $bundle_id = null) {
     $params = [];
     $cond = "IS NULL";
     $params[] = $order_id;
