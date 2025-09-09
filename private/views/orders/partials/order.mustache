@@ -16,6 +16,15 @@
     {{/rm_order_identifier}}
     {{#items}}{{>item}}{{/items}}
     {{#bundles}}{{>bundle}}{{/bundles}}
+    <div class="orderLine orderTitle">Subtotal</div>
+    <div class="orderLine">&pound;<span class="price">{{subtotal}}</span></div>
+    <div class="orderLine orderTitle">Shipping</div>
+    <div class="orderLine">&pound;<span class="price">{{shipping}}</span></div>
+    <div class="orderLine orderTitle">VAT</div>
+    <div class="orderLine">&pound;<span class="price">{{vat}}</span></div>
+    <div class="orderLine orderTitle">TOTAL</div>
+    <div class="orderLine">&pound;<span class="price">{{total}}</span></div>
+
   </div>
   <div class="orderLinks">
     <div class="orderLine filterValue">

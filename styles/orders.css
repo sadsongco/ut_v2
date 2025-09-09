@@ -197,3 +197,10 @@ button:hover,
 .no-results-message {
   display: none;
 }
+
+.price {
+  float: right;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: right;
+  padding-right: calc(100% - 8em);
+}
