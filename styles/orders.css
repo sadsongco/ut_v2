@@ -54,10 +54,11 @@
 
 .editOrder {
   border: none;
-  width: 50%;
+  width: fit-content;
   min-width: 30em;
   display: flex;
   flex-direction: row;
+  gap: 0.3em;
   justify-content: space-around;
 }
 

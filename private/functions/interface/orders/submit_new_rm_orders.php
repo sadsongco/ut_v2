@@ -10,19 +10,29 @@ if (session_status() === PHP_SESSION_NONE) {
 
 use RoyalMail\RoyalMail;
 
-switch ($_POST['order_zone']) {
-    case 0:
-        $country = "AND Customers.country = 31";
-        break;
-    case 1:
-        $country = "AND Customers.country != 31 AND Customers.country != 1";
-        break;
-    case 2:
-        $country = "AND Customers.country = 1";
-        break;
-    default:
-        $country = "";
-        break;
+$country = "";
+
+if (isset($_POST['order_zone'])) {
+    switch ($_POST['order_zone']) {
+        case 0:
+            $country = "AND Customers.country = 31";
+            break;
+        case 1:
+            $country = "AND Customers.country != 31 AND Customers.country != 1";
+            break;
+        case 2:
+            $country = "AND Customers.country = 1";
+            break;
+    }
+    
+}
+
+
+$params = [];
+
+if (isset($_GET['order_id'])) {
+    $order_cond = "AND New_Orders.order_id = ?";
+    $params[] = (int)$_GET['order_id'];
 }
 
 try {
@@ -50,9 +60,10 @@ try {
     JOIN Countries ON Customers.country = Countries.country_id
     WHERE `rm_order_identifier` IS NULL
     AND `transaction_id` IS NOT NULL
+    $order_cond
     ORDER BY New_Orders.order_date ASC
     LIMIT 2000";
-    $orders = $db->query($query)->fetchAll();
+    $orders = $db->query($query, $params)->fetchAll();
 } catch (PDOException $e) {
     echo $e->getMessage(); 
 }
@@ -82,6 +93,7 @@ foreach ($orders as &$order) {
     $order_outcomes[] = $rm->getOrderOutcomes();
 }
 
+if (isset($_GET['order_id'])) exit('SUBMITTED');
 echo $m->render("orderOutcomes", ["outcomes"=>$order_outcomes]);
 
 function getCountryCode($country, $db) {

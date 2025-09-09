@@ -11,4 +11,7 @@
     <a hx-get="/private/functions/interface/orders/edit_order.php?order_id={{order_id}}" hx-target="#editOrder_{{order_id}}" class="button">Edit Order</a>
     <a hx-get="/private/functions/interface/orders/send_confirmation.php?order_id={{order_id}}" hx-target="#editOrder_{{order_id}}" class="button">Resend Confirmation Email</a>
     <a hx-get="/private/functions/interface/orders/delete_order.php?order_id={{order_id}}" hx-confirm="Definitely delete order # {{order_id}}?" class="button">Delete Order</a>
+    {{^rm_order_identifier}}
+        <a hx-get="/private/functions/interface/orders/submit_new_rm_orders.php?order_id={{order_id}}" hx-confirm="Definitely submit order # {{order_id}} to Royal Mail?" class="button">Submit to Royal Mail</a>
+    {{/rm_order_identifier}}
 </div>

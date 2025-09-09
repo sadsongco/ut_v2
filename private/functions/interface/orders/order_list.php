@@ -14,6 +14,10 @@ switch ($filter) {
     case 'failed':
         $filter_text = "WHERE New_Orders.transaction_id IS NULL";
         break;
+    case 'submitted':
+        $filter_text = "WHERE New_Orders.rm_order_identifier IS NOT NULL
+        AND New_Orders.rm_tracking_number IS NULL";
+        break;
     case 'dispatched':
         $filter_text = "WHERE New_Orders.rm_tracking_number IS NOT NULL";
         break;
@@ -40,6 +44,7 @@ try {
                     New_Orders.transaction_id,
                     DATE_FORMAT(New_Orders.dispatched, '%e/%c/%y %k:%i') AS dispatched,
                     DATE_FORMAT(New_Orders.order_date, '%D %M %Y') AS order_date,
+                    New_Orders.rm_order_identifier,
                     New_Orders.rm_tracking_number,
                     Customers.name,
                     Customers.address_1,
