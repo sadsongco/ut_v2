@@ -9,6 +9,15 @@
   color: black;
   font-size: 0.8em;
 }
+.orderList {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.orderList.show {
+  max-height: fit-content;
+}
 
 .orderContainer {
   padding: 1em;
