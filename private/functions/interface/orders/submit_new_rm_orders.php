@@ -93,6 +93,8 @@ foreach ($orders as &$order) {
     $order_outcomes[] = $rm->getOrderOutcomes();
 }
 
+p_2($order_outcomes);
+
 if (isset($_GET['order_id'])) exit('SUBMITTED');
 echo $m->render("orderOutcomes", ["outcomes"=>$order_outcomes]);
 
