@@ -29,10 +29,14 @@ function getItemData($item, $item_details, $db)
         return [...$cart_item, "quantity"=>$item['quantity']]; // add quantity to $cart_item;
 }
 
-function classifyItem(&$item, $order_db_id, $db, &$shipping_items, &$download_items, &$preorder_items)
+function classifyItem(&$item, $order_db_id, $db, &$shipping_items, &$download_items, &$preorder_items, $dispatched=false)
 {
+    if ($dispatched) $item['dispatched'] = $dispatched;
     if (isset($item['release_date']) && $item['release_date'] > date("Y-m-d")) {
-        if (isset($item['download']) && $item['download'] != "") $item["download_token"] = createUniqueToken($db->lastInsertId());
+        if (isset($item['download']) && $item['download'] != "") {
+            $download_items[] = ["download"=>$item['download'], "disp_release_date"=>$item['disp_release_date'], "name"=>$item['name']];
+            // $item["download_token"] = createUniqueToken($db->lastInsertId());
+        }
         if ($item['e_delivery']) $preorder_items["e_delivery"][] = $item;
         else $preorder_items['shipping'][] = $item;
         return;
@@ -52,7 +56,7 @@ function classifyItem(&$item, $order_db_id, $db, &$shipping_items, &$download_it
             $download_token = createUniqueToken($db->lastInsertId());
         }
         $item["download_token"] = $download_token;
-        $download_items[] = $item;
+        $download_items[] = ["download"=>$item['download'], "download_token"=>$download_token, "disp_release_date"=>$item['disp_release_date'], "name"=>$item['name']];
     }
 }
 
