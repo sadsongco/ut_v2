@@ -93,9 +93,19 @@ foreach ($orders as &$order) {
     $order_outcomes[] = $rm->getOrderOutcomes();
 }
 
-p_2($order_outcomes);
 
-if (isset($_GET['order_id'])) exit('SUBMITTED');
+
+if (isset($_GET['order_id'])) {
+    if (isset($order_outcomes[0][0]['data']->errors)) {
+        echo "***FAILED***
+        <div id='editOrder_" . $_GET['order_id'] . "' class='editOrderForm error' hx-swap-oob='true'>". $order_outcomes[0][0]['data']->errors[0]->errorMessage . "</div>";
+        
+    } else {
+        echo "SUBMITTED
+        <div id='editOrder_" . $_GET['order_id'] . "' class='editOrderForm' hx-swap-oob='true'>". $order_outcomes[0][0]['status'] . "</div>";
+    }
+    exit();
+}
 echo $m->render("orderOutcomes", ["outcomes"=>$order_outcomes]);
 
 function getCountryCode($country, $db) {
