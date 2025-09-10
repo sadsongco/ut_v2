@@ -35,7 +35,12 @@
             </p>
         {{/preorder_items}}
         {{#download_items}}
-            <div>You can download your digital copy of <b>{{name}}</b> <a href="/shop/download/{{download_token}}" target="_blank">here</a>. If you have any issues please contact us on <a href="mailto:info@unbelievabletruth.co.uk">info@unbelievabletruth.co.uk</a>.</div>
+            {{#download_token}}
+            <p>You can download your digital copy of {{name}} <a href="{{host}}/shop/download/{{download_token}}" target="_blank">here</a> (note this link will only work once). If you have any issues please contact us on <a href="mailto:info@unbelievabletruth.co.uk">info@unbelievabletruth.co.uk</a>.</p>
+            {{/download_token}}
+            {{^download_token}}
+            <p>You will be sent a link to download your digital copy of {{name}} on {{disp_release_date}}</p>
+            {{/download_token}}
         {{/download_items}}
         {{#order_id}}
             <p>If you would like to download a pdf of your order receipt you can do so here: <br><a class="button" href="/functions/interface/shop/download_invoice.php?id={{order_db_id}}&token={{customer_token}}" download>Download invoice</a></p>
