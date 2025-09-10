@@ -154,6 +154,7 @@ class RoyalMail {
             Items.weight,
             Items.customs_description,
             Items.customs_code,
+            Items.sku,
             New_Order_items.option_id,
             New_Order_items.quantity
             FROM New_Order_items
