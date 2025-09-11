@@ -35,7 +35,6 @@ function classifyItem(&$item, $order_db_id, $db, &$shipping_items, &$download_it
     if (isset($item['release_date']) && $item['release_date'] > date("Y-m-d")) {
         if (isset($item['download']) && $item['download'] != "") {
             $download_items[] = ["download"=>$item['download'], "disp_release_date"=>$item['disp_release_date'], "name"=>$item['name']];
-            // $item["download_token"] = createUniqueToken($db->lastInsertId());
         }
         if ($item['e_delivery']) $preorder_items["e_delivery"][] = $item;
         else $preorder_items['shipping'][] = $item;

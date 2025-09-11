@@ -36,10 +36,6 @@ if (!empty($shipping_items) && empty($preorder_items)) $shipping_all = true;
 if (empty($shipping_items) && !empty($preorder_items) && $order['dispatched']) $shipping_all = ["dispatched"=>$order['dispatched']];
 if (!empty($shipping_items) && !empty($preorder_items)) $preorder_items['held'] = [...$shipping_items];
 
-$query = "SELECT customer_id FROM New_Orders WHERE order_id = ?";
-$customer_id = $db->query($query, [$order_db_id])->fetch()['customer_id'];
-$customer_token = createUniqueToken($customer_id);
-
 try {
     $query = "SELECT
             CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_id,

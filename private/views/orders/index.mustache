@@ -21,10 +21,17 @@
       </div>
     </section>
     <section class="content-container">
-      <button class="button" hx-get="/private/functions/interface/orders/get_rm_orders.php" hx-target="#rmUpdateResult">Update Dispatched Orders</button>
+      <button id="getRM" class="button" hx-get="/private/functions/interface/orders/get_rm_orders.php" hx-target="#rmUpdateResult" onclick="document.getElementById('getRM').classList.add('disabled'); document.getElementById('updateResultSpinner').classList.remove('hidden')">Update Dispatched Orders</button>
       <p>This will send confirmation emails to the customers including download links for any e-delivery items. It will only update 100 orders at a time, if there are more than that outstanding this should be run until no more orders remain.</p>
       <p>Go to <a class="stdLink" href="https://business.parcel.royalmail.com/orders/" target="_blank">Royal Mail Orders</a> to pay and download labels</p>
-      <div id="rmUpdateResult"></div>
+      <button id="sendDownload" class="button" hx-get="/private/functions/interface/orders/send_download_links.php" hx-target="#rmUpdateResult" onclick="document.getElementById('sendDownload').classList.add('disabled'); document.getElementById('updateResultSpinner').classList.remove('hidden')">Send RIL Download Links</button>
+      <div id="rmUpdateResult">
+        <div class="updateResultSpinnerContainer">
+          <img id="updateResultSpinner" class="hidden" src="/assets/images/graphics/loading.gif" />
+        </div>
+      </div>
+    </section>
+    <section class="content-container">
       <h1>Current Picking List</h1>
       <div id="pickingList" class="pickingList" hx-get="/private/functions/interface/orders/picking.php" hx-trigger="load, updateOrderList from:body"></div>
       <h1>Orders</h1>

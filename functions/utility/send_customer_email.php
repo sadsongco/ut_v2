@@ -10,7 +10,8 @@ use PHPMailer\PHPMailer\Exception;
 function sendCustomerEmail($order, $template, $db, $m) {
     $subjects = [
         "success" => "you have placed an order #" . $order['order_id'],
-        "shipped" => "your order #" . $order['order_id'] . " has shipped"
+        "shipped" => "your order #" . $order['order_id'] . " has shipped",
+        "download" => "download links for your order #" . $order['order_id']
     ];
     // create pdf for order
     if ($template == "success") {
