@@ -68,7 +68,6 @@ foreach ($responseObj as $order) {
     }
     
     try {
-        $order->orderReference = 850; // REMOVE FOR PRODUCTION *************
         updateOrderWithRMData($shippedOn, $order, $db);
         $order_array = createOrderArray($order->orderReference, $db);
         $order_array['items'] = getOrderItems($order_array, $db);
