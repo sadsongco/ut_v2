@@ -55,7 +55,8 @@ try {
                     Customers.address_2,
                     Customers.city,
                     Customers.postcode,
-                    Countries.name as country
+                    Countries.name as country,
+                    Customers.email
                 FROM New_Orders
                 JOIN Customers ON New_Orders.customer_id = Customers.customer_id
                 $area_filter
