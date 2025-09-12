@@ -35,8 +35,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 curl_close($ch);
 $responseObj = json_decode($response);
-p_2($responseObj);
-exit();
+
 $output = '<div class="pickingList">';
 
 $shipped_arr = [];
