@@ -7,12 +7,6 @@ require base_path('../lib/vendor/autoload.php');
 require base_path('functions/shop/get_item_data.php');
 require base_path('functions/utility/create_unique_token.php');
 
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
 $unsent_orders = getUnsentNew_Orders($db);
 if (empty($unsent_orders)) {
     exit("No orders to update.");
@@ -43,6 +37,8 @@ curl_close($ch);
 $responseObj = json_decode($response);
 $output = '<div class="pickingList">';
 
+$shipped_arr = [];
+
 foreach ($responseObj as $order) {
     $output .= '<div class="pickingListRow">';
     if (isset($order->code)) {
@@ -66,25 +62,17 @@ foreach ($responseObj as $order) {
         $output .= '</div>';
         continue;
     }
+    $query = "SELECT order_id FROM New_Orders WHERE order_id = ? AND rm_tracking_number IS NULL";
+    $check = $db->query($query, [$order->orderReference])->fetch();
+    if (!$check) {
+        $output .= "Order " . $order->orderReference . " not found in database.<br>";
+        $output .= '</div>';
+        continue;
+    }
     
     try {
         updateOrderWithRMData($shippedOn, $order, $db);
-        $order_array = createOrderArray($order->orderReference, $db);
-        $order_array['items'] = getOrderItems($order_array, $db);
-        $shipping_items = [];
-        $download_items = [];
-        $preorder_items = [];
-        $shipping_all = false;
-        foreach ($order_array['items'] as &$item) {
-            updateItemData($item, $db);
-            classifyItem($item, $order_array['order_id'], $db, $shipping_items, $download_items, $preorder_items);
-        }
-        $order_array['shipping_items'] = $shipping_all;
-        $order_array['download_items'] = $download_items;
-        $shipped_display_date = strtotime($shippedOn);
-        $order_array['shipped_on'] = date("jS F Y", $shipped_display_date);
-        sendCustomerEmail($order_array, "shipped", $db, $m);
-        sleep(5);
+        $shipped_arr[] = $order->orderReference;
         $output .=  "Updated order " . $order->orderReference . "<br>";
     } catch (PDOException $e) {
         $output .=  "Couldn't update order " . $order->orderReference . ": " . $e->getMessage();
@@ -95,6 +83,8 @@ $output = "</div>";
 
 header ('HX-Trigger:updateOrderList');
 echo $output;
+if (file_put_contents(base_path(SHIPPED_LIST_PATH), implode("\n", $shipped_arr))) echo "Shipped orders written to file";
+else echo "Shipped orders failed to be written to file";
 
 function getUnsentNew_Orders($db) {
     $query = "SELECT rm_order_identifier FROM New_Orders
@@ -127,32 +117,3 @@ function updateOrderWithRMData($shippedOn, $order, $db) {
         throw new PDOException($e);
     }
 }
-
-function createOrderArray($order_id, $db) {
-    try {
-        $query = "SELECT
-            New_orders.order_id,
-            New_orders.subtotal,
-            New_orders.shipping,
-            New_orders.vat,
-            New_orders.total,
-            New_orders.order_date,
-            New_orders.rm_tracking_number,
-            New_orders.mg,
-            Customers.name,
-            Customers.address_1,
-            Customers.address_2,
-            Customers.city,
-            Customers.postcode,
-            Customers.email,
-            Countries.name AS country
-        FROM New_orders
-        JOIN Customers ON New_orders.customer_id = Customers.customer_id
-        JOIN Countries ON Customers.country = Countries.country_id
-        WHERE New_orders.order_id = ?";
-        $order = $db->query($query, [$order_id])->fetch();
-    } catch (PDOException $e) {
-        throw new PDOException($e);
-    }
-    return $order;
-    }

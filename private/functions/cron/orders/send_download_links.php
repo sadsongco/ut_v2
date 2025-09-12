@@ -15,38 +15,45 @@ if (sizeof($orders) == 0 || $orders[0] == "") exit();
 $order_db_id = array_pop($orders);
 
 file_put_contents(base_path(DOWNLOAD_ORDER_PATH), implode("\n", $orders));
+try {
+    $order = getDownloadOrder($order_db_id, $db);
+    sendCustomerEmail($order, "download", $db, $m);
+} catch (Exception $e) {
+    echo  "Couldn't update order " . $order_db_id . ": " . $e->getMessage();
+}
 
-$order = getDownloadOrder($order_db_id, $db);
-
-sendCustomerEmail($order, "download", $db, $m);
 
 function getDownloadOrder($order_db_id, $db) {
-    $query = "SELECT
-        CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_id,
-        Customers.name,
-        Customers.customer_id,
-        Customers.email
-    FROM New_Orders
-    JOIN Customers ON New_Orders.customer_id = Customers.customer_id
-    WHERE New_Orders.order_id = ?";
-    $order = $db->query($query, [$order_db_id])->fetch();
-    $order['order_db_id'] = $order_db_id;
-    $order['download_items'] = getDownloadItems($order['order_db_id'], $db);
-    foreach ($order['download_items'] as &$item) {
-        if ($item['download']) {
-            $query = "SELECT download_token_id FROM Download_tokens WHERE order_id = ? AND item_id = ?";
-            $res = $db->query($query, [$order_db_id, $item['item_id']])->fetch();
-            if (isset($res['download_token_id'])) {
-                $download_token = createUniqueToken($res['download_token_id']);
+    try {
+        $query = "SELECT
+            CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_id,
+            Customers.name,
+            Customers.customer_id,
+            Customers.email
+        FROM New_Orders
+        JOIN Customers ON New_Orders.customer_id = Customers.customer_id
+        WHERE New_Orders.order_id = ?";
+        $order = $db->query($query, [$order_db_id])->fetch();
+        $order['order_db_id'] = $order_db_id;
+        $order['download_items'] = getDownloadItems($order['order_db_id'], $db);
+        foreach ($order['download_items'] as &$item) {
+            if ($item['download']) {
+                $query = "SELECT download_token_id FROM Download_tokens WHERE order_id = ? AND item_id = ?";
+                $res = $db->query($query, [$order_db_id, $item['item_id']])->fetch();
+                if (isset($res['download_token_id'])) {
+                    $download_token = createUniqueToken($res['download_token_id']);
+                }
+                else {
+                    $query = "INSERT INTO Download_tokens (order_id, item_id) VALUES (?, ?)";
+                    $db->query($query, [$order_db_id, $item['item_id']]);
+                    $download_token = createUniqueToken($db->lastInsertId());
+                }
+                $item["download_token"] = $download_token;
+                $download_items[] = ["download"=>$item['download'], "download_token"=>$download_token, "disp_release_date"=>$item['disp_release_date'], "name"=>$item['name']];
             }
-            else {
-                $query = "INSERT INTO Download_tokens (order_id, item_id) VALUES (?, ?)";
-                $db->query($query, [$order_db_id, $item['item_id']]);
-                $download_token = createUniqueToken($db->lastInsertId());
-            }
-            $item["download_token"] = $download_token;
-            $download_items[] = ["download"=>$item['download'], "download_token"=>$download_token, "disp_release_date"=>$item['disp_release_date'], "name"=>$item['name']];
         }
+    } catch (PDOException $e) {
+        throw new Exception($e);
     }
     return $order;
 }
