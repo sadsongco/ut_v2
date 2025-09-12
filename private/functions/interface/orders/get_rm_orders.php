@@ -35,6 +35,8 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 curl_close($ch);
 $responseObj = json_decode($response);
+p_2($responseObj);
+exit();
 $output = '<div class="pickingList">';
 
 $shipped_arr = [];
@@ -81,10 +83,13 @@ foreach ($responseObj as $order) {
 }
 $output = "</div>";
 
+p_2($shipped_arr);
+
+if (file_put_contents(base_path(SHIPPED_LIST_PATH), implode("\n", $shipped_arr))) $output .= "Shipped orders written to file";
+else $output .= "Shipped orders failed to be written to file";
+
 header ('HX-Trigger:updateOrderList');
 echo $output;
-if (file_put_contents(base_path(SHIPPED_LIST_PATH), implode("\n", $shipped_arr))) echo "Shipped orders written to file";
-else echo "Shipped orders failed to be written to file";
 
 function getUnsentNew_Orders($db) {
     $query = "SELECT rm_order_identifier FROM New_Orders
