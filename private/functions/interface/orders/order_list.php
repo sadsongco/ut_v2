@@ -22,15 +22,15 @@ switch ($filter) {
         $filter_text = "WHERE New_Orders.rm_tracking_number IS NOT NULL";
         break;
     case 'new_uk':
-        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL";
+        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL AND New_Orders.transaction_id IS NOT NULL";
         $area_filter = "AND Customers.country = 31";
         break;
     case 'new_usa':
-        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL";
+        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL AND New_Orders.transaction_id IS NOT NULL";
         $area_filter = "AND Customers.country = 1";
         break;
     case 'new_row':
-        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL";
+        $filter_text = "WHERE New_Orders.rm_order_identifier IS NULL AND New_Orders.transaction_id IS NOT NULL";
         $area_filter = "AND Customers.country != 1 AND Customers.country != 31";
         break;
     default:
