@@ -14,7 +14,7 @@ if (sizeof($orders) == 0 || $orders[0] == "") exit();
 
 $order_db_id = array_pop($orders);
 
-// file_put_contents(base_path(SHIPPED_LIST_PATH), implode("\n", $orders));
+file_put_contents(base_path(SHIPPED_LIST_PATH), implode("\n", $orders));
 
 try {
     $order_array = createOrderArray($order_db_id, $db);
