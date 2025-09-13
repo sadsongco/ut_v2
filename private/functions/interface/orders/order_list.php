@@ -107,10 +107,12 @@ function getOrderItemData($order_id, $db, $bundle_id = null) {
     $query = "SELECT
             Items.name,
             New_Order_items.quantity,
+            Item_options.option_name,
             FORMAT(New_Order_items.order_price, 2) AS price,
             FORMAT(New_Order_items.order_price * New_Order_items.quantity, 2) AS item_total
             FROM New_Order_items
             LEFT JOIN Items ON New_Order_items.item_id = Items.item_id
+            LEFT JOIN Item_options ON New_Order_items.option_id = Item_options.item_option_id
             WHERE New_Order_items.order_id = ?
             AND New_Order_items.order_bundle_id $cond;";
     return $db->query($query, $params)->fetchAll();

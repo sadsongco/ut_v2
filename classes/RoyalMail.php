@@ -131,10 +131,12 @@ class RoyalMail {
             Items.customs_description,
             Items.customs_code,
             Items.sku,
+            Item_options.option_name,
             New_Order_items.option_id,
             New_Order_items.quantity
             FROM New_Order_items
             JOIN Items ON New_Order_items.item_id = Items.item_id
+            LEFT JOIN Item_options ON New_Order_items.option_id = Item_options.item_option_id
             WHERE New_Order_items.order_id = ?
             AND order_bundle_id IS NULL
             ";
@@ -155,10 +157,12 @@ class RoyalMail {
             Items.customs_description,
             Items.customs_code,
             Items.sku,
+            Item_options.option_name,
             New_Order_items.option_id,
             New_Order_items.quantity
             FROM New_Order_items
             JOIN Items ON New_Order_items.item_id = Items.item_id
+            LEFT JOIN Item_options ON New_Order_items.option_id = Item_options.item_option_id
             WHERE New_Order_items.order_id = ?
             AND order_bundle_id IS NOT NULL
             ";
@@ -277,6 +281,7 @@ class RoyalMail {
 
     private function createRMItem($item) {
         if (!isset($item['sku'])) $item['sku'] = "";
+        if ($item['option_name'] !== "") $item['name'] = $item['name'] . " - " . $item['option_name'];
         $rm_item = [
             "name"=>$item['name'],
             "SKU"=>$item['sku'],
