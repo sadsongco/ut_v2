@@ -165,6 +165,7 @@ class RoyalMail {
         $params = [$this->order_id];
         $bundle_items = $this->db->query($query, $params)->fetchAll();
         foreach ($bundle_items as &$item) {
+            $item['weight'] *= 1000; // item weights in annoying kg
             if ($item['option_id']) {
                 $query = "SELECT option_weight FROM Item_options WHERE item_option_id = ?";
                 $params = [$item['option_id']];
