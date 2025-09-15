@@ -14,7 +14,7 @@
     <div class="orderLine filterValue orderTitle">Email</div>
     <div class="orderLine filterValue"><a href="mailto:{{email}}">{{email}}</a></div>
     {{#rm_order_identifier}}
-      <div></div><div class="orderLine">Submitted For Postage</div>
+      <div class="orderLine orderTitle">Submitted For Postage</div><div class="orderLine filterValue">{{rm_order_identifier}}</div>
     {{/rm_order_identifier}}
     {{#items}}{{>item}}{{/items}}
     {{#bundles}}{{>bundle}}{{/bundles}}
