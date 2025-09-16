@@ -355,3 +355,9 @@ a.viewCartItems .viewCartBadge {
   max-width: 10%;
   margin: 0 auto;
 }
+
+.tariffMessage {
+  font-size: var(--fontSmall);
+  width: fit-content;
+  margin-left: 1em;
+}

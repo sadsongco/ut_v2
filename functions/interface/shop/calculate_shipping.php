@@ -64,6 +64,7 @@ function calculateShipping($db, $zone, $method) {
     return 0;
 }
 
+
 if (isset($_POST['update'])) {
     $db = new Database('orders');
     $shipping_method = $db->query("SELECT * FROM Shipping_methods WHERE shipping_method_id = ?", [$_SESSION['shipping_method']['shipping_method_id']])->fetch();
@@ -72,7 +73,33 @@ if (isset($_POST['update'])) {
         [$shipping, $package_id, $package_name] = calculateShipping($db, $_SESSION['rm_zone'], $shipping_method);
         $_SESSION['shipping'] = round($shipping, 2);
     }
+    $tariff = false;
+    if ($_SESSION['zone'] === "USA") {
+        $tariff = getUSATariffCosts($db);
+    }
+    $shipping += $tariff;
 
     header("HX-Trigger: shippingUpdated");
     echo number_format($shipping, 2);
+    if ($tariff) {
+        echo "<div id='tariff' class='tariffMessage' hx-swap-oob='true'>This includes tariff costs of &pound;" . number_format($tariff, 2) . "</div>";
+    } else {
+        echo "<div id='tariff' hx-swap-oob='true'></div>";
+    }
+}
+
+function getUSATariffCosts($db) {
+    $total_tariff = 0;
+    foreach($_SESSION['items'] AS $item) {
+        try {
+            $query = "SELECT IF(Items.customs_description = 'T-shirts', Items.price * 0.1, 0) AS tariff FROM Items WHERE item_id = ?";
+            $params = [$item['item_id']];
+            $total_tariff += $db->query($query, $params)->fetch()['tariff'];
+        } catch (Exception $e) {
+            error_log($query);
+            error_log(print_r($params, true));
+            throw new Exception($e);
+        }
+    }
+    return 0.5 + $total_tariff;
 }

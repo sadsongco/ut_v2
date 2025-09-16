@@ -18,7 +18,9 @@ $m = new Mustache_Engine(array(
 ));
 $country = $db->query("SELECT rm_zone FROM Countries WHERE country_id = ?", [$_POST['delivery-country']])->fetch();
 $_SESSION['rm_zone'] = $country['rm_zone'];
-$_SESSION['zone'] = $country['rm_zone'] == "UK" ? "UK" : "ROW";
+$_SESSION['zone'] =  "ROW";
+if ($country['rm_zone'] == "UK") $_SESSION['zone'] = "UK";
+if ($_POST['delivery-country'] == 1) $_SESSION['zone'] = "USA";
 
 $shipping_options = [
     "shipping_method_id" => 1,
