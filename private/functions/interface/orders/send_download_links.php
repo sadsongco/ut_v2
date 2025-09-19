@@ -41,5 +41,5 @@ try {
     echo $e->getMessage();
 }
 
-if (file_put_contents(base_path(DOWNLOAD_ORDER_PATH), implode("\n", $order_ids))) exit("Download orders will send");
+if (file_put_contents(base_path(WEB_ASSET_PATH . DOWNLOAD_ORDER_PATH), implode("\n", $order_ids))) exit("Download orders will send");
 else exit("Download orders failed to be written to file");

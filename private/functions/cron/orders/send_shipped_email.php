@@ -7,14 +7,14 @@ require base_path('../lib/vendor/autoload.php');
 require base_path('functions/shop/get_item_data.php');
 require base_path('functions/utility/create_unique_token.php');
 
-$orders_str = file_get_contents(base_path(SHIPPED_LIST_PATH));
+$orders_str = file_get_contents(base_path(WEB_ASSET_PATH . SHIPPED_LIST_PATH));
 
 $orders = explode("\n", $orders_str);
 if (sizeof($orders) == 0 || $orders[0] == "") exit();
 
 $order_db_id = array_pop($orders);
 
-file_put_contents(base_path(SHIPPED_LIST_PATH), implode("\n", $orders));
+file_put_contents(base_path(WEB_ASSET_PATH . SHIPPED_LIST_PATH), implode("\n", $orders));
 
 try {
     $order_array = createOrderArray($order_db_id, $db);

@@ -82,7 +82,7 @@ foreach ($responseObj as $order) {
 }
 $output .= "</div>";
 
-if (file_put_contents(base_path(SHIPPED_LIST_PATH), implode("\n", $shipped_arr) . "\n", FILE_APPEND)) $output .= "Shipped orders written to file";
+if (file_put_contents(base_path(WEB_ASSET_PATH . SHIPPED_LIST_PATH), implode("\n", $shipped_arr) . "\n", FILE_APPEND)) $output .= "Shipped orders written to file";
 else $output .= "Shipped orders failed to be written to file";
 
 header ('HX-Trigger:updateOrderList');

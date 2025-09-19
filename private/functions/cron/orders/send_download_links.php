@@ -7,14 +7,14 @@ require (base_path("/functions/shop/get_item_data.php"));
 //Load Composer's autoloader
 require (base_path('../lib/vendor/autoload.php'));
 
-$orders_str = file_get_contents(base_path(DOWNLOAD_ORDER_PATH));
+$orders_str = file_get_contents(base_path(WEB_ASSET_PATH . DOWNLOAD_ORDER_PATH));
 
 $orders = explode("\n", $orders_str);
 if (sizeof($orders) == 0 || $orders[0] == "") exit();
 
 $order_db_id = array_pop($orders);
 
-file_put_contents(base_path(DOWNLOAD_ORDER_PATH), implode("\n", $orders));
+file_put_contents(base_path(WEB_ASSET_PATH . DOWNLOAD_ORDER_PATH), implode("\n", $orders));
 try {
     $order = getDownloadOrder($order_db_id, $db);
     sendCustomerEmail($order, "download", $db, $m);
