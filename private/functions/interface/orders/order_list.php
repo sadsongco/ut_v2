@@ -56,8 +56,10 @@ try {
                     Customers.city,
                     Customers.postcode,
                     Countries.name as country,
-                    Customers.email
+                    Customers.email,
+                    Shipping_methods.service_name
                 FROM New_Orders
+                JOIN Shipping_methods ON New_Orders.shipping_method = Shipping_methods.shipping_method_id
                 JOIN Customers ON New_Orders.customer_id = Customers.customer_id
                 $area_filter
                 JOIN Countries ON Customers.country = Countries.country_id
