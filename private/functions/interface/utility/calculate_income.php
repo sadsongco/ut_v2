@@ -21,7 +21,7 @@ $old_income = calculateOldIncome($db, $period);
 $income = [
     "subtotal" => number_format($new_income['subtotal'] + $old_income['subtotal'], 2),
     "shipping" => number_format($new_income['shipping'] + $old_income['shipping'], 2),
-    "gross" => number_format($new_income['subtotal'] + $new_income['shipping'] + $old_income['subtotal'] + $old_income['shipping'], 2),
+    "gross" => number_format($new_income['subtotal'] + $new_income['shipping'] - $new_income['vat'] + $old_income['subtotal'] + $old_income['shipping'] - $old_income['vat'], 2),
     "vat" => number_format($new_income['vat'] + $old_income['vat'], 2),
     "total" => number_format($new_income['total'] + $old_income['total'], 2)
 ];
