@@ -42,3 +42,29 @@
   max-width: 70px;
   max-height: 70px;
 }
+
+.list {
+}
+
+.listRow {
+  display: grid;
+  grid-template-columns: 25em 3em;
+  column-gap: 0.5em;
+  row-gap: 0.3em;
+  padding: 0.5em;
+  margin-bottom: 0.1em;
+}
+.listRow:nth-child(even) {
+  background-color: #444;
+}
+.listRow:nth-child(odd) {
+  background-color: #777;
+}
+
+.price {
+  float: right;
+}
+
+.priceHolder {
+  width: 6em;
+}

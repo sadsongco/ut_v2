@@ -1,0 +1,17 @@
+<h2>Income for {{period}}</h2>
+<div class="list">
+{{#income}}
+    <div class="listRow">
+        <div>Subtotal</div><div class="priceHolder">&pound;<span class="price">{{subtotal}}</span></div>
+    </div>
+    <div class="listRow">
+        <div>Shipping</div><div class="priceHolder">&pound;<span class="price">{{shipping}}</span></div>
+    </div>
+    <div class="listRow">
+        <div>VAT</div><div class="priceHolder">&pound;<span class="price">{{vat}}</span></div>
+    </div>
+    <div class="listRow">
+        <div>Total</div><div class="priceHolder">&pound;<span class="price">{{total}}</span></div>
+    </div>
+{{/income}}
+</div>

@@ -7,4 +7,16 @@
     <p>Upload the current bandcamp email address csv to web_assets/bandcamp/ with the filename bandcamp_mailing_list.csv</p>
     <a class="button" hx-get="/private/functions/interface/utility/update_from_bandcamp.php" onclick="disableButton(event)" hx-swap="outerHTML">Update Now</a>
 </section>
+<section class="content-container">
+    <h2>Generate order totals to date</h2>
+    <p>Calculate and output income from shop for a given period</p>
+    <form hx-post="/private/functions/interface/utility/calculate_income.php" hx-target="#incomeTarget">
+        <select name="period">
+            <option value="25">25 - 26</option>
+            <option value="24">24 - 25</option>
+        </select>
+        <input type="submit" value="Calculate Income">
+    </form>
+    <div id="incomeTarget"></div>
+</section>
 {{>html_footer}}
