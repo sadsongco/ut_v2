@@ -29,6 +29,7 @@ if (isset($_POST['order_zone'])) {
 
 
 $params = [];
+$order_cond = "";
 
 if (isset($_GET['order_id'])) {
     $order_cond = "AND New_Orders.order_id = ?";
@@ -80,12 +81,15 @@ foreach ($orders as &$order) {
     $order['items'] = getOrderItems($order, $db); // gets all items in an order whether bundled or not
     $order['weight'] = 0;
     $non_bundle_price = 0;
+    $all_e_delivery = true;
     foreach ($order['items'] as &$item) {
+        if (!$item['e_delivery']) $all_e_delivery = false;
         $item['weight'] = (int)$item['weight'];
         $item['weight'] *= 1000; // convert to grams from kg
         $order['weight'] += $item['weight'] * $item['quantity']; // total package weight
         $non_bundle_price += $item['quantity'] * $item['order_price'];
     }
+    if ($all_e_delivery) continue;
     $order['bundle_discount'] = $non_bundle_price - $order['subtotal'];
     $rm = new RoyalMail($order['order_id'], $db);
     $rm->createRMOrder();
