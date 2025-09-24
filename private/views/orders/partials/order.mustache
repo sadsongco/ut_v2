@@ -33,7 +33,12 @@
   <div class="orderLinks">
     <div class="orderLine filterValue">
     {{#dispatched}}
+      {{^all_e_delivery}}
       Dispatched on {{dispatched}}. Tracking link <a href="https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}" target="_blank">https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}</a>&nbsp;<button onclick="copyLinkToClipboard(event)">Copy Link</button>
+      {{/all_e_delivery}}
+      {{#all_e_delivery}}
+      Dispatched by e-delivery on {{dispatched}}.
+      {{/all_e_delivery}}
     {{/dispatched}}
     </div>
   </div>

@@ -68,7 +68,13 @@ try {
             ;";
     $result = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result AS &$row) {
+        $all_e_delivery = true;
         $row["items"] = getOrderItemData($row["order_id"], $db);
+        foreach ($row["items"] as $item) {
+            if (!$item["e_delivery"]) {
+                $all_e_delivery = false;
+            }
+        }
         $bundle_query = "SELECT
                             Bundles.bundle_id,
                             Order_bundles.quantity,
@@ -81,16 +87,18 @@ try {
         $row["bundles"] = $db->query($bundle_query, [$row["order_id"]])->fetchAll();
         foreach ($row["bundles"] as &$bundle) {
             $bundle["items"] = getOrderItemData($row["order_id"], $db, $bundle["order_bundle_id"]);
+            foreach ($bundle["items"] as $item) {
+                if (!$item["e_delivery"]) {
+                    $all_e_delivery = false;
+                }
+            }
         }
+        $row['all_e_delivery'] = $all_e_delivery;   
     }
-    
 }
-
 catch (PDOException $e) {
     echo $e->getMessage();
 }
-
-// p_2($result);
 
 $params["orders"] = $result;
 $params["filter_target"] = ".orderContainer";
@@ -108,6 +116,7 @@ function getOrderItemData($order_id, $db, $bundle_id = null) {
     }
     $query = "SELECT
             Items.name,
+            Items.e_delivery,
             New_Order_items.quantity,
             Item_options.option_name,
             FORMAT(New_Order_items.order_price, 2) AS price,
