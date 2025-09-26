@@ -68,9 +68,8 @@ function getDownloadItems($order_db_id, $db) {
     FROM New_Order_items
     JOIN Items ON New_Order_items.item_id = Items.item_id
     AND Items.download IS NOT NULL
-    WHERE New_Order_items.order_id = ?
-    AND (New_Order_items.item_id = ? OR New_Order_items.item_id = ?)";
-    $params = [$order_db_id, 27, 27];
+    WHERE New_Order_items.order_id = ?";
+    $params = [$order_db_id];
     $items = $db->query($query, $params)->fetchAll();
     return $items;
 }
