@@ -47,11 +47,6 @@ foreach ($responseObj as $order) {
         $output .= '</div>';
         continue;
     }
-    if (!isset($order->trackingNumber)) {
-        $output .= "No tracking number for order " . $order->orderReference . "<br>";
-        $output .= '</div>';
-        continue;
-    }
     if (!isset($order->orderReference)) {
         $output .= "No order reference for royal mail id " . $order->orderIdentifier . "<br>";
         $output .= '</div>';
@@ -62,6 +57,10 @@ foreach ($responseObj as $order) {
         $output .= "Order " . $order->orderReference . " not marked dispatched on Royal Mail portal.<br>";
         $output .= '</div>';
         continue;
+    }
+    if (!isset($order->trackingNumber)) {
+        $output .= "No tracking number for order " . $order->orderReference . " - DB will update<br>";
+        $output .= '</div>';
     }
     $query = "SELECT order_id FROM New_Orders WHERE order_id = ? AND rm_tracking_number IS NULL";
     $check = $db->query($query, [$order->orderReference])->fetch();
