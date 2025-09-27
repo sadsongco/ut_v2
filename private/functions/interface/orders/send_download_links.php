@@ -29,6 +29,7 @@ $query = "SELECT
     New_Order_items.order_id AS order_db_id
     FROM New_Order_items
     WHERE ($cond)
+    AND transaction_id IS NOT NULL
     ORDER BY New_Order_items.order_id DESC";
 
 $order_ids = [];
