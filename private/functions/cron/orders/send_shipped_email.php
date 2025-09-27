@@ -39,6 +39,7 @@ try {
 function createOrderArray($order_id, $db) {
     try {
         $query = "SELECT
+            CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_no,
             New_Orders.order_id,
             New_Orders.subtotal,
             New_Orders.shipping,
