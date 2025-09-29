@@ -62,7 +62,7 @@ foreach ($responseObj as $order) {
         $output .= "No tracking number for order " . $order->orderReference . " - DB will update<br>";
         $output .= '</div>';
     }
-    $query = "SELECT order_id FROM New_Orders WHERE order_id = ? AND rm_tracking_number IS NULL";
+    $query = "SELECT order_id FROM New_Orders WHERE order_id = ? AND dispatched IS NULL";
     $check = $db->query($query, [$order->orderReference])->fetch();
     if (!$check) {
         $output .= "Order " . $order->orderReference . " not found in database.<br>";
