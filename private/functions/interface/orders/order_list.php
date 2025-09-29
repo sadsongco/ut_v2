@@ -16,7 +16,7 @@ switch ($filter) {
         break;
     case 'submitted':
         $filter_text = "WHERE New_Orders.rm_order_identifier IS NOT NULL
-        AND New_Orders.rm_tracking_number IS NULL";
+        AND New_Orders.dispatched IS NULL";
         break;
     case 'dispatched':
         $filter_text = "WHERE New_Orders.rm_tracking_number IS NOT NULL";
