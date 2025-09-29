@@ -90,7 +90,7 @@ echo $output;
 function getUnsentNew_Orders($db) {
     $query = "SELECT rm_order_identifier FROM New_Orders
         WHERE transaction_id IS NOT NULL
-        AND rm_tracking_number IS NULL
+        AND dispatched IS NULL
         AND rm_order_identifier IS NOT NULL
     ORDER BY order_id ASC
     LIMIT 100";
