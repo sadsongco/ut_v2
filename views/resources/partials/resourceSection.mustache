@@ -39,6 +39,11 @@
                 {{>pressShot}}
             </div>
         {{/press_shots}}
+        {{#press_quotes}}
+            <div class="resourceItem pressQuote">
+                <blockquote><h3>{{quote}}</h3></blockquote><p class="quoteSource">{{source}}</p>
+            </div>
+        {{/press_quotes}}
     {{/resources}}
     {{>backToTop}}
 </section>

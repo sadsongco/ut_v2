@@ -71,6 +71,21 @@ function getPressShotList($path) {
     return $photos;
 }
 
+function getPressQuotes($path) {
+    $file_string = file_get_contents(base_path(RESOURCE_ASSET_PATH . $path."press_quotes.txt"));
+    $quotes_arr = explode("\n", $file_string);
+    $quotes = [];
+    foreach ($quotes_arr as $quote) {
+        if ($quote == "") continue;
+        $quote_data = explode("|", $quote);
+        $quotes[] = [
+            "quote"=>$quote_data[0],
+            "source"=>$quote_data[1]
+        ];
+    }
+    return $quotes;
+}
+
 function getResource($section) {
     $output = [];
     $sub_dir = '';
@@ -91,8 +106,12 @@ function getResource($section) {
             $output['resources'] = ['videos'=>getYouTubeVideos($path), "ext_media"=>true];
             return $output;
         }
-        if (($section == "press_shots")) {
+        if ($section == "press_shots") {
             $output['resources'] = ["press_shots"=>getPressShotList($path, $sub_dir), "ext_media"=>true];
+            return $output;
+        }
+        if ($section == "press_quotes") {
+            $output['resources'] = ["press_quotes"=>getPressQuotes($path, $sub_dir), "ext_media"=>true];
             return $output;
         }
         if ($handle = opendir(base_path(RESOURCE_ASSET_PATH . $path . $sub_dir))) {
