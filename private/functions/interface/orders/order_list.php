@@ -103,6 +103,7 @@ catch (PDOException $e) {
 $params["orders"] = $result;
 $params["filter_target"] = ".orderContainer";
 $params["num_orders"] = sizeof($result);
+$params['force_download_token'] = FORCE_DOWNLOAD_TOKEN;
 
 echo $m->render("orderList", $params);
 

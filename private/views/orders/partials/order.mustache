@@ -34,10 +34,12 @@
     <div class="orderLine filterValue">
     {{#dispatched}}
       {{^all_e_delivery}}
-      Dispatched on {{dispatched}}. Tracking link <a href="https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}" target="_blank">https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}</a>&nbsp;<button onclick="copyLinkToClipboard(event)">Copy Link</button>
+      Dispatched on {{dispatched}}. Tracking link <a href="https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}" target="_blank">https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}</a>&nbsp;<button onclick="copyLinkToClipboard(event)">Copy Link</button><br>
+      Force download link: <a href="https://unbelievabletruth.co.uk/shop/download/{{force_download_token}}/{{order_id}}" target="_blank">https://unbelievabletruth.co.uk/shop/download/{{force_download_token}}/{{order_id}}</a>&nbsp;<button onclick="copyLinkToClipboard(event)">Copy Link</button>
       {{/all_e_delivery}}
       {{#all_e_delivery}}
-      Dispatched by e-delivery on {{dispatched}}.
+      Dispatched by e-delivery on {{dispatched}}.<br>
+      Force download link: https://unbelievabletruth.co.uk/shop/download/{{force_download_token}}/{{order_id}}
       {{/all_e_delivery}}
     {{/dispatched}}
     </div>
