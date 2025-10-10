@@ -66,6 +66,7 @@
     <script>
       const copyLinkToClipboard = (e) => {
         navigator.clipboard.writeText(e.target.previousElementSibling.innerText);
+        e.target.innerHTML = "Copied!";
       };
     </script>
     <script type="text/javascript">
