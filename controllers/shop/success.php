@@ -71,7 +71,8 @@ $customer_token = createUniqueToken($customer_id);
 
 try {
     $query = "SELECT
-            CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_id,
+            CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_no,
+            New_Orders.order_id,
             Shipping_methods.service_name,
             Customers.name,
             Customers.email
@@ -88,7 +89,8 @@ try {
     sendCustomerEmail($order, "success", $db, $this->renderer);
 }
 catch (Exception $e) {
-    echo $e->getMessage();
+    error_log($e);
+    echo "There was a problem finalising your order. Please contact <a href='mailto:info@unbelievabletruth.co.uk'>info@unbelievabletruth.co.uk</a>.";
 }
 
 echo $this->renderer->render('shop/success', [

@@ -10,16 +10,13 @@ use PHPMailer\PHPMailer\Exception;
 function sendCustomerEmail($order, $template, $db, $m) {
     try {
         $subjects = [
-            "success" => "you have placed an order #" . $order['order_id'],
+            "success" => "you have placed an order #" . $order['order_no'],
             "shipped" => "your order #" . $order['order_no'] . " has shipped",
-            "download" => "download links for your order #" . $order['order_id']
+            "download" => "download links for your order #" . $order['order_no']
         ];
         // create pdf for order
         if ($template == "success") {
-            $order_db_id = explode("-", $order['order_id'])[1];
-            $filename = createOrderPDF($order_db_id, $db);
-        } else {
-            $order_db_id = $order['order_id'];
+            $filename = createOrderPDF($order['order_id'], $db);
         }
         
         // send email
@@ -48,9 +45,9 @@ function sendCustomerEmail($order, $template, $db, $m) {
         $mail->addAddress($send_to, $order['name']);
         // $mail->addAddress("nigel@thesadsongco.com", "Nigel");
         $mail->addBCC("info@unbelievabletruth.co.uk");
-        if ($template == "success") $mail->addAttachment(base_path(ORDER_PDF_PATH) . $filename, $filename);
+        if ($filename) $mail->addAttachment(base_path(ORDER_PDF_PATH) . $filename, $filename);
         $mail->send();
-        if ($template == "success") unlink(base_path(ORDER_PDF_PATH) . $filename);
+        if ($filename) unlink(base_path(ORDER_PDF_PATH) . $filename);
     } catch (Exception $e) {
         throw new Exception($e);
     }

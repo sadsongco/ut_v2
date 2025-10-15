@@ -26,7 +26,8 @@ try {
 function getDownloadOrder($order_db_id, $db) {
     try {
         $query = "SELECT
-            CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_id,
+            CONCAT(DATE_FORMAT(New_Orders.order_date, '%y%m%d'), '-', New_Orders.order_id) AS order_no,
+            New_Orders.order_id,
             Customers.name,
             Customers.customer_id,
             Customers.email
