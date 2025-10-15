@@ -57,7 +57,8 @@ if ($_SESSION['shipping_method']['shipping_method_id'] != 1) {
 }
 
 $order_details['totals']['total'] = $order_details['totals']['subtotal'] + $order_details['totals']['shipping'];
-$order_details['totals']['vat'] = $order_details['totals']['total'] - ($order_details['totals']['total'] / 1.2);
+// VAT payable on orders for UK or Isle Of Man
+$order_details['totals']['vat'] = $order_details['delivery-country'] == '31' || $order_details['delivery-country'] == '215' ? calculateVAT($order_details) : NULL;
 $order_details['package_specs'] = $_SESSION['package_specs'];
 
 $saved_order = insertOrderIntoDB($order_details, $db);
@@ -73,8 +74,7 @@ else $items = $order_details['items']['items'];
 
 echo $m->render('shop/payment', ["checkout_id"=>$response->id, "order_id"=>$saved_order['order_id'], "name"=>$order_details['name'], "items"=>$items, "subtotal"=>$order_details['totals']['subtotal'], "shipping"=>$order_details['totals']['shipping'], "vat"=>$order_details['totals']['vat'], "amount"=>$order_details['totals']['total']]);
 
-function reduceStock($item, $db)
-{
+function reduceStock($item, $db) {
     if ($item['option_id']) {
         $query = "SELECT option_stock FROM Item_options WHERE item_option_id = ?";
         $stock = $db->query($query, [$item['option_id']])->fetch();
@@ -99,4 +99,8 @@ function reduceStock($item, $db)
         $db->query($query, $params);
     }
 
+}
+
+function calculateVAT($order_details) {
+    return $order_details['totals']['total'] - ($order_details['totals']['total'] / ((100 + VAT_RATE_PC) / 100));
 }

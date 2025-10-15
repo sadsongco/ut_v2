@@ -138,7 +138,6 @@ class ORDER_PDF extends FPDF {
         $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
         $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
         $this->Cell(0, 10, GBP.$money_format->format($total), 'T', 1, 'R');
-
     }
 
     private function Note($text = "Thank you for buying from Unbelievable Truth.\nIt means a lot to us.\nMake sure you're on our mailing list to get all the news first") {
@@ -167,8 +166,10 @@ class ORDER_PDF extends FPDF {
         $this->Spacer();
         $this->ShippingCell(number_format($order['shipping'], 2));
         $this->Spacer();
-        $this->VatCell(number_format($order['vat'], 2));
-        $this->Spacer();
+        if ($order['vat']) {
+            $this->VatCell(number_format($order['vat'], 2));
+            $this->Spacer();
+        }
         $this->TotalCell(number_format($order['total'], 2));
         $this->Spacer(20);
         $this->Note();
