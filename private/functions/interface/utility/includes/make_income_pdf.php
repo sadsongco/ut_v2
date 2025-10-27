@@ -55,8 +55,6 @@ class INCOME_PDF extends FPDF {
         $this->Cell(0, 0, "Subtotal", 0, 0, 'L');
         $this->setFont('opensansregular', '', 11);
         $this->SetX(self::PRICE_X);
-        $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
-        $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
         $this->Cell(0, 0, GBP.$subtotal, 0, 1, 'R');
     }
 
@@ -64,36 +62,28 @@ class INCOME_PDF extends FPDF {
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 0, "Postage and packing", 0, 0, 'L');
         $this->SetX(self::PRICE_X);
-        $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
-        $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $this->Cell(0, 0, GBP.$money_format->format($shipping_cost), 0, 1, 'R');
+        $this->Cell(0, 0, GBP.$shipping_cost, 0, 1, 'R');
     }
 
     private function VatCell($vat) {
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 0, "including VAT charged", 0, 0, 'L');
         $this->SetX(self::PRICE_X);
-        $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
-        $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $this->Cell(0, 0, GBP.$money_format->format($vat), 0, 1, 'R');
+        $this->Cell(0, 0, GBP.$vat, 0, 1, 'R');
     }
 
     private function VatExemptSubtotalCell($vat_exempt_subtotal) {
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 0, "International VAT exempt subtotal", 0, 0, 'L');
         $this->SetX(self::PRICE_X);
-        $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
-        $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $this->Cell(0, 0, GBP.$money_format->format($vat_exempt_subtotal), 0, 1, 'R');
+        $this->Cell(0, 0, GBP.$vat_exempt_subtotal, 0, 1, 'R');
     }
 
     private function VatExemptShippingCell($vat_exempt_shipping) {
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 0, "International VAT exempt shipping", 0, 0, 'L');
         $this->SetX(self::PRICE_X);
-        $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
-        $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $this->Cell(0, 0, GBP.$money_format->format($vat_exempt_shipping), 0, 1, 'R');
+        $this->Cell(0, 0, GBP.$vat_exempt_shipping, 0, 1, 'R');
     }
 
     private function TotalCell($total) {
@@ -103,8 +93,6 @@ class INCOME_PDF extends FPDF {
         $this->SetDrawColor(...self::LILAC);
         $this->Cell(0, 8, "TOTAL", 'T', 0, 'L');
         $this->SetX(self::PRICE_X);
-        $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
-        $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
         $this->Cell(0, 10, GBP.$total, 'T', 1, 'R');
     }
 
