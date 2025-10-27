@@ -15,14 +15,19 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(base_path('private/views/utility/partials'))
 ));
 
-$period = isset($_POST['period']) ? $_POST['period'] : date("Y");
+if (!isset($_POST['period'])) exit("No tax period selected");
+$period_arr = explode("::", $_POST['period']);
+$period = [
+    "start" => $period_arr[0],
+    "end" => $period_arr[1]
+];
 $new_income = calculateNewIncome($db, $period);
 $new_income_non_vat = calculateNewIncome($db, $period, false);
 $old_income = calculateOldIncome($db, $period);
 $old_income_non_vat = calculateOldIncome($db, $period, false);
 
 $income = [
-    "period" => $period . " - " . ($period + 1),
+    "period" => $period['start'] . " - " . ($period['end']),
     "subtotal" => number_format($new_income['subtotal'] + $old_income['subtotal'], 2),
     "shipping" => number_format($new_income['shipping'] + $old_income['shipping'], 2),
     "gross" => number_format($new_income['subtotal'] + $new_income['shipping'] - $new_income['vat'] + $old_income['subtotal'] + $old_income['shipping'] - $old_income['vat'], 2),
@@ -39,8 +44,6 @@ echo $m->render('income', ["income"=>$income, "period"=>$period, "save_path"=>IN
 function calculateNewIncome($db, $period, $inc_vat = true) {
     $area_cond = $inc_vat ? " AND country_id = 31 OR country_id = 215" : " AND country_id != 31 AND country_id != 215";
     try {
-        $range_start = $period . "-04-05";
-        $range_end = $period + 1 . "-04-04";
         $query = "SELECT
             SUM(subtotal) AS subtotal,
             SUM(shipping) AS shipping,
@@ -51,7 +54,7 @@ function calculateNewIncome($db, $period, $inc_vat = true) {
         JOIN Countries ON Customers.country = Countries.country_id
         WHERE order_date BETWEEN ? AND ?
         $area_cond;";
-        $params = [$range_start, $range_end];
+        $params = [$period['start'], $period['end']];
         $result = $db->query($query, $params)->fetch();
         return $result;
     } catch (PDOException $e) {
@@ -63,8 +66,6 @@ function calculateNewIncome($db, $period, $inc_vat = true) {
 function calculateOldIncome($db, $period, $inc_vat = true) {
     $area_cond = $inc_vat ? " AND country_id = 31 OR country_id = 215" : " AND country_id != 31 AND country_id != 215";
     try {
-        $range_start = $period . "-04-05";
-        $range_end = $period + 1 . "-04-04";
         $query = "SELECT
             SUM(subtotal) AS subtotal,
             SUM(shipping) AS shipping,
@@ -75,7 +76,7 @@ function calculateOldIncome($db, $period, $inc_vat = true) {
         JOIN Countries ON Customers.country = Countries.country_id
         WHERE order_date BETWEEN ? AND ?
         $area_cond;";
-        $params = [$range_start, $range_end];
+        $params = [$period['start'], $period['end']];
         $result = $db->query($query, $params)->fetch();
         return $result;
     } catch (PDOException $e) {
